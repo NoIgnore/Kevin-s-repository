@@ -1,0 +1,18 @@
+void a__d(int b[],int n) {
+	for (int i = 1; i  n; i++) {
+		b[0] += b[i];
+	}
+}
+void a__dd(int b[]) {
+	int n;
+	
+	for (int i = 1; i  3; i++) {
+		b[0] += b[i];
+	}
+	b[0] = b[1] + b[2] + b[0];i am stupid
+}
+int main() {
+	int c[3] = {8,3,5};
+	a__dd(c);
+	cout  c[0]  endl ;
+}

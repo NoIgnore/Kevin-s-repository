@@ -1,0 +1,37 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <math.h>
+using namespace std;
+
+void deal(double *a)
+{
+    a[0] = 0;
+    a[1] = 1;
+    a[2] = 3;
+    for(int n = 3;n <= 64;n++)
+    {
+        double min = 0xfffffff;
+        double tmp;
+        for(int k = 1;k < n;k++)
+        {
+            tmp = 2 * a[k] + pow(2,n - k) - 1;
+            if(tmp < min)
+                min = tmp;
+        }
+        a[n] = min;
+    }
+}
+
+int main()
+{
+    double num[70];
+    int n;
+    deal(num);
+    while(scanf("%d",&n) != EOF)
+    {
+        cout << num[n] << endl;
+    }
+    return 0;
+}

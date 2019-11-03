@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+void f2()
+{
+	int i = 0;
+	try { throw i; }
+	catch (int) { cout << "begin2 "; throw; }//难不成这里抛出的是int?
+	cout << "end2 ";
+}
+void f1()
+{
+	try { f2(); }
+	catch (char) { cout << " begin1 "; }
+	cout << "end1 ";
+}
+int main()
+{
+	try { f1(); }
+	catch (int) { cout << " begin0 "; }//这里catch到然后begin 0 end0
+	cout << "end0 ";
+	return 0;
+}
+//begin2  begin0 end0

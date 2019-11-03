@@ -1,0 +1,259 @@
+#include <iostream>
+using namespace std;
+
+typedef struct Vnode {
+	int data;
+	Vnode* next;
+}*Node;
+
+class Vector {
+private:
+	Node head;
+	int size;
+
+public:
+	Vector();
+	Vector(const Vector& rpt);//复制构造函数
+	void Insert(int ele);
+	void Delete(int ele);
+	int GetElement(int pos)const;
+	bool ExistElement(int ele)const;
+	bool IsEmpty()const;
+	void Print()const;
+	void Union(Vector& b, Vector& c);//并操作
+	void Intersection(Vector& b, Vector& c);//交操作
+	void Difference(Vector& b, Vector& c);//差操作
+	~Vector();//析构函数
+};
+
+Vector::Vector() {
+	this->head = NULL;
+	this->size = 0;
+}
+
+Vector::Vector(const Vector& rpt) {
+	this->head = NULL;
+	this->size = 0;
+	Node p = rpt.head;
+	while (p) {
+		this->Insert(p->data);
+		size = size + 1;
+	}
+}
+
+void Vector::Insert(int ele) {
+	Node n = new Vnode;
+	Node p = this->head;
+
+	n->data = ele;
+	if (p == NULL) {
+		this->head = n;
+		n->next = NULL;
+		this->size++;
+		return;
+	}
+	if (ele < p->data) {
+		n->next = this->head;
+		this->head = n;
+		this->size++;
+		return;
+	}
+	else while (p->next != NULL) {
+		if (ele > p->next->data)
+			p = p->next;
+		else if (ele == p->next->data) {
+			delete n;
+			return;
+		}
+		else if (ele < p->next->data) {
+			n->next = p->next;
+			p->next = n;
+			this->size++;
+			return;
+		}
+	}
+
+	p->next = n;
+	n->next = NULL;
+	this->size++;
+	return;
+}
+
+void Vector::Delete(int ele) {
+	Node p = this->head;
+	Node n;
+	if (p->data == ele) {
+		this->head = this->head->next;
+		delete p;
+	}
+	else while (p->next != NULL) {
+		if (ele == p->next->data) {
+			n = p->next;
+			p->next = n->next;
+			delete n;
+			this->size--;
+			return;
+		}
+	}
+	return; // no element found, exit
+}
+
+int Vector::GetElement(int pos)const {
+	Node n = this->head;
+	int p = 1;
+	while (n != NULL) {
+		if (p != pos) {
+			n = n->next;
+			p++;
+		}
+		else if (p == pos) {
+			return n->data;
+		}
+	}
+	return NULL;
+}
+
+bool Vector::ExistElement(int ele)const {
+	Node n = this->head;
+	while (n != NULL) {
+		if (n->data == ele) {
+			return true;
+		}
+		else {
+			n = n->next;
+		}
+	}
+	return false;
+}
+
+bool Vector::IsEmpty()const {
+	if (size == 0 && this->head == NULL)
+		return true;
+	else return false;
+}
+
+void Vector::Print()const {
+	Node n = this->head;
+	cout << "{";
+	if (n != NULL) {
+		cout << n->data;
+		n = n->next;
+	}
+	else {
+		cout << "}" << endl;
+		return;
+	}
+
+	while (n != NULL) {
+		cout << "," << n->data;
+		n = n->next;
+	}
+	cout << "}" << endl;
+	return;
+}
+
+void Vector::Union(Vector& b, Vector& c) {
+	Node n, m;
+	n = this->head;
+	while (this->head != NULL) {
+		this->head = n->next;
+		delete n;
+		n = this->head;
+	}
+	n = b.head;
+	m = c.head;
+	while (n != NULL && m != NULL) {
+		if (n->data < m->data) {
+			this->Insert(n->data);
+			n = n->next;
+		}
+		else if (n->data == m->data) {
+			this->Insert(n->data);
+			n = n->next;
+			m = m->next;
+		}
+		else if (m->data < n->data) {
+			this->Insert(m->data);
+			m = m->next;
+		}
+	}
+	while (n != NULL) {
+		this->Insert(n->data);
+		n = n->next;
+	}
+	while (m != NULL) {
+		this->Insert(m->data);
+		m = m->next;
+	}
+}
+
+void Vector::Difference(Vector& b, Vector& c) {
+	Node n = this->head;
+	while (this->head != NULL) {
+		this->head = n->next;
+		delete n;
+		n = this->head;
+	}
+	n = b.head;
+	while (n != NULL) {
+		if (!c.ExistElement(n->data))
+			this->Insert(n->data);
+		n = n->next;
+	}
+}
+
+void Vector::Intersection(Vector& b, Vector& c) {
+	Node n = this->head;
+	while (this->head != NULL) {
+		this->head = n->next;
+		delete n;
+		n = this->head;
+	}
+	n = b.head;
+	while (n != NULL) {
+		if (c.ExistElement(n->data))
+			this->Insert(n->data);
+		n = n->next;
+	}
+}
+
+Vector::~Vector() {
+	Node n = this->head;
+	while (this->head != NULL) {
+		this->head = n->next;
+		delete n;
+		n = this->head;
+	}
+}
+
+int main() {
+	int n, m, k;
+	Vector c, a, b;
+	while (cin >> n >> m) {
+		while (n--) {
+			cin >> k;
+			a.Insert(k);
+		}
+		while (m--) {
+			cin >> k;
+			b.Insert(k);
+		}
+		a.Print();
+		b.Print();
+		c.Union(a, b);
+		c.Print();
+		c.Intersection(a, b);
+		c.Print();
+
+	}
+
+}
+/*4 6（分别代表个数）
+1 5 9 7
+1 4 7 5 3 8
+{1,5,7,9}
+{1,3,4,5,7,8}
+{1,3,4,5,7,8,9}
+{1,5,7}
+*/
+

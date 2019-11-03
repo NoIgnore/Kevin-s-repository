@@ -1,0 +1,63 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+void swap(int* arr, int i, int j)
+{
+	int tmp = arr[i];
+	arr[i] = arr[j];
+	arr[j] = tmp;
+}
+int merge(int* temp, int* arr, int x, int y, int m, int n)
+{
+	int nOrder = 0;
+	int i = x, j = m;
+	for (i = x; i <= y; ++i)
+	{
+		while (j <= n && arr[i] > arr[j])
+			++j;
+		nOrder += j - m;
+	}
+	int k = 0;
+	i = x, j = m;
+	while (i <= y && j <= n)
+	{
+		if (arr[i] <= arr[j])
+			temp[k++] = arr[i++];
+		else
+			temp[k++] = arr[j++];
+	}
+	while (i <= y)
+		temp[k++] = arr[i++];
+	while (j <= n)
+		temp[k++] = arr[j++];
+	return nOrder;
+}
+int inversion_number(int* arr, int i, int j)
+{
+	if (i < j)
+	{
+		int mid = i + ((j - i) >> 1);
+		int v1 = inversion_number(arr, i, mid);
+		int v2 = inversion_number(arr, mid + 1, j);
+		int temp[10];
+		int nValue = merge(temp, arr, i, mid, mid + 1, j);
+		memcpy(arr + i, temp, sizeof(int) * (j - i + 1));
+		return v1 + v2 + nValue;
+	}
+	else
+		return 0;
+}
+int main()
+{
+	int n;
+	cout << "请输入数组长度： ";
+	cin >> n;
+	int* p = new int[n];
+	cout << "请逐个输入数据：" << endl;
+	for (int i = 0; i < n; ++i)
+	{
+		cin >> p[i];
+	}
+	cout << inversion_number(p, 0, n-1) << endl;
+	return 0;
+}
