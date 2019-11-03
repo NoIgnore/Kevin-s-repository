@@ -17,7 +17,7 @@ class Gamesprite(pygame.sprite.Sprite):
         self.rect.y += self.speed#这个应该是敌机吧
 class Background(Gamesprite):
     def __init__(self,is_alt=False):
-        super().__init__("C:\\Users\\12091\\source\\repos\\py_game\\py_game\\images\\background.png")
+        super().__init__("C:\\background.png")#绝对路径我都修改了
         if is_alt:
             self.rect.y = -self.rect.height
     def update(self):
@@ -26,7 +26,7 @@ class Background(Gamesprite):
             self.rect.y = -self.rect.height
 class Enemy(Gamesprite):
     def __init__(self):
-        super().__init__("C:\\Users\\12091\\source\\repos\\py_game\\py_game\\images\\enemy1.png")
+        super().__init__("C:\\enemy1.png")
         self.speed = random.randint(4,9)
         self.rect.bottom = 0
         max_x = SCREEN_RECT.width - self.rect.width
@@ -39,7 +39,7 @@ class Enemy(Gamesprite):
             self.kill()
 class Hero(Gamesprite):
     def __init__(self):
-        super().__init__("C:\\Users\\12091\\source\\repos\\py_game\\py_game\\images\\me1.png",0)
+        super().__init__("C:\\me1.png",0)
         self.rect.centerx = SCREEN_RECT.centerx
         self.rect.bottom = SCREEN_RECT.bottom - 120
         self.bullets = pygame.sprite.Group()
@@ -58,7 +58,7 @@ class Hero(Gamesprite):
 
 class Bullet(Gamesprite):
     def __init__(self):
-        super().__init__("C:\\Users\\12091\\source\\repos\\py_game\\py_game\\images\\bullet1.png",-5)
+        super().__init__("C:\\Users\\bullet1.png",-5)
         
     def update(self):
         super().update()
