@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>综合应用 —— 名片管理系统</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1>综合应用 —— 名片管理系统</h1>
+<h2>目标</h2>
+<p>综合应用已经学习过的知识点：</p>
+<ul>
+<li><strong>变量</strong></li>
+<li><strong>流程控制</strong></li>
+<li><strong>函数</strong></li>
+<li><strong>模块</strong></li>
+</ul>
+<p>开发 <strong>名片管理系统</strong></p>
+<h2>系统需求</h2>
+<ul>
+<li>1. 程序启动，显示名片管理系统欢迎界面，并显示功能菜单</li>
+</ul>
+<p>```</p>
+<hr />
+<p>欢迎使用【名片管理系统】V1.0</p>
+<ol>
+<li>新建名片</li>
+<li>显示全部</li>
+<li>
+<p>查询名片</p>
+</li>
+<li>
+<p>退出系统</p>
+</li>
+</ol>
+<hr />
+<p>```</p>
+<ul>
+<li>2. 用户用数字选择不同的功能</li>
+<li>3. 根据功能选择，执行不同的功能</li>
+<li>4. 用户名片需要记录用户的 <strong>姓名</strong>、<strong>电话<strong>、</strong>QQ</strong>、<strong>邮件</strong></li>
+<li>5. 如果查询到指定的名片，用户可以选择 <strong>修改</strong> 或者 <strong>删除</strong> 名片</li>
+</ul>
+<h2>步骤</h2>
+<ol>
+<li>框架搭建</li>
+<li>新增名片</li>
+<li>显示所有名片</li>
+<li>查询名片</li>
+<li>查询成功后修改、删除名片</li>
+<li>让 Python 程序能够直接运行</li>
+</ol>
+<h2>01. 框架搭建</h2>
+<p><strong>目标</strong></p>
+<ul>
+<li>
+搭建名片管理系统 <strong>框架结构</strong>
+<ol>
+<li><strong>准备文件</strong>，确定文件名，保证能够 <strong>在需要的位置</strong> 编写代码</li>
+<li>编写 <strong>主运行循环</strong>，实现基本的 <strong>用户输入和判断</strong></li>
+</ol>
+</li>
+</ul>
+<h3>1.1 文件准备</h3>
+<ol>
+<li>
+新建 <code>cards_main.py</code> 保存 <strong>主程序功能代码</strong>
+<ul>
+<li>程序的入口</li>
+<li>每一次启动名片管理系统都通过 <code>main</code> 这个文件启动 </li>
+</ul>
+</li>
+<li>
+新建 <code>cards_tools.py</code> 保存 <strong>所有名片功能函数</strong>
+<ul>
+<li>将对名片的 <strong>新增</strong>、<strong>查询<strong>、</strong>修改</strong>、<strong>删除</strong> 等功能封装在不同的函数中</li>
+</ul>
+</li>
+</ol>
+<h3>1.2 编写主运行循环</h3>
+<ul>
+<li>在 <code>cards_main</code> 中添加一个 <strong>无限循环</strong></li>
+</ul>
+<p>```python</p>
+<p>while True:</p>
+<pre><code># TODO(小明) 显示系统菜单
+
+action = input(&quot;请选择操作功能：&quot;)
+
+print(&quot;您选择的操作是：%s&quot; % action)
+
+# 根据用户输入决定后续的操作
+if action in [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;]:
+    pass
+elif action == &quot;0&quot;:
+    print(&quot;欢迎再次使用【名片管理系统】&quot;)
+
+    break
+else:
+    print(&quot;输入错误，请重新输入&quot;)
+</code></pre>
+
+<p>```</p>
+<h4>字符串判断</h4>
+<p><code>python
+if action in [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;]:</code></p>
+<p><code>python
+if action == &quot;1&quot; or action == &quot;2&quot; or action == &quot;3&quot;:</code></p>
+<ol>
+<li>使用 <code>in</code> 针对 <strong>列表</strong> 判断，避免使用 <code>or</code> 拼接复杂的逻辑条件</li>
+<li>没有使用 <code>int</code> 转换用户输入，可以避免 <strong>一旦用户输入的不是数字</strong>，导致程序运行出错</li>
+</ol>
+<h4>pass</h4>
+<ul>
+<li><code>pass</code> 就是一个空语句，不做任何事情，一般用做占位语句</li>
+<li>是为了保持程序结构的完整性</li>
+</ul>
+<h4>无限循环</h4>
+<ul>
+<li>在开发软件时，如果 <strong>不希望程序执行后</strong> 立即退出</li>
+<li>可以在程序中增加一个 <strong>无限循环</strong></li>
+<li><strong>由用户来决定</strong> 退出程序的时机</li>
+</ul>
+<h4>TODO 注释</h4>
+<ul>
+<li>在 <code>#</code> 后跟上 <code>TODO</code>，用于标记需要去做的工作</li>
+</ul>
+<p>```python</p>
+<h1>TODO(作者/邮件) 显示系统菜单</h1>
+<p>```</p>
+<h3>1.3 在 <code>cards_tools</code> 中增加四个新函数</h3>
+<p>```python
+def show_menu():</p>
+<pre><code>&quot;&quot;&quot;显示菜单
+&quot;&quot;&quot;
+pass
+</code></pre>
+
+<p>def new_card():</p>
+<pre><code>&quot;&quot;&quot;新建名片
+&quot;&quot;&quot;
+print(&quot;-&quot; * 50)
+print(&quot;功能：新建名片&quot;)
+</code></pre>
+
+<p>def show_all():</p>
+<pre><code>&quot;&quot;&quot;显示全部
+&quot;&quot;&quot;
+print(&quot;-&quot; * 50)
+print(&quot;功能：显示全部&quot;)
+</code></pre>
+
+<p>def search_card():</p>
+<pre><code>&quot;&quot;&quot;搜索名片
+&quot;&quot;&quot;
+print(&quot;-&quot; * 50)
+print(&quot;功能：搜索名片&quot;)
+</code></pre>
+
+<p>```</p>
+<h3>1.4 导入模块</h3>
+<ul>
+<li>在 <code>cards_main.py</code> 中使用 <code>import</code> 导入 <code>cards_tools</code> 模块</li>
+</ul>
+<p><code>python
+import cards_tools</code> </p>
+<ul>
+<li>修改 <code>while</code> 循环的代码如下：</li>
+</ul>
+<p>```python
+import cards_tools</p>
+<p>while True:</p>
+<pre><code>cards_tools.show_menu()
+
+action = input(&quot;请选择操作功能：&quot;)
+
+print(&quot;您选择的操作是：%s&quot; % action)
+
+# 根据用户输入决定后续的操作
+if action in [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;]:
+
+    if action == &quot;1&quot;:
+        cards_tools.new_card()
+
+    elif action == &quot;2&quot;:
+        cards_tools.show_all()
+
+    elif action == &quot;3&quot;:
+        cards_tools.search_card()
+
+elif action == &quot;0&quot;:
+    print(&quot;欢迎再次使用【名片管理系统】&quot;)
+
+    break
+else:
+    print(&quot;输入错误，请重新输入：&quot;)
+</code></pre>
+
+<p>```</p>
+<blockquote>
+<p>至此：<code>cards_main</code> 中的所有代码全部开发完毕！</p>
+</blockquote>
+<h3>1.5 完成 <code>show_menu</code> 函数</h3>
+<p>```python
+def show_menu():</p>
+<pre><code>&quot;&quot;&quot;显示菜单
+&quot;&quot;&quot;
+print(&quot;*&quot; * 50)
+print(&quot;欢迎使用【菜单管理系统】V1.0&quot;)
+print(&quot;&quot;)
+print(&quot;1. 新建名片&quot;)
+print(&quot;2. 显示全部&quot;)
+print(&quot;3. 查询名片&quot;)
+print(&quot;&quot;)
+print(&quot;0. 退出系统&quot;)
+print(&quot;*&quot; * 50)
+</code></pre>
+
+<p>```</p>
+<h2>02. 保存名片数据的结构</h2>
+<p><strong>程序就是用来处理数据的，而变量就是用来存储数据的</strong></p>
+<ul>
+<li>使用 <strong>字典</strong> 记录 <strong>每一张名片</strong> 的详细信息</li>
+<li>使用 <strong>列表</strong> 统一记录所有的 <strong>名片字典</strong></li>
+</ul>
+<p><img src="media/14973084639044/001_%E5%90%8D%E7%89%87%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E5%85%A8%E5%B1%80%E5%88%97%E8%A1%A8.png" alt="001_名片管理系统全局列表-w500" /></p>
+<h3>定义名片列表变量</h3>
+<ul>
+<li>在 <code>cards_tools</code> 文件的顶部增加一个 <strong>列表变量</strong></li>
+</ul>
+<p>```python</p>
+<h1>所有名片记录的列表</h1>
+<p>card_list = []
+```</p>
+<p><strong>注意</strong></p>
+<ol>
+<li><strong>所有名片相关操作</strong>，都需要使用这个列表，所以应该 <strong>定义在程序的顶部</strong></li>
+<li><strong>程序刚运行时，没有数据</strong>，所以是 <strong>空列表</strong></li>
+</ol>
+<h2>03. 新增名片</h2>
+<h3>3.1 功能分析</h3>
+<ol>
+<li>提示用户依次输入名片信息</li>
+<li>将名片信息保存到一个字典</li>
+<li>将字典添加到名片列表</li>
+<li>提示名片添加完成</li>
+</ol>
+<h3>3.2 实现 new_card 方法</h3>
+<ul>
+<li>根据步骤实现代码</li>
+</ul>
+<p>```python
+def new_card():</p>
+<pre><code>&quot;&quot;&quot;新建名片
+&quot;&quot;&quot;
+print(&quot;-&quot; * 50)
+print(&quot;功能：新建名片&quot;)
+
+# 1. 提示用户输入名片信息
+name = input(&quot;请输入姓名：&quot;)
+phone = input(&quot;请输入电话：&quot;)
+qq = input(&quot;请输入 QQ 号码：&quot;)
+email = input(&quot;请输入邮箱：&quot;)
+
+# 2. 将用户信息保存到一个字典
+card_dict = {&quot;name&quot;: name,
+             &quot;phone&quot;: phone,
+             &quot;qq&quot;: qq,
+             &quot;email&quot;: email}
+
+# 3. 将用户字典添加到名片列表
+card_list.append(card_dict)
+
+print(card_list)
+
+# 4. 提示添加成功信息
+print(&quot;成功添加 %s 的名片&quot; % card_dict[&quot;name&quot;])
+</code></pre>
+
+<p>```</p>
+<blockquote>
+<p>技巧：在 <code>PyCharm</code> 中，可以使用 <code>SHIFT + F6</code> 统一修改变量名</p>
+</blockquote>
+<h2>04. 显示所有名片</h2>
+<h3>4.1 功能分析</h3>
+<ul>
+<li>循环遍历名片列表，顺序显示每一个字典的信息</li>
+</ul>
+<h3>4.2 基础代码实现</h3>
+<p>```python
+def show_all():</p>
+<pre><code>&quot;&quot;&quot;显示全部
+&quot;&quot;&quot;
+print(&quot;-&quot; * 50)
+print(&quot;功能：显示全部&quot;)
+
+for card_dict in card_list:
+
+    print(card_dict)
+</code></pre>
+
+<p>```</p>
+<ul>
+<li>显示效果不好！</li>
+</ul>
+<h3>4.3 增加标题和使用 <code>\t</code> 显示</h3>
+<p>```python
+def show_all():
+    &quot;&quot;&quot;显示全部
+    &quot;&quot;&quot;
+    print(&quot;-&quot; * 50)
+    print(&quot;功能：显示全部&quot;)</p>
+<pre><code># 打印表头
+for name in [&quot;姓名&quot;, &quot;电话&quot;, &quot;QQ&quot;, &quot;邮箱&quot;]:
+    print(name, end=&quot;\t\t&quot;)
+
+print(&quot;&quot;)
+
+# 打印分隔线
+print(&quot;=&quot; * 50)
+
+for card_dict in card_list:
+
+    print(&quot;%s\t\t%s\t\t%s\t\t%s&quot; % (card_dict[&quot;name&quot;],
+                                    card_dict[&quot;phone&quot;],
+                                    card_dict[&quot;qq&quot;],
+                                    card_dict[&quot;email&quot;]))
+</code></pre>
+
+<p>```</p>
+<h3>4.4 增加没有名片记录判断</h3>
+<p>```python
+def show_all():
+    &quot;&quot;&quot;显示全部
+    &quot;&quot;&quot;
+    print(&quot;-&quot; * 50)
+    print(&quot;功能：显示全部&quot;)</p>
+<pre><code># 1. 判断是否有名片记录
+if len(card_list) == 0:
+    print(&quot;提示：没有任何名片记录&quot;)
+
+    return
+</code></pre>
+
+<p>```</p>
+<p><strong>注意</strong></p>
+<ul>
+<li>在函数中使用 <code>return</code> 表示返回</li>
+<li>如果在 <code>return</code> 后没有跟任何内容，只是表示该函数执行到此就不再执行后续的代码</li>
+</ul>
+<h2>05. 查询名片</h2>
+<h3>5.1 功能分析</h3>
+<ol>
+<li>提示用户要搜索的姓名</li>
+<li>根据用户输入的姓名遍历列表</li>
+<li>搜索到指定的名片后，再执行后续的操作</li>
+</ol>
+<h3>5.2 代码实现</h3>
+<ul>
+<li>查询功能实现</li>
+</ul>
+<p>```python
+def search_card():</p>
+<pre><code>&quot;&quot;&quot;搜索名片
+&quot;&quot;&quot;
+print(&quot;-&quot; * 50)
+print(&quot;功能：搜索名片&quot;)
+
+# 1. 提示要搜索的姓名
+find_name = input(&quot;请输入要搜索的姓名：&quot;)
+
+# 2. 遍历字典
+for card_dict in card_list:
+
+    if card_dict[&quot;name&quot;] == find_name:
+
+        print(&quot;姓名\t\t\t电话\t\t\tQQ\t\t\t邮箱&quot;)
+        print(&quot;-&quot; * 40)
+
+        print(&quot;%s\t\t\t%s\t\t\t%s\t\t\t%s&quot; % (
+            card_dict[&quot;name&quot;],
+            card_dict[&quot;phone&quot;],
+            card_dict[&quot;qq&quot;],
+            card_dict[&quot;email&quot;]))
+
+        print(&quot;-&quot; * 40)
+
+        # TODO(小明) 针对找到的字典进行后续操作：修改/删除
+
+        break
+else:
+    print(&quot;没有找到 %s&quot; % find_name)
+</code></pre>
+
+<p>```</p>
+<ul>
+<li>增加名片操作函数：<strong>修改</strong>/<strong>删除<strong>/</strong>返回主菜单</strong></li>
+</ul>
+<p>```python
+def deal<em>card(find</em>dict):</p>
+<pre><code>&quot;&quot;&quot;操作搜索到的名片字典
+
+:param find_dict:找到的名片字典
+&quot;&quot;&quot;
+print(find_dict)
+
+action_str = input(&quot;请选择要执行的操作 &quot;
+                   &quot;[1] 修改 [2] 删除 [0] 返回上级菜单&quot;)
+
+if action == &quot;1&quot;:
+    print(&quot;修改&quot;)
+elif action == &quot;2&quot;:
+    print(&quot;删除&quot;)
+</code></pre>
+
+<p>```</p>
+<h2>06. 修改和删除</h2>
+<h3>6.1 查询成功后删除名片</h3>
+<ul>
+<li>由于找到的字典记录已经在列表中保存</li>
+<li>要删除名片记录，只需要把列表中对应的字典删除即可</li>
+</ul>
+<p>```python
+    elif action == &quot;2&quot;:
+        card<em>list.remove(find</em>dict)</p>
+<pre><code>    print(&quot;删除成功&quot;)
+</code></pre>
+
+<p>```</p>
+<h3>6.2 修改名片</h3>
+<ul>
+<li>由于找到的字典记录已经在列表中保存</li>
+<li>要修改名片记录，只需要把列表中对应的字典中每一个键值对的数据修改即可</li>
+</ul>
+<p>```python
+    if action == &quot;1&quot;:</p>
+<pre><code>    find_dict[&quot;name&quot;] = input(&quot;请输入姓名：&quot;)
+    find_dict[&quot;phone&quot;] = input(&quot;请输入电话：&quot;)
+    find_dict[&quot;qq&quot;] = input(&quot;请输入QQ：&quot;)
+    find_dict[&quot;email&quot;] = input(&quot;请输入邮件：&quot;)
+
+    print(&quot;%s 的名片修改成功&quot; % find_dict[&quot;name&quot;])
+</code></pre>
+
+<p>```</p>
+<h4>修改名片细化</h4>
+<ul>
+<li><strong>如果用户在使用时，某些名片内容并不想修改</strong>，应该如何做呢？—— 既然系统提供的 <code>input</code> 函数不能满足需求，那么就新定义一个函数 <code>input_card_info</code> 对系统的 <code>input</code> 函数进行扩展</li>
+</ul>
+<p>```python
+def input<em>card</em>info(dict<em>value, tip</em>message):</p>
+<pre><code>&quot;&quot;&quot;输入名片信息
+
+:param dict_value: 字典原有值
+:param tip_message: 输入提示信息
+:return: 如果输入，返回输入内容，否则返回字典原有值
+&quot;&quot;&quot;
+# 1. 提示用户输入内容
+result_str = input(tip_message)
+
+# 2. 针对用户的输入进行判断，如果用户输入了内容，直接返回结果
+if len(result_str) &gt; 0:
+
+    return result_str
+# 3. 如果用户没有输入内容，返回 `字典中原有的值`
+else:
+
+    return dict_value
+</code></pre>
+
+<p>```</p>
+<h2>07. LINUX 上的 <code>Shebang</code> 符号(<code>#!</code>)</h2>
+<ul>
+<li><code>#!</code>这个符号叫做 <code>Shebang</code> 或者 <code>Sha-bang</code></li>
+<li><code>Shebang</code> 通常在 <code>Unix</code> 系统脚本的中 <strong>第一行开头</strong> 使用</li>
+<li>指明 <strong>执行这个脚本文件</strong> 的 <strong>解释程序</strong></li>
+</ul>
+<h3>使用 Shebang 的步骤</h3>
+<ul>
+<li>1. 使用 <code>which</code> 查询 <code>python3</code> 解释器所在路径</li>
+</ul>
+<p><code>bash
+$ which python3</code></p>
+<ul>
+<li>2. 修改要运行的 <strong>主 python 文件</strong>，在第一行增加以下内容</li>
+</ul>
+<p>```python</p>
+<h1>! /usr/bin/python3</h1>
+<p>```</p>
+<ul>
+<li>3. 修改 <strong>主 python 文件</strong> 的文件权限，增加执行权限</li>
+</ul>
+<p><code>bash
+$ chmod +x cards_main.py</code></p>
+<ul>
+<li>4. 在需要时执行程序即可</li>
+</ul>
+<p><code>bash
+./cards_main.py</code></p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

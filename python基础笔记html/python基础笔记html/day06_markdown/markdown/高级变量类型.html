@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>高级变量类型</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1>高级变量类型</h1>
+<h2>目标</h2>
+<ul>
+<li>列表</li>
+<li>元组</li>
+<li>字典</li>
+<li>字符串</li>
+<li>公共方法</li>
+<li>变量高级</li>
+</ul>
+<h3>知识点回顾</h3>
+<ul>
+<li>Python 中数据类型可以分为 <strong>数字型</strong> 和 <strong>非数字型</strong></li>
+<li>
+数字型
+<ul>
+<li>整型 (<code>int</code>)</li>
+<li>浮点型（<code>float</code>）</li>
+<li>
+布尔型（<code>bool</code>） 
+<ul>
+<li>真 <code>True</code> <code>非 0 数</code> —— <strong>非零即真</strong></li>
+<li>假 <code>False</code> <code>0</code></li>
+</ul>
+</li>
+<li>
+复数型 (<code>complex</code>)
+<ul>
+<li>主要用于科学计算，例如：平面场问题、波动问题、电感电容等问题</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>非数字型</p>
+<ul>
+<li>字符串</li>
+<li>列表</li>
+<li>元组</li>
+<li>字典</li>
+</ul>
+</li>
+<li>
+<p>在 <code>Python</code> 中，所有 <strong>非数字型变量</strong> 都支持以下特点：</p>
+<ol>
+<li>都是一个 <strong>序列</strong> <code>sequence</code>，也可以理解为 <strong>容器</strong></li>
+<li><strong>取值</strong> <code>[]</code></li>
+<li><strong>遍历</strong> <code>for in</code></li>
+<li><strong>计算长度</strong>、<strong>最大/最小值<strong>、</strong>比较</strong>、<strong>删除</strong></li>
+<li><strong>链接</strong> <code>+</code> 和 <strong>重复</strong> <code>*</code></li>
+<li><strong>切片</strong></li>
+</ol>
+</li>
+</ul>
+<h2>01. 列表</h2>
+<h3>1.1 列表的定义</h3>
+<ul>
+<li><code>List</code>（列表） 是 <code>Python</code> 中使用 <strong>最频繁</strong> 的数据类型，在其他语言中通常叫做 <strong>数组</strong></li>
+<li>专门用于存储 <strong>一串 信息</strong></li>
+<li>列表用 <code>[]</code> 定义，<strong>数据</strong> 之间使用 <code>,</code> 分隔</li>
+<li>
+列表的 <strong>索引</strong> 从 <code>0</code> 开始
+<ul>
+<li><strong>索引</strong> 就是数据在 <strong>列表</strong> 中的位置编号，<strong>索引</strong> 又可以被称为 <strong>下标</strong></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注意：从列表中取值时，如果 <strong>超出索引范围</strong>，程序会报错</p>
+</blockquote>
+<p><code>python
+name_list = [&quot;zhangsan&quot;, &quot;lisi&quot;, &quot;wangwu&quot;]</code></p>
+<p><img src="media/14972568611505/001_%E5%88%97%E8%A1%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="001_列表示意图" /></p>
+<h3>1.2 列表常用操作</h3>
+<ul>
+<li>在 <code>ipython3</code> 中定义一个 <strong>列表</strong>，例如：<code>name_list = []</code></li>
+<li>输入 <code>name_list.</code> 按下 <code>TAB</code> 键，<code>ipython</code> 会提示 <strong>列表</strong> 能够使用的 <strong>方法</strong> 如下：</li>
+</ul>
+<p><code>In [1]: name_list.
+name_list.append   name_list.count    name_list.insert   name_list.reverse
+name_list.clear    name_list.extend   name_list.pop      name_list.sort
+name_list.copy     name_list.index    name_list.remove</code></p>
+<p>| 序号 | 分类 | 关键字 / 函数 / 方法 | 说明 |
+| --- | --- | --- | --- |
+| 1 | 增加 | 列表.insert(索引, 数据) | 在指定位置插入数据 |
+|  |  | 列表.append(数据) | 在末尾追加数据
+|  |  | 列表.extend(列表2) | 将列表2 的数据追加到列表 | 
+| 2 | 修改 | 列表[索引] = 数据 | 修改指定索引的数据 |
+| 3 | 删除 | del 列表[索引] | 删除指定索引的数据 |
+|  |  | 列表.remove[数据] | 删除第一个出现的指定数据 |
+|  |  | 列表.pop | 删除末尾数据 |
+|  |  | 列表.pop(索引) | 删除指定索引数据 |
+|  |  | 列表.clear | 清空列表 |
+| 4 | 统计 | len(列表) | 列表长度 |
+|  |  | 列表.count(数据) | 数据在列表中出现的次数 |
+| 5 | 排序 | 列表.sort() | 升序排序 |
+|  |  | 列表.sort(reverse=True) | 降序排序 |
+|  |  | 列表.reverse() | 逆序、反转 |</p>
+<h4>del 关键字（科普）</h4>
+<ul>
+<li>使用 <code>del</code> 关键字(<code>delete</code>) 同样可以删除列表中元素</li>
+<li><code>del</code> 关键字本质上是用来 <strong>将一个变量从内存中删除的</strong></li>
+<li>如果使用 <code>del</code> 关键字将变量从内存中删除，后续的代码就不能再使用这个变量了</li>
+</ul>
+<p><code>python
+del name_list[1]</code></p>
+<blockquote>
+<p>在日常开发中，要从列表删除数据，建议 <strong>使用列表提供的方法</strong></p>
+</blockquote>
+<h4>关键字、函数和方法（科普）</h4>
+<ul>
+<li><strong>关键字</strong> 是 Python 内置的、具有特殊意义的标识符</li>
+</ul>
+<p><code>python
+In [1]: import keyword
+In [2]: print(keyword.kwlist)
+In [3]: print(len(keyword.kwlist))</code></p>
+<blockquote>
+<p>关键字后面不需要使用括号</p>
+</blockquote>
+<ul>
+<li><strong>函数</strong> 封装了独立功能，可以直接调用</li>
+</ul>
+<p><code>python
+函数名(参数)</code></p>
+<blockquote>
+<p>函数需要死记硬背</p>
+</blockquote>
+<ul>
+<li><strong>方法</strong> 和函数类似，同样是封装了独立的功能</li>
+<li><strong>方法</strong> 需要通过 <strong>对象</strong> 来调用，表示针对这个 <strong>对象</strong> 要做的操作</li>
+</ul>
+<p><code>python
+对象.方法名(参数)</code></p>
+<blockquote>
+<p>在变量后面输入 <code>.</code>，然后选择针对这个变量要执行的操作，记忆起来比函数要简单很多</p>
+</blockquote>
+<h3>1.3 循环遍历</h3>
+<ul>
+<li>
+<p><strong>遍历</strong> 就是 <strong>从头到尾</strong> <strong>依次</strong> 从 <strong>列表</strong> 中获取数据</p>
+<ul>
+<li>在 <strong>循环体内部</strong> 针对 <strong>每一个元素</strong>，执行相同的操作</li>
+</ul>
+</li>
+<li>
+<p>在 <code>Python</code> 中为了提高列表的遍历效率，专门提供的 <strong>迭代 iteration 遍历</strong></p>
+</li>
+<li>使用 <code>for</code> 就能够实现迭代遍历</li>
+</ul>
+<p>```python</p>
+<h1>for 循环内部使用的变量 in 列表</h1>
+<p>for name in name_list:</p>
+<pre><code>循环内部针对列表元素进行操作
+print(name)
+</code></pre>
+
+<p>```</p>
+<p><img src="media/14972568611505/002_forin%E5%BE%AA%E7%8E%AF%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="002_forin循环流程图-w420" /></p>
+<h3>1.4 <strong>应用场景</strong></h3>
+<ul>
+<li>尽管 <code>Python</code> 的 <strong>列表</strong> 中可以 <strong>存储不同类型的数据</strong></li>
+<li>
+但是在开发中，更多的应用场景是
+<ol>
+<li><strong>列表</strong> 存储相同类型的数据</li>
+<li>通过 <strong>迭代遍历</strong>，在循环体内部，针对列表中的每一项元素，执行相同的操作</li>
+</ol>
+</li>
+</ul>
+<h2>02. 元组</h2>
+<h3>2.1 元组的定义</h3>
+<ul>
+<li>
+<code>Tuple</code>（元组）与列表类似，不同之处在于元组的 <strong>元素不能修改</strong>
+<ul>
+<li><strong>元组</strong> 表示多个元素组成的序列</li>
+<li><strong>元组</strong> 在 <code>Python</code> 开发中，有特定的应用场景</li>
+</ul>
+</li>
+<li>用于存储 <strong>一串 信息</strong>，<strong>数据</strong> 之间使用 <code>,</code> 分隔</li>
+<li>元组用 <code>()</code> 定义</li>
+<li>
+元组的 <strong>索引</strong> 从 <code>0</code> 开始
+<ul>
+<li><strong>索引</strong> 就是数据在 <strong>元组</strong> 中的位置编号</li>
+</ul>
+</li>
+</ul>
+<p><code>python
+info_tuple = (&quot;zhangsan&quot;, 18, 1.75)</code></p>
+<h4>创建空元组</h4>
+<p><code>python
+info_tuple = ()</code></p>
+<h4>元组中 <strong>只包含一个元素</strong> 时，需要 <strong>在元素后面添加逗号</strong></h4>
+<p><code>python
+info_tuple = (50, )</code></p>
+<p><img src="media/14972568611505/003_%E5%85%83%E7%BB%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="003_元组示意图-w500" /></p>
+<h3>2.2 元组常用操作</h3>
+<ul>
+<li>在 <code>ipython3</code> 中定义一个 <strong>元组</strong>，例如：<code>info = ()</code></li>
+<li>输入 <code>info.</code> 按下 <code>TAB</code> 键，<code>ipython</code> 会提示 <strong>元组</strong> 能够使用的函数如下：</li>
+</ul>
+<p><code>python
+info.count  info.index</code></p>
+<blockquote>
+<p>有关 <strong>元组</strong> 的 <strong>常用操作</strong> 可以参照上图练习</p>
+</blockquote>
+<h3>2.3 循环遍历</h3>
+<ul>
+<li><strong>取值</strong> 就是从 <strong>元组</strong> 中获取存储在指定位置的数据</li>
+<li><strong>遍历</strong> 就是 <strong>从头到尾</strong> <strong>依次</strong> 从 <strong>元组</strong> 中获取数据</li>
+</ul>
+<p>```python</p>
+<h1>for 循环内部使用的变量 in 元组</h1>
+<p>for item in info:</p>
+<pre><code>循环内部针对元组元素进行操作
+print(item)
+</code></pre>
+
+<p>```</p>
+<blockquote>
+<ul>
+<li>在 <code>Python</code> 中，可以使用 <code>for</code> 循环遍历所有非数字型类型的变量：<strong>列表</strong>、<strong>元组<strong>、</strong>字典</strong> 以及 <strong>字符串</strong></li>
+<li>提示：在实际开发中，除非 <strong>能够确认元组中的数据类型</strong>，否则针对元组的循环遍历需求并不是很多</li>
+</ul>
+</blockquote>
+<h3>2.4 应用场景</h3>
+<ul>
+<li>尽管可以使用 <code>for in</code> 遍历 <strong>元组</strong></li>
+<li>
+但是在开发中，更多的应用场景是：
+<ul>
+<li>
+<strong>函数的 参数 和 返回值</strong>，一个函数可以接收 <strong>任意多个参数</strong>，或者 <strong>一次返回多个数据</strong>
+<ul>
+<li>有关 <strong>函数的参数 和 返回值</strong>，在后续 <strong>函数高级</strong> 给大家介绍</li>
+</ul>
+</li>
+<li><strong>格式字符串</strong>，格式化字符串后面的 <code>()</code> 本质上就是一个元组</li>
+<li><strong>让列表不可以被修改</strong>，以保护数据安全</li>
+</ul>
+</li>
+</ul>
+<p>```python
+info = (&quot;zhangsan&quot;, 18)</p>
+<p>print(&quot;%s 的年龄是 %d&quot; % info)</p>
+<p>```</p>
+<h4>元组和列表之间的转换</h4>
+<ul>
+<li>使用 <code>list</code> 函数可以把元组转换成列表</li>
+</ul>
+<p><code>python
+list(元组)</code></p>
+<ul>
+<li>使用 <code>tuple</code> 函数可以把列表转换成元组</li>
+</ul>
+<p><code>python
+tuple(列表)</code></p>
+<h2>03. 字典</h2>
+<h3>3.1 字典的定义</h3>
+<ul>
+<li><code>dictionary</code>（字典） 是 <strong>除列表以外</strong> <code>Python</code> 之中 <strong>最灵活</strong> 的数据类型</li>
+<li>
+字典同样可以用来 <strong>存储多个数据</strong>
+<ul>
+<li>通常用于存储 <strong>描述一个 <code>物体</code> 的相关信息</strong> </li>
+</ul>
+</li>
+<li>
+和列表的区别
+<ul>
+<li><strong>列表</strong> 是 <strong>有序</strong> 的对象集合</li>
+<li><strong>字典</strong> 是 <strong>无序</strong> 的对象集合</li>
+</ul>
+</li>
+<li>字典用 <code>{}</code> 定义</li>
+<li>
+字典使用 <strong>键值对</strong> 存储数据，键值对之间使用 <code>,</code> 分隔
+<ul>
+<li><strong>键</strong> <code>key</code> 是索引</li>
+<li><strong>值</strong> <code>value</code> 是数据</li>
+<li><strong>键</strong> 和 <strong>值</strong> 之间使用 <code>:</code> 分隔</li>
+<li><strong>键必须是唯一的</strong></li>
+<li><strong>值</strong> 可以取任何数据类型，但 <strong>键</strong> 只能使用 <strong>字符串</strong>、<strong>数字</strong>或 <strong>元组</strong></li>
+</ul>
+</li>
+</ul>
+<p><code>python
+xiaoming = {&quot;name&quot;: &quot;小明&quot;,
+            &quot;age&quot;: 18,
+            &quot;gender&quot;: True,
+            &quot;height&quot;: 1.75}</code></p>
+<p><img src="media/14972568611505/002_%E5%AD%97%E5%85%B8%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="002_字典示意图" /></p>
+<h3>3.2 字典常用操作</h3>
+<ul>
+<li>在 <code>ipython3</code> 中定义一个 <strong>字典</strong>，例如：<code>xiaoming = {}</code></li>
+<li>输入 <code>xiaoming.</code> 按下 <code>TAB</code> 键，<code>ipython</code> 会提示 <strong>字典</strong> 能够使用的函数如下：</li>
+</ul>
+<p><code>In [1]: xiaoming.
+xiaoming.clear       xiaoming.items       xiaoming.setdefault
+xiaoming.copy        xiaoming.keys        xiaoming.update
+xiaoming.fromkeys    xiaoming.pop         xiaoming.values
+xiaoming.get         xiaoming.popitem</code></p>
+<blockquote>
+<p>有关 <strong>字典</strong> 的 <strong>常用操作</strong> 可以参照上图练习</p>
+</blockquote>
+<h3>3.3 循环遍历</h3>
+<ul>
+<li><strong>遍历</strong> 就是 <strong>依次</strong> 从 <strong>字典</strong> 中获取所有键值对</li>
+</ul>
+<p>```python</p>
+<h1>for 循环内部使用的 <code>key 的变量</code> in 字典</h1>
+<p>for k in xiaoming:</p>
+<pre><code>print(&quot;%s: %s&quot; % (k, xiaoming[k]))
+</code></pre>
+
+<p>```</p>
+<blockquote>
+<p>提示：在实际开发中，由于字典中每一个键值对保存数据的类型是不同的，所以针对字典的循环遍历需求并不是很多</p>
+</blockquote>
+<h3>3.4 <strong>应用场景</strong></h3>
+<ul>
+<li>尽管可以使用 <code>for in</code> 遍历 <strong>字典</strong></li>
+<li>
+但是在开发中，更多的应用场景是：
+<ul>
+<li>使用 <strong>多个键值对</strong>，存储 <strong>描述一个 <code>物体</code> 的相关信息</strong> —— 描述更复杂的数据信息</li>
+<li>将 <strong>多个字典</strong> 放在 <strong>一个列表</strong> 中，再进行遍历，在循环体内部针对每一个字典进行 <strong>相同的处理</strong></li>
+</ul>
+</li>
+</ul>
+<p>```python
+card_list = [{&quot;name&quot;: &quot;张三&quot;,
+              &quot;qq&quot;: &quot;12345&quot;,
+              &quot;phone&quot;: &quot;110&quot;},
+             {&quot;name&quot;: &quot;李四&quot;,
+              &quot;qq&quot;: &quot;54321&quot;,
+              &quot;phone&quot;: &quot;10086&quot;}
+             ]</p>
+<p>```</p>
+<h2>04. 字符串</h2>
+<h3>4.1 字符串的定义</h3>
+<ul>
+<li><strong>字符串</strong> 就是 <strong>一串字符</strong>，是编程语言中表示文本的数据类型</li>
+<li>
+在 Python 中可以使用 <strong>一对双引号</strong> <code>&quot;</code> 或者 <strong>一对单引号</strong> <code>'</code> 定义一个字符串
+<ul>
+<li>
+虽然可以使用 <code>\&quot;</code> 或者 <code>\'</code> 做字符串的转义，但是在实际开发中：
+<ul>
+<li>如果字符串内部需要使用 <code>&quot;</code>，可以使用 <code>'</code> 定义字符串</li>
+<li>如果字符串内部需要使用 <code>'</code>，可以使用 <code>&quot;</code> 定义字符串</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>可以使用 <strong>索引</strong> 获取一个字符串中 <strong>指定位置的字符</strong>，索引计数从 <strong>0</strong> 开始</li>
+<li>也可以使用 <code>for</code> <strong>循环遍历</strong> 字符串中每一个字符</li>
+</ul>
+<blockquote>
+<p>大多数编程语言都是用 <code>&quot;</code> 来定义字符串</p>
+</blockquote>
+<p>```python
+string = &quot;Hello Python&quot;</p>
+<p>for c in string:
+    print(c)</p>
+<p>```</p>
+<p><img src="media/14972568611505/005_%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="005_字符串示意图-w500" /></p>
+<h3>4.2 字符串的常用操作</h3>
+<ul>
+<li>在 <code>ipython3</code> 中定义一个 <strong>字符串</strong>，例如：<code>hello_str = &quot;&quot;</code></li>
+<li>输入 <code>hello_str.</code> 按下 <code>TAB</code> 键，<code>ipython</code> 会提示 <strong>字符串</strong> 能够使用的 <strong>方法</strong> 如下：</li>
+</ul>
+<p><code>In [1]: hello_str.
+hello_str.capitalize    hello_str.isidentifier  hello_str.rindex
+hello_str.casefold      hello_str.islower       hello_str.rjust
+hello_str.center        hello_str.isnumeric     hello_str.rpartition
+hello_str.count         hello_str.isprintable   hello_str.rsplit
+hello_str.encode        hello_str.isspace       hello_str.rstrip
+hello_str.endswith      hello_str.istitle       hello_str.split
+hello_str.expandtabs    hello_str.isupper       hello_str.splitlines
+hello_str.find          hello_str.join          hello_str.startswith
+hello_str.format        hello_str.ljust         hello_str.strip
+hello_str.format_map    hello_str.lower         hello_str.swapcase
+hello_str.index         hello_str.lstrip        hello_str.title
+hello_str.isalnum       hello_str.maketrans     hello_str.translate
+hello_str.isalpha       hello_str.partition     hello_str.upper
+hello_str.isdecimal     hello_str.replace       hello_str.zfill
+hello_str.isdigit       hello_str.rfind</code></p>
+<blockquote>
+<p>提示：正是因为 python 内置提供的方法足够多，才使得在开发时，能够针对字符串进行更加灵活的操作！应对更多的开发需求！</p>
+</blockquote>
+<h4>1) 判断类型 - 9</h4>
+<p>| 方法 | 说明 |
+| --- | --- |
+| string.isspace() | 如果 string 中只包含空格，则返回 True | 
+| string.isalnum() | 如果 string 至少有一个字符并且所有字符都是字母或数字则返回 True |
+| string.isalpha() | 如果 string 至少有一个字符并且所有字符都是字母则返回 True |
+| string.isdecimal() | 如果 string 只包含数字则返回 True，<code>全角数字</code> | 
+| string.isdigit() | 如果 string 只包含数字则返回 True，<code>全角数字</code>、<code>⑴</code>、<code>\u00b2</code> |
+| string.isnumeric() | 如果 string 只包含数字则返回 True，<code>全角数字</code>，<code>汉字数字</code> |<br />
+| string.istitle() | 如果 string 是标题化的(每个单词的首字母大写)则返回 True | 
+| string.islower() | 如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是小写，则返回 True | 
+| string.isupper() | 如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是大写，则返回 True | </p>
+<h4>2) 查找和替换 - 7</h4>
+<p>| 方法 | 说明 |
+| --- | --- |
+| string.startswith(str) | 检查字符串是否是以 str 开头，是则返回 True |
+| string.endswith(str) | 检查字符串是否是以 str 结束，是则返回 True |
+| string.find(str, start=0, end=len(string)) | 检测 str 是否包含在 string 中，如果 start 和 end 指定范围，则检查是否包含在指定范围内，如果是返回开始的索引值，否则返回 <code>-1</code> |
+| string.rfind(str, start=0, end=len(string)) | 类似于 find()，不过是从右边开始查找 | 
+| string.index(str, start=0, end=len(string)) | 跟 find() 方法类似，不过如果 str 不在 string 会报错 |
+| string.rindex(str, start=0, end=len(string)) | 类似于 index()，不过是从右边开始 |
+| string.replace(old<em>str, new</em>str, num=string.count(old)) | 把 string 中的 old<em>str 替换成 new</em>str，如果 num 指定，则替换不超过 num 次 |</p>
+<h4>3) 大小写转换 - 5</h4>
+<p>| 方法 | 说明 |
+| --- | --- |
+| string.capitalize() | 把字符串的第一个字符大写 |
+| string.title() | 把字符串的每个单词首字母大写 |
+| string.lower() | 转换 string 中所有大写字符为小写 |
+| string.upper() | 转换 string 中的小写字母为大写 |
+| string.swapcase() | 翻转 string 中的大小写 |</p>
+<h4>4) 文本对齐 - 3</h4>
+<p>| 方法 | 说明 |
+| --- | --- |
+| string.ljust(width) | 返回一个原字符串左对齐，并使用空格填充至长度 width 的新字符串 |
+| string.rjust(width) | 返回一个原字符串右对齐，并使用空格填充至长度 width 的新字符串 |
+| string.center(width) | 返回一个原字符串居中，并使用空格填充至长度 width 的新字符串 |</p>
+<h4>5) 去除空白字符 - 3</h4>
+<p>| 方法 | 说明 |
+| --- | --- |
+| string.lstrip() | 截掉 string 左边（开始）的空白字符 |
+| string.rstrip() | 截掉 string 右边（末尾）的空白字符 |
+| string.strip() | 截掉 string 左右两边的空白字符 |</p>
+<h4>6) 拆分和连接 - 5</h4>
+<p>| 方法 | 说明 |
+| --- | --- |
+| string.partition(str) | 把字符串 string 分成一个 3 元素的元组 (str前面, str, str后面) |
+| string.rpartition(str) | 类似于 partition() 方法，不过是从右边开始查找 |
+| string.split(str=&quot;&quot;, num) | 以 str 为分隔符拆分 string，如果 num 有指定值，则仅分隔 num + 1 个子字符串，str 默认包含 '\r', '\t', '\n' 和空格 |
+| string.splitlines() | 按照行('\r', '\n', '\r\n')分隔，返回一个包含各行作为元素的列表 |
+| string.join(seq) | 以 string 作为分隔符，将 seq 中所有的元素（的字符串表示）合并为一个新的字符串 |</p>
+<h3>4.3 字符串的切片</h3>
+<ul>
+<li>
+<strong>切片</strong> 方法适用于 <strong>字符串<strong>、</strong>列表</strong>、<strong>元组</strong>
+<ul>
+<li><strong>切片</strong> 使用 <strong>索引值</strong> 来限定范围，从一个大的 <strong>字符串</strong> 中 <strong>切出</strong> 小的 <strong>字符串</strong></li>
+<li><strong>列表</strong> 和 <strong>元组</strong> 都是 <strong>有序</strong> 的集合，都能够 <strong>通过索引值</strong> 获取到对应的数据</li>
+<li><strong>字典</strong> 是一个 <strong>无序</strong> 的集合，是使用 <strong>键值对</strong> 保存数据</li>
+</ul>
+</li>
+</ul>
+<p><img src="media/14972568611505/006_%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B4%A2%E5%BC%95%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="006_字符串索引示意图" /></p>
+<p><code>字符串[开始索引:结束索引:步长]</code></p>
+<p><strong>注意</strong>：</p>
+<ol>
+<li>
+指定的区间属于 <strong>左闭右开</strong> 型 <code>[开始索引,  结束索引)</code> =&gt; <code>开始索引 &gt;= 范围 &lt; 结束索引</code>
+<ul>
+<li>从 <code>起始</code> 位开始，到 <strong><code>结束</code>位的前一位</strong> 结束（<strong>不包含结束位本身</strong>)</li>
+</ul>
+</li>
+<li>从头开始，<strong>开始索引</strong> <strong>数字可以省略，冒号不能省略</strong></li>
+<li>到末尾结束，<strong>结束索引</strong> <strong>数字可以省略，冒号不能省略</strong></li>
+<li>步长默认为 <code>1</code>，如果连续切片，<strong>数字和冒号都可以省略</strong></li>
+</ol>
+<h4>索引的顺序和倒序</h4>
+<ul>
+<li>在 Python 中不仅支持 <strong>顺序索引</strong>，同时还支持 <strong>倒序索引</strong></li>
+<li>
+所谓倒序索引就是 <strong>从右向左</strong> 计算索引
+<ul>
+<li>最右边的索引值是 <strong>-1</strong>，依次递减</li>
+</ul>
+</li>
+</ul>
+<p><strong>演练需求</strong></p>
+<ul>
+<li>1. 截取从 2 ~ 5 位置 的字符串</li>
+<li>2. 截取从 2 ~ <code>末尾</code> 的字符串</li>
+<li>3. 截取从 <code>开始</code> ~ 5 位置 的字符串</li>
+<li>4. 截取完整的字符串</li>
+<li>5. 从开始位置，每隔一个字符截取字符串</li>
+<li>6. 从索引 1 开始，每隔一个取一个</li>
+<li>7. 截取从 2 ~ <code>末尾 - 1</code> 的字符串</li>
+<li>8. 截取字符串末尾两个字符</li>
+<li>9. 字符串的逆序（面试题）</li>
+</ul>
+<p><strong>答案</strong></p>
+<p>```
+num_str = &quot;0123456789&quot;</p>
+<h1>1. 截取从 2 ~ 5 位置 的字符串</h1>
+<p>print(num_str[2:6])</p>
+<h1>2. 截取从 2 ~ <code>末尾</code> 的字符串</h1>
+<p>print(num_str[2:])</p>
+<h1>3. 截取从 <code>开始</code> ~ 5 位置 的字符串</h1>
+<p>print(num_str[:6])</p>
+<h1>4. 截取完整的字符串</h1>
+<p>print(num_str[:])</p>
+<h1>5. 从开始位置，每隔一个字符截取字符串</h1>
+<p>print(num_str[::2])</p>
+<h1>6. 从索引 1 开始，每隔一个取一个</h1>
+<p>print(num_str[1::2])</p>
+<h1>倒序切片</h1>
+<h1>-1 表示倒数第一个字符</h1>
+<p>print(num_str[-1])</p>
+<h1>7. 截取从 2 ~ <code>末尾 - 1</code> 的字符串</h1>
+<p>print(num_str[2:-1])</p>
+<h1>8. 截取字符串末尾两个字符</h1>
+<p>print(num_str[-2:])</p>
+<h1>9. 字符串的逆序（面试题）</h1>
+<p>print(num_str[::-1])</p>
+<p>```</p>
+<h2>05. 公共方法</h2>
+<h3>5.1 Python 内置函数</h3>
+<p>Python 包含了以下内置函数：</p>
+<p>| 函数 | 描述 | 备注 |
+| --- | --- | --- |
+| len(item) | 计算容器中元素个数 | |
+| del(item) | 删除变量 | del 有两种方式 |
+| max(item) | 返回容器中元素最大值 | 如果是字典，只针对 key 比较 |
+| min(item) | 返回容器中元素最小值 | 如果是字典，只针对 key 比较 |
+| cmp(item1, item2) | 比较两个值，-1 小于/0 相等/1 大于 | Python 3.x 取消了 cmp 函数 |</p>
+<p><strong>注意</strong></p>
+<ul>
+<li><strong>字符串</strong> 比较符合以下规则： &quot;0&quot; &lt; &quot;A&quot; &lt; &quot;a&quot;</li>
+</ul>
+<h3>5.2 切片</h3>
+<p>| 描述 | Python 表达式 | 结果 | 支持的数据类型 |
+| :---: | --- | --- | --- | --- |
+| 切片 | &quot;0123456789&quot;[::-2] | &quot;97531&quot; | 字符串、列表、元组 |</p>
+<ul>
+<li><strong>切片</strong> 使用 <strong>索引值</strong> 来限定范围，从一个大的 <strong>字符串</strong> 中 <strong>切出</strong> 小的 <strong>字符串</strong></li>
+<li><strong>列表</strong> 和 <strong>元组</strong> 都是 <strong>有序</strong> 的集合，都能够 <strong>通过索引值</strong> 获取到对应的数据</li>
+<li><strong>字典</strong> 是一个 <strong>无序</strong> 的集合，是使用 <strong>键值对</strong> 保存数据</li>
+</ul>
+<h3>5.3 运算符</h3>
+<p>| 运算符 | Python 表达式 | 结果 | 描述 | 支持的数据类型 |
+| :---: | --- | --- | --- | --- |
+| + | [1, 2] + [3, 4] | [1, 2, 3, 4] | 合并 | 字符串、列表、元组 |
+| * | [&quot;Hi!&quot;] * 4 | ['Hi!', 'Hi!', 'Hi!', 'Hi!'] | 重复 | 字符串、列表、元组 |
+| in | 3 in (1, 2, 3) | True | 元素是否存在 | 字符串、列表、元组、字典 |
+| not in | 4 not in (1, 2, 3) | True | 元素是否不存在 | 字符串、列表、元组、字典 |
+| &gt; &gt;= == &lt; &lt;= | (1, 2, 3) &lt; (2, 2, 3) | True | 元素比较 | 字符串、列表、元组 |</p>
+<p><strong>注意</strong></p>
+<ul>
+<li><code>in</code> 在对 <strong>字典</strong> 操作时，判断的是 <strong>字典的键</strong></li>
+<li><code>in</code> 和 <code>not in</code> 被称为 <strong>成员运算符</strong></li>
+</ul>
+<h4>成员运算符</h4>
+<p>成员运算符用于 <strong>测试</strong> 序列中是否包含指定的 <strong>成员</strong></p>
+<p>| 运算符 | 描述 | 实例 |
+| --- | --- | --- |
+| in | 如果在指定的序列中找到值返回 True，否则返回 False | <code>3 in (1, 2, 3)</code> 返回 <code>True</code> |
+| not in | 如果在指定的序列中没有找到值返回 True，否则返回 False | <code>3 not in (1, 2, 3)</code> 返回 <code>False</code> |</p>
+<p>注意：在对 <strong>字典</strong> 操作时，判断的是 <strong>字典的键</strong></p>
+<h3>5.4 完整的 for 循环语法</h3>
+<ul>
+<li>在 <code>Python</code> 中完整的 <code>for 循环</code> 的语法如下：</li>
+</ul>
+<p>```python
+for 变量 in 集合:</p>
+<pre><code>循环体代码
+</code></pre>
+
+<p>else:
+    没有通过 break 退出循环，循环结束后，会执行的代码
+```</p>
+<h4>应用场景</h4>
+<ul>
+<li>在 <strong>迭代遍历</strong> 嵌套的数据类型时，例如 <strong>一个列表包含了多个字典</strong></li>
+<li>
+需求：要判断 某一个字典中 是否存在 指定的 值 
+<ul>
+<li>如果 <strong>存在</strong>，提示并且退出循环</li>
+<li>如果 <strong>不存在</strong>，在 <strong>循环整体结束</strong> 后，希望 <strong>得到一个统一的提示</strong></li>
+</ul>
+</li>
+</ul>
+<p>```python
+students = [
+    {&quot;name&quot;: &quot;阿土&quot;,
+     &quot;age&quot;: 20,
+     &quot;gender&quot;: True,
+     &quot;height&quot;: 1.7,
+     &quot;weight&quot;: 75.0},
+    {&quot;name&quot;: &quot;小美&quot;,
+     &quot;age&quot;: 19,
+     &quot;gender&quot;: False,
+     &quot;height&quot;: 1.6,
+     &quot;weight&quot;: 45.0},
+]</p>
+<p>find_name = &quot;阿土&quot;</p>
+<p>for stu_dict in students:</p>
+<pre><code>print(stu_dict)
+
+# 判断当前遍历的字典中姓名是否为find_name
+if stu_dict[&quot;name&quot;] == find_name:
+    print(&quot;找到了&quot;)
+
+    # 如果已经找到，直接退出循环，就不需要再对后续的数据进行比较
+    break
+</code></pre>
+
+<p>else:
+    print(&quot;没有找到&quot;)</p>
+<p>print(&quot;循环结束&quot;)</p>
+<p>```</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
