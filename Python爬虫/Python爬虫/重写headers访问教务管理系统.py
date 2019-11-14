@@ -1,5 +1,5 @@
 import requests
-url = ("http://jw.xhsysu.edu.cn/")
+url = ("i dont know")
 try:
     #kv = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0'}
     #r = requests.get(url,headers=kv)
