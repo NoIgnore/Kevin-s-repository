@@ -79,9 +79,7 @@ class Copied_from_somewhere{
         $flag = 1;
     
 }
-
 }
-
 $a = new Deep;
 echo serialize($a)."<br />";
 #echo urlencode(serialize($a))."<br />";
