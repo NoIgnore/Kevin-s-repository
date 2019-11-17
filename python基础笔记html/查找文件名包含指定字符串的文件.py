@@ -15,15 +15,15 @@ if __name__ == '__main__':
    search(os.path.abspath('.'),'check.txt')
    search(os.path.abspath('.'),'偏函数进制转换.py')
    search(os.path.abspath('.'),'day07_markdown')
+   search(os.path.abspath('.'),'check2.txt')
    if '12' in '123':
        print("1")
-'''
-编译成功
-PS C:\Users\Desktop\C和C++和Php\python基础笔记html> & "C:/Program Files (x86)/Microsoft Visual Studio/Shared/Python37_64/python.exe" 
-c:/Users/Desktop/C和C++和Php/python基础笔记html/查找文件名包含指定字符串的文件.py
+#编译成功
+#PS C:\Users\Desktop\C和C++和Php\python基础笔记html> & "C:/Program Files (x86)/Microsoft Visual Studio/Shared/Python37_64/python.exe" 
+#c:/Users/Desktop/C和C++和Php/python基础笔记html/查找文件名包含指定字符串的文件.py
 
-C:\Users\Desktop\C和C++和Php\python基础笔记html\python基础笔记html1\day07_markdown\check.txt
-C:\Users\Desktop\C和C++和Php\python基础笔记html\偏函数进制转换.py
-C:\Users\Desktop\C和C++和Php\python基础笔记html\python基础笔记html1\day07_markdown
-1
-'''
+#C:\Users\Desktop\C和C++和Php\python基础笔记html\python基础笔记html1\day07_markdown\check.txt
+#C:\Users\Desktop\C和C++和Php\python基础笔记html\偏函数进制转换.py
+#C:\Users\Desktop\C和C++和Php\python基础笔记html\python基础笔记html1\day07_markdown
+#C:\Users\Desktop\C和C++和Php\python基础笔记html\python基础笔记html1\day07_markdown\day07\media7\14993074876434\check2.txt
+#1
