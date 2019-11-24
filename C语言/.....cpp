@@ -10,6 +10,6 @@ int main()
 	if (bill>=price){
 	printf("应该找您%d元\n", bill-price) ;
 }
-    printf("钱不够你买尼马呢！"); 
+    printf("钱不够！"); 
 	return 0;
  } 
