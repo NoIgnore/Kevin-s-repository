@@ -117,7 +117,7 @@ Node* Hsah::findnum(char* pnum)//按号码查找
 	}
 	if (p)
 	{
-		cout << p->name << "　" << p->num << " " << p->address << endl;
+		cout << p->name << "_" << p->address << "_" << p->num << endl;
 	}
 	else
 	{
@@ -134,15 +134,15 @@ Node* Hsah::findname(char* pname)//按姓名查找
 	while (p != nullptr)
 	{
 		if (strcmp(pname, p->name) == 0)
-// strcmp函数是string compare(字符串比较)的缩写，用于比较两个字符串并根据比较结果返回整数。
-// 本形式为strcmp(str1,str2)，
-// 若str1=str2，则返回零；若str1<str2，则返回负数；若str1>str2，则返回正数。
+			// strcmp函数是string compare(字符串比较)的缩写，用于比较两个字符串并根据比较结果返回整数。
+			// 本形式为strcmp(str1,str2)，
+			// 若str1=str2，则返回零；若str1<str2，则返回负数；若str1>str2，则返回正数。
 			break;
 		p = p->pNext;
 	}
 	if (p)
 	{
-		cout << p->name << "　" << p->num << " " << p->address << endl;
+		cout << p->name << "_" << p->address << "_" << p->num << endl;
 	}
 	else
 	{
@@ -165,13 +165,7 @@ void  Hsah::showphone()
 			Node* p = phone[i].pNext; //还是phone[i].pNext部位空
 			while (p)
 			{
-
-
-				cout << "姓名：" << p->name << endl;
-				cout << "电话号码：" << p->num << endl;
-				cout << "住宅地址：" << p->address << endl;
-
-
+				cout << p->name << "_" << p->address << "_" << p->num << endl;
 				p = p->pNext;
 			}
 		}
@@ -193,9 +187,7 @@ void  Hsah::showname()
 			Node* p = nam[i].pNext; //还是nam[i].pNext部位空
 			while (p)
 			{
-				cout << "姓名：" << p->name << endl;
-				cout << "电话号码：" << p->num << endl;
-				cout << "住宅地址：" << p->address << endl;
+				cout << p->name << "_" << p->address << "_" << p->num << endl;
 				p = p->pNext;
 			}
 
