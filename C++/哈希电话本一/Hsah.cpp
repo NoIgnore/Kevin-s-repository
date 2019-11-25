@@ -3,7 +3,7 @@ Hsah::Hsah()
 {
 	this->phone = new Node[20]; //分配数组空间存储哈希表
 	this->nam = new Node[20];
-	for (int i = 0; i < 20; i++)   // 将指针滞空
+	for (int i = 0; i < 20; i++)   // 将哈希表的所有next指针滞空
 	{
 		this->phone[i].pNext = nullptr;
 		this->nam[i].pNext = nullptr;
@@ -40,7 +40,7 @@ int Hsah::hashname(char* name) //姓名的散列表函数
 		key += int(name[i]);
 		i++;
 	}
-	return abs(key % 20); //abs函数保证key为正值
+	return abs(key % 20); //abs为绝对值函数保证key为正值
 }
 Node* Hsah::push(char* pname, char* add, char* pnum)//分配存储空间
 {
@@ -73,14 +73,14 @@ void Hsah::append(char* pname, char* add, char* pnum)
 	newphone = push(pname, add, pnum);
 	newname = push(pname, add, pnum);
 	newphone->pNext = nullptr;
-	newname->pNext = nullptr;
+	newname->pNext = nullptr;//我寻思push里不是已经置空了吗
 
-	if (phone[hashphone(pnum)].pNext == nullptr)
+	if (phone[hashphone(pnum)].pNext == nullptr)//这是phone的链地址指针吧
 	{
 		newphone->pNext = phone[hashphone(pnum)].pNext;
 		phone[hashphone(pnum)].pNext = newphone;
 	}
-	else
+	else//如果相同哈希值的地址的next指针非空，就新建一个p指针跑到空，然后将newphone追加到末尾
 	{
 		Node* p = phone[hashphone(pnum)].pNext;
 		while (p->pNext != nullptr)
@@ -90,7 +90,7 @@ void Hsah::append(char* pname, char* add, char* pnum)
 		p->pNext = newphone;
 	}
 
-	if (nam[hashname(pname)].pNext == nullptr)
+	if (nam[hashname(pname)].pNext == nullptr)//这是name的链地址指针吧
 	{
 		newname->pNext = nam[hashname(pname)].pNext;
 		nam[hashname(pname)].pNext = newname;
@@ -125,7 +125,6 @@ Node* Hsah::findnum(char* pnum)//按号码查找
 		return nullptr;
 	}
 
-
 	return p;
 }
 
@@ -135,6 +134,9 @@ Node* Hsah::findname(char* pname)//按姓名查找
 	while (p != nullptr)
 	{
 		if (strcmp(pname, p->name) == 0)
+// strcmp函数是string compare(字符串比较)的缩写，用于比较两个字符串并根据比较结果返回整数。
+// 本形式为strcmp(str1,str2)，
+// 若str1=str2，则返回零；若str1<str2，则返回负数；若str1>str2，则返回正数。
 			break;
 		p = p->pNext;
 	}
