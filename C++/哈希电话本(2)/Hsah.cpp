@@ -18,9 +18,6 @@ Hsah::~Hsah()
 
 int Hsah::hashphone(char* num) //电话号码散列表函数
 {
-	// if(num==nullptr)
-	// {
-	// }
 	int key = 0;
 	while (*num != '\0')
 	{
@@ -37,7 +34,7 @@ int Hsah::hashname(char* name) //姓名的散列表函数
 	int i = 0;
 	while (name[i] != NULL)
 	{
-		key += int(name[i]);
+		key += int(name[i]);//将字母转化为ASCII码表的数字
 		i++;
 	}
 	return abs(key % 20); //abs为绝对值函数保证key为正值
@@ -90,7 +87,7 @@ void Hsah::append(char* pname, char* add, char* pnum)
 		p->pNext = newphone;
 	}
 
-	if (nam[hashname(pname)].pNext == nullptr)//这是name的链地址指针吧
+	if (nam[hashname(pname)].pNext == nullptr)//这是name的链地址指针
 	{
 		newname->pNext = nam[hashname(pname)].pNext;
 		nam[hashname(pname)].pNext = newname;
@@ -111,7 +108,7 @@ Node* Hsah::findnum(char* pnum)//按号码查找
 	Node* p = phone[hashphone(pnum)].pNext;
 	while (p != nullptr)
 	{
-		if (strcmp(pnum, p->num) == 0)
+		if (strcmp(pnum, p->num) == 0)//这是比较函数，相同返回0
 			break;
 		p = p->pNext;
 	}

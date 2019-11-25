@@ -8,7 +8,12 @@ struct Node
 	char* num;//电话
 	Node* pNext;
 };
-
+/*在c++里很简单，直接
+　　　　struct Student
+　　　　{
+　　　　    int a;
+　　　　};　　　　
+　　　　于是就定义了结构体类型Student，声明变量时直接Student stu2；*/
 class Hsah
 {
 private:
