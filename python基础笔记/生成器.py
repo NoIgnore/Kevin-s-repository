@@ -18,3 +18,9 @@ for title in generator_2(titles):
 for title in titles:　# 等价于yield from titles
     yield title 
 '''
+def generator_3():
+	for n in range(101):
+		yield n
+a = generator_3()
+print(next(a))
+print(next(a))
