@@ -3,7 +3,7 @@ import re
 
 def main():
     content = 'abc124hello46goodbye67shit'
-    list1 = re.findall(r'\d+', content)
+    list1 = re.findall(r'\d+', content)#\d表示数字，+表示至少一次
     print(list1)
     mylist = list(map(int, list1))
     print(mylist)

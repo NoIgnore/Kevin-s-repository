@@ -85,8 +85,8 @@ results = re.findall('<li.*?"cover".*?href="(.*?)" title="(.*?)">.*?author">(.*?
 '''
 这个是re.S的使用
 import re
-a = """sdfkhellolsdlfsdfiooefo:
-877898989worldafdsf"""
+a = 'sdfkhellolsdlfsdfiooefo:
+877898989worldafdsf'
 b = re.findall('hello(.*?)world',a)
 c = re.findall('hello(.*?)world',a,re.S)
 print ('b is ' , b)
@@ -95,7 +95,8 @@ print ('c is ' , c)
  
 # 输出结果：
 # b is  []
-# #c is  ['lsdlfsdfiooefo:\n877898989']'''
+# #c is  ['lsdlfsdfiooefo:\n877898989']
+'''
 
 def generator_3():
 	for n in range(101):
@@ -104,12 +105,12 @@ a = generator_3()
 
 next(a)
 
-#print(results)这个有点乱，还是别打印了
+print(results)#这个有点乱，还是别打印了
 print("")
 for result in results:
     url,name,author,date = result
-    author = re.sub('\s','',author)
-    date = re.sub('\s','',date)
+    author = re.sub('\s','',author)#\s表示匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。注意 Unicode 正则表达式会匹配全角空格符。
+    date = re.sub('\s','',date)#' '中间的空格参数表示要替代\s匹配的字符，date表示范围内容
     print(next(a),url,name,author,date)
 '''
 1 https://book.douban.com/subject/33474599/?icn=index-latestbook-subject 我们的时代 [美]欧内斯特·海明威 2019-12
