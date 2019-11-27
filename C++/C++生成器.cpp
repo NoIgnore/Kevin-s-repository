@@ -35,6 +35,7 @@ void next_hanshu(SC *a) {
 	cout << a->zhizhen->data << endl;
 	a->zhizhen++;
 }
+
 int main() {
 	SC u(3);
 	next_hanshu(&u);
