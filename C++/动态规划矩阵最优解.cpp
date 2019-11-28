@@ -47,30 +47,20 @@ int minvalue(int n, int** m, int* p) {
      m[4:6]=min(m[4:4]+m[5:6]+p[3]*p[4]*p[6],m[4:5]+m[6:6]+p[3]*p[5]*p[6]);
 */
 int main() {
-    int n=7, o, g;
-    /*
+    int n, o, g;
+    cout << "请输入矩阵的个数n" << endl;
     cin >> n;
-    int* p = new int[n];
-    for (int i = 0; i < n; i++) {
+    cout << "请输入n+1个值 " << endl;
+    int* p = new int[n + 1];
+    for (int i = 0; i < n + 1; i++) {
         cin >> p[i];
-    }*/
-    int p[7] = { 30,35,15,5,10,20,25 };
+    }
     int** m = new int* [n + 1];
     for (int i = 0; i <= n; i++)
     {
-        m[i] = new int[n + 1];//二维数组：每一行都分配七列
+        m[i] = new int[n + 1];
     }
-    // for (int i = 0; i <= n; i++)//初始化所有值，全部归零
-    // {
-    //  for (int j = 0; j <= n; j++)
-    //  {
-    //      m[i][j] = 0;
-    //  }
-    // }
-    // o = 1;
-    // g = 4;
-
-    cout << minvalue(n-1, m, p);//n-1个矩阵
+    cout << minvalue(n, m, p);
 }
 /*{50,10,40,30,5};
 矩阵的最少计算次数为：10500
