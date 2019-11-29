@@ -39,7 +39,7 @@ int main() {
 	while (i <= the_end)
 	{
 		if (newpoint->live == 1) {
-			if (j == 1) {
+			if (j == 1) {//这是从已死亡的人移过来的
 				i++;
 				if (i % 3 == 0) {
 					cout << newpoint->id << "--" << i << "--" << i / 3 << endl;//输出死亡id
