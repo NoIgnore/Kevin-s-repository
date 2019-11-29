@@ -41,8 +41,8 @@ int main() {
 		if (newpoint->live == 1) {
 			if (j == 1) {//这是从已死亡的人移过来的
 				i++;
-				if (i % 3 == 0) {
-					cout << newpoint->id << "--" << i << "--" << i / 3 << endl;//输出死亡id
+				if (i % c == 0) {
+					cout << newpoint->id << "--" << i << "--" << i / c << endl;//输出死亡id
 					newpoint->live = 0;
 					newpoint = newpoint->next;
 					if (newpoint->live == 1) {
@@ -53,8 +53,8 @@ int main() {
 				newpoint = newpoint->next;
 				if (newpoint->live == 1) {
 					i++;
-					if (i % 3 == 0) {
-						cout << newpoint->id << "--" << i << "--" << i / 3 << endl;//输出死亡id
+					if (i % c == 0) {
+						cout << newpoint->id << "--" << i << "--" << i / c << endl;//输出死亡id
 						newpoint->live = 0;
 						newpoint = newpoint->next;
 						if (newpoint->live == 1) {
@@ -68,8 +68,8 @@ int main() {
 					i++;
 				}
 				newpoint = newpoint->next;
-				if (i % 3 == 0) {
-					cout << newpoint->id << "--" << i << "--" << i / 3 << endl;//输出死亡id
+				if (i % c == 0) {
+					cout << newpoint->id << "--" << i << "--" << i / c << endl;//输出死亡id
 					newpoint->live = 0;
 					if (newpoint->next->live == 1) {
 						i++;
