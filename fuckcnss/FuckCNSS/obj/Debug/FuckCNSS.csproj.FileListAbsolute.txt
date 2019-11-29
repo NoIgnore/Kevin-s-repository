@@ -1,9 +1,0 @@
-C:\Users\q6q64399\source\repos\FuckCNSS\FuckCNSS\bin\Debug\FuckCNSS.exe.config
-C:\Users\q6q64399\source\repos\FuckCNSS\FuckCNSS\bin\Debug\FuckCNSS.exe
-C:\Users\q6q64399\source\repos\FuckCNSS\FuckCNSS\bin\Debug\FuckCNSS.pdb
-C:\Users\q6q64399\source\repos\FuckCNSS\FuckCNSS\obj\Debug\FuckCNSS.csprojAssemblyReference.cache
-C:\Users\q6q64399\source\repos\FuckCNSS\FuckCNSS\obj\Debug\FuckCNSS.Properties.Resources.resources
-C:\Users\q6q64399\source\repos\FuckCNSS\FuckCNSS\obj\Debug\FuckCNSS.csproj.GenerateResource.cache
-C:\Users\q6q64399\source\repos\FuckCNSS\FuckCNSS\obj\Debug\FuckCNSS.csproj.CoreCompileInputs.cache
-C:\Users\q6q64399\source\repos\FuckCNSS\FuckCNSS\obj\Debug\FuckCNSS.exe
-C:\Users\q6q64399\source\repos\FuckCNSS\FuckCNSS\obj\Debug\FuckCNSS.pdb
