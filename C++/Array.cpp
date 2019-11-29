@@ -1,4 +1,4 @@
-#include<iostream>//写个队列queue
+#include<iostream>//写个队列array
 using namespace std;
 int main() {
 	int n;
