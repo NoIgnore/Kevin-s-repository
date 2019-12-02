@@ -11,7 +11,7 @@
 // 3
 // [Finished in 0.1s]
 // '''
-//python可以用yield实现简单的实现生成器，于是乎想到了用C++实现伪生成器的底层代码
+//python可以用yield实现简单的生成器，于是乎想到了用C++实现伪生成器的底层代码
 #include<iostream>
 using namespace std;
 struct jiegouti
