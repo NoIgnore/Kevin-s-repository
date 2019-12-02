@@ -1,3 +1,17 @@
+// def generator1():
+// 	for i in range(100):
+// 		yield i+1
+// a = generator1()
+// print(next(a))
+// print(next(a))
+// print(next(a))
+// '''
+// 1
+// 2
+// 3
+// [Finished in 0.1s]
+// '''
+//python可以用yield实现简单的实现生成器，于是乎想到了用C++实现伪生成器的底层代码
 #include<iostream>
 using namespace std;
 struct jiegouti
