@@ -10,3 +10,5 @@ def output_programme:
 
 - First item 
 - Second item
+
+**［mkφ(q)］φ(p)≡1 mod q**
