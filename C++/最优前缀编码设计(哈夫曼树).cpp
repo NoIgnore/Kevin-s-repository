@@ -9,7 +9,7 @@ using namespace std;
 struct HuffTree			//树结点结构体
 {
 	char data = 'q';				//数据：字符
-	int weight = 0 ;				//权值
+	int weight = 0;				//权值
 	HuffTree* left = NULL, * right = NULL;	//左右子树
 };
 
@@ -82,7 +82,8 @@ HuffTree* GetFinalTree()
 	//}
 	while (Huff.size() > 1)				//Huff内不止一棵树的时候
 	{
-		sort(Huff.begin(), Huff.end(), SortCmp);	//把最小的树排序到前面
+		sort(Huff.begin(), Huff.end(), SortCmp);	//把最小的树排序到前面，这里不知道为啥默认了把相同权重值，
+		//但带子节点的树放在后面了
 		HuffTree* t1, * t2;
 		t1 = Huff.front();
 		Huff.erase(Huff.begin());//erase是消除的意思
@@ -122,7 +123,7 @@ void Decode(HuffTree* t, string s)
 	}
 	else
 	{
-		char front = s.front();					//有孩子且还有01字符串时，去掉首字符，继续遍历
+		char front = s.front();             //有孩子且还有01字符串时，去掉首字符，继续遍历
 		s.erase(s.begin());
 		//首字符为0向左，首字符为1向右
 		Decode((front == '0' ? t->left : t->right), s);
@@ -151,9 +152,10 @@ void Decode(HuffTree* t, string s)
 //功能：
 //
 //返回当前vector容器中起始元素的引用。
+/*
 void FileAction()
 {
-	fstream f("D:\\test.txt", ios::out);			//打开文件，若不存在便创建
+	fstream f("C:\\Users\\12091\\Desktop\\test.txt", ios::out);			//打开文件，若不存在便创建
 	if (!f)
 	{
 		cout << "FileError!! Can't read and write file 'test.txt'!!";	//打不开文件即退出函数
@@ -167,7 +169,7 @@ void FileAction()
 	f.close();
 	cout << "结果已保存至——'test.txt'!" << endl;
 }
-
+*/
 void Results()
 {
 	sort(HuffDic.begin(), HuffDic.end());					//将小的字符排在前，进行打印
@@ -179,7 +181,7 @@ void Results()
 	cout << "请输入欲编码的字符串:";
 	//cin >> test;
 	char c[100] = { 0 };
-	//getchar();
+	getchar();
 	cin.getline(c, 100);				//getline以输入带空格的字符串
 	string test(c, c + 100);
 	int sym = 0;
@@ -204,7 +206,7 @@ void Results()
 	}
 	if (sym)
 		cout << "字符串中有未编码字符，编码结果可能错误";
-	cout << endl << "请输入欲解码的01编码:" << endl;
+	cout << endl << "请输入欲解码的01编码: ";
 	cin >> test;
 	Decode(FinalTree, test);				//输入编码，进行解码
 	cout << DecodeStr << endl;
@@ -216,6 +218,52 @@ int main()
 	FinalTree = GetFinalTree();
 	Encode(FinalTree, "");
 	Results();
-	FileAction();
+	//FileAction();
 	return 0;
 }
+/*
+请输入数据组数:4
+第1组(字母，权值) : A
+10
+第2组(字母，权值) : B
+20
+第3组(字母，权值) : C
+30
+第4组(字母，权值) : D
+40
+是否输入空格' '的权值？如果是，请输入正整数；如果否，请输入负数 : -1
+哈夫曼编码 :
+	A——110
+	B——111
+	C——10
+	D——0
+	请输入欲编码的字符串 : B
+	111
+	请输入欲解码的01编码 : 110
+	A
+	结果已保存至——'test.txt'!
+
+	Project2.exe(进程 11736)已退出，返回代码为: 0。
+	按任意键关闭此窗口...
+*/
+//---------------------------------------------------------------------------------------------------------------
+/*请输入数据组数:3
+第1组(字母，权值):A
+13
+第2组(字母，权值):B
+24
+第3组(字母，权值):C
+45
+是否输入空格' '的权值？如果是，请输入正整数；如果否，请输入负数:-1
+哈夫曼编码:
+A——00
+B——01
+C——1
+请输入欲编码的字符串:A
+00
+请输入欲解码的01编码: 1
+C
+
+Project2.exe (进程 16052)已退出，返回代码为: 0。
+按任意键关闭此窗口...
+*/
