@@ -3,8 +3,7 @@
 
 #include "SpriteBase.h"
 
-class CUsrSprite :
-	public SpriteBase
+class CUsrSprite :public SpriteBase
 	{
 		int score;
 	public:
