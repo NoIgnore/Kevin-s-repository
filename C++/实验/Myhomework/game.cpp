@@ -7,7 +7,7 @@
 #include<time.h>
 #include<stdio.h>
 
-using namespace std ;
+using namespace std;
 
 const int winWidth = 960, winHeight = 800,width1=102,height1=126;
 const int width2=57,height2=43;
@@ -136,8 +136,8 @@ void timerEvent(int id)
 				}
 			}
 
-			//先不设定usr和敌机的碰撞
-			/*for (int i = 0; i < nowNum; ++i)
+			/*先不设定usr和敌机的碰撞
+			for (int i = 0; i < nowNum; ++i)
 			{
 				if (autosprite[i])
 				{
@@ -204,7 +204,7 @@ void timerEvent(int id)
 				}
 			}
 			break;
-		case 4://这个是Y坐标小于0时清空
+		case 4://这个是Y坐标小于0时所有子弹清空，加上一个补给大于窗口y轴就消除
 			for(int i=0;i< bullet_num;++i)
 			{
 				int k = 1;
