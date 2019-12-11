@@ -63,14 +63,14 @@ int Setup()
 	createSprite(&usr);
 	registerTimerEvent(timerEvent);
 	registerKeyboardEvent(keyEvent);
-	startTimer(0,500);
-	startTimer(1,10);
-	startTimer(2,20000);
-	startTimer(3,5);
-	startTimer(4,300);
-	startTimer(5,5000);
-	startTimer(6,5);
-	startTimer(7,5);
+	startTimer(0,500);//初始化敌机
+	startTimer(1,5);//移动的绘画&补给碰撞的检测
+	startTimer(2,20000);//产生小子弹
+	startTimer(3,5);//查看小子弹是否碰撞
+	startTimer(4,4);//这个是Y坐标小于0时所有子弹清空，加上一个补给大于窗口y轴就消除
+	startTimer(5,5000);//5秒一个大子弹补给
+	startTimer(6,5);//查看是否发射大子弹
+	startTimer(7,5);//查看大子弹是否碰撞
 
 	paint();
 	return 0;
@@ -98,6 +98,7 @@ void timerEvent(int id)
 				nowNum++;
 			}
 			break;
+
 		case 1:
 			for (int i = 0; i < nowNum; ++i)
 			{
@@ -134,6 +135,22 @@ void timerEvent(int id)
 					bigbullet[h]->move(ur);
 				}
 			}
+
+			//先不设定usr和敌机的碰撞
+			/*for (int i = 0; i < nowNum; ++i)
+			{
+				if (autosprite[i])
+				{
+					if (usr->collision(autosprite[i]->getRect()))
+					{
+						int s = autosprite[i]->getScore();
+						if (usr)usr->addScore(s);
+						delete(autosprite[i]);
+						autosprite[i] = NULL;
+					}
+				}
+			}*/
+
 			for (int i = 0; i < supply_now; ++i)
 			{
 				if (supply[i])
@@ -187,7 +204,7 @@ void timerEvent(int id)
 				}
 			}
 			break;
-		case 4:
+		case 4://这个是Y坐标小于0时清空
 			for(int i=0;i< bullet_num;++i)
 			{
 				int k = 1;
@@ -204,6 +221,41 @@ void timerEvent(int id)
 					bullet[i]=NULL;
 				}
 			}
+
+			for(int i=0;i<bigbullet_now_number;++i)
+			{
+				int k=1;
+				if(bigbullet[i])
+				{
+					if(bigbullet[i]->y<0)
+					{
+						k=0;
+					}
+				}
+				if(k!=1)
+				{
+					delete(bigbullet[i]);
+					bigbullet[i]=NULL;
+				}
+			}
+
+			for(int i=0;i<supply_now;i++)
+			{
+				int k=1;
+				if(supply[i])
+				{
+					if(supply[i]->y>692)//800-107-1
+					{
+						k=0;
+					}
+				}
+				if(k!=1)
+				{
+					delete(supply[i]);
+					supply[i]=NULL;
+				}
+			}
+
 			break;
 		case 5:
 			if(supply_now>=supply_number) return;
@@ -283,7 +335,7 @@ void paint()
 			autosprite[i]->drawSprite();
 		}
 	}
-	
+
 	for(i=0;i<bullet_num;++i)
 	{
 		if(bullet[i])
