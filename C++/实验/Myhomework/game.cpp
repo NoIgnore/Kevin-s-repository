@@ -1,6 +1,6 @@
 #include"acllib.h"
 #include"Bullet.h"
-#include"BigbulletSprite.h"
+//#include"BulletSprite.h"
 #include"UsrSprite.h"
 #include"AutoSprite.h"
 #include"Enemy2Sprite.h"
@@ -23,7 +23,7 @@ const int supply_number = 100;
 CAutoSprite* autosprite[maxNum] = { 0 };
 CAutoSprite* supply[supply_number] = { 0 };
 BulletSprite* bullet[Bulletnumber] = { 0 };
-BigbulletSprite* bigbullet[max_bigbullet_number] = { 0 };
+BulletSprite* bigbullet[max_bigbullet_number] = { 0 };
 CUsrSprite* usr = NULL;
 
 int usrWidth = width1, usrHeight = height1;
@@ -136,8 +136,8 @@ void timerEvent(int id)
 				}
 			}
 
-			/*先不设定usr和敌机的碰撞
-			for (int i = 0; i < nowNum; ++i)
+			//先不设定usr和敌机的碰撞
+			/*for (int i = 0; i < nowNum; ++i)
 			{
 				if (autosprite[i])
 				{
@@ -271,7 +271,7 @@ void timerEvent(int id)
 			break;
 		case 6:
 			if(if_get_supply == 0) return;
-			bigbullet[bigbullet_now_number] = new BigbulletSprite(usr->x + 20, usr->y, width_bigbullet, height_bigbullet, 0, 10, &imgbigbullet, winRect);
+			bigbullet[bigbullet_now_number] = new BulletSprite(usr->x + 20, usr->y, width_bigbullet, height_bigbullet, 0, 10, &imgbigbullet, winRect);
 			if (bigbullet[bigbullet_now_number]) {
 				bigbullet_now_number++;
 			}
