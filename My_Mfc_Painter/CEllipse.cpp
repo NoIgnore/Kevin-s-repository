@@ -4,12 +4,20 @@
 void CEllipse::OnDraw(CDC* pDC)
 {
 	pDC->Ellipse(m_rect);
+	if (m_type == selecting) {
+		CPoint& p1 = m_rect.TopLeft();
+		CPoint& p2 = m_rect.BottomRight();
+		int a = (p2.x + p1.x) / 2;
+		int b = (p2.y + p1.y) / 2;
+		pDC->FillSolidRect(a, b, 6, 6, GetSysColor(COLOR_HIGHLIGHT));
+	}
 }
 
 void CEllipse::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	m_rect.BottomRight() = point;
 	m_rect.NormalizeRect();
+	m_type = normal;
 }
 
 void CEllipse::OnLButtonDown(UINT nFlags, CPoint point)
@@ -27,11 +35,23 @@ void CEllipse::OnMouseMove(UINT nFlags, CPoint point, CDC* pDC)
 
 		if (m_rect.right != MAXLONG)
 		{
-			pDC->Rectangle(m_rect);
+			pDC->Ellipse(m_rect);
 		}
 		m_rect.BottomRight() = point;
-		pDC->Rectangle(m_rect);
+		pDC->Ellipse(m_rect);
 	}
+}
+
+void CEllipse::SelectLayer(UINT nFlags, CPoint point)
+{
+	m_type = m_rect.PtInRect(point) ? selecting : normal;
+	my_point_selected = point;
+
+}
+
+void CEllipse::Offset(CPoint ptoffset)
+{
+	m_rect.OffsetRect(ptoffset);
 }
 
 CEllipse::CEllipse():m_rect(MAXLONG, MAXLONG, MAXLONG, MAXLONG)

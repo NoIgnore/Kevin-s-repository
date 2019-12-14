@@ -16,6 +16,8 @@
 #include "Cline.h"
 #include"CEllipse.h"
 #include"CRectangle.h"
+#include "CPencil.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -41,6 +43,8 @@ BEGIN_MESSAGE_MAP(CMFC222View, CView)
 	ON_UPDATE_COMMAND_UI(ID_DRAW_LINE, &CMFC222View::OnUpdateDrawLine)
 	ON_COMMAND(ID_DRAW_RECT, &CMFC222View::OnDrawRect)
 	ON_UPDATE_COMMAND_UI(ID_DRAW_RECT, &CMFC222View::OnUpdateDrawRect)
+	ON_COMMAND(ID_DRAW_PENCIL, &CMFC222View::OnDrawPencil)
+	ON_UPDATE_COMMAND_UI(ID_DRAW_PENCIL, &CMFC222View::OnUpdateDrawPencil)
 END_MESSAGE_MAP()
 
 // CMFC222View 构造/析构
@@ -51,8 +55,36 @@ CMFC222View::CMFC222View()
 	m_nIndex = ID_DRAW_ARROW;
 }
 
+void CMFC222View::SelectLayer(UINT nFlags, CPoint point)
+{
+	int i = 0, nSize = m_ls.GetSize();
+	while (i < nSize) {
+		m_ls[i++]->SelectLayer(nFlags, point);
+	}
+	Invalidate(true);
+}
+
+void CMFC222View::SelectEnd(UINT nFlags, CPoint point)
+{
+	CLayer* player = NULL;
+	int i = 0, nSize = m_ls.GetSize();
+	while (i < nSize) 
+	{
+		player = m_ls[i++];
+		if (player->m_type == CLayer::selecting) 
+		{
+			player->Offset(point - player->my_point_selected);
+		}
+	}
+	Invalidate(TRUE);
+}
+
 CMFC222View::~CMFC222View()
 {
+	int i = 0, nSize = m_ls.GetSize();
+	while (i < nSize) {
+		delete m_ls[i++];
+	}
 }
 
 BOOL CMFC222View::PreCreateWindow(CREATESTRUCT& cs)
@@ -132,6 +164,11 @@ CMFC222Doc* CMFC222View::GetDocument() const // 非调试版本是内联的
 
 void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	if (ID_DRAW_ARROW == m_nIndex )
+	{
+		SelectLayer(nFlags, point);
+		return;
+	}
 	CLayer* player = NULL;
 	switch (m_nIndex)
 	{
@@ -147,6 +184,10 @@ void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 		player = new CRectangle;
 		break;
 
+	
+	case ID_DRAW_PENCIL:
+		player = new CPencil;
+		break;
 	}
 	if (player)
 	{
@@ -165,6 +206,11 @@ void CMFC222View::OnLButtonUp(UINT nFlags, CPoint point)
 {
 
 	CView::OnLButtonUp(nFlags, point);
+	if (ID_DRAW_ARROW == m_nIndex)
+	{
+		SelectEnd(nFlags, point);
+		return;
+	}
 	int nSize = m_ls.GetSize();
 	if (!nSize)return;
 	m_ls[nSize-1]->OnLButtonUp(nFlags, point);
@@ -175,7 +221,10 @@ void CMFC222View::OnLButtonUp(UINT nFlags, CPoint point)
 
 void CMFC222View::OnMouseMove(UINT nFlags, CPoint point)
 {
-	
+	if (ID_DRAW_ARROW == m_nIndex) 
+	{	
+		return;
+	}
 	CView::OnMouseMove(nFlags, point);
 	int nSize = m_ls.GetSize();
 	if (nSize<=0)return;
@@ -233,4 +282,16 @@ void CMFC222View::OnDrawRect()
 void CMFC222View::OnUpdateDrawRect(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_nIndex == ID_DRAW_RECT);
+}
+
+
+void CMFC222View::OnDrawPencil()
+{
+	m_nIndex = ID_DRAW_PENCIL;
+}
+
+
+void CMFC222View::OnUpdateDrawPencil(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(m_nIndex == ID_DRAW_PENCIL);
 }

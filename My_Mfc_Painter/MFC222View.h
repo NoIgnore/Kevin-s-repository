@@ -13,6 +13,8 @@ protected: // 仅从序列化创建
 	CMFC222View();// noexcept;
 	DECLARE_DYNCREATE(CMFC222View)
 	UINT m_nIndex;
+	void SelectLayer(UINT nFlags, CPoint point);
+	void SelectEnd(UINT nFlags, CPoint point);
 // 特性
 public:
 	CMFC222Doc* GetDocument() const;
@@ -55,6 +57,8 @@ public:
 	afx_msg void OnUpdateDrawLine(CCmdUI* pCmdUI);
 	afx_msg void OnDrawRect();
 	afx_msg void OnUpdateDrawRect(CCmdUI* pCmdUI);
+	afx_msg void OnDrawPencil();
+	afx_msg void OnUpdateDrawPencil(CCmdUI* pCmdUI);
 };
 
 #ifndef _DEBUG  // MFC222View.cpp 中的调试版本
