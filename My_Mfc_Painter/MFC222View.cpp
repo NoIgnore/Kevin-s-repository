@@ -59,10 +59,19 @@ CMFC222View::CMFC222View()
 
 void CMFC222View::SelectLayer(UINT nFlags, CPoint point)
 {
+	/*CMFC222Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);*/
+
 	int i = 0, nSize = m_ls.GetSize();
 	while (i < nSize) {
 		m_ls[i++]->SelectLayer(nFlags, point);
 	}
+
+	/*int k = 0, l = pDoc->shapes.size();
+	while (k < l)
+	{
+		pDoc->shapes[k++]->SelectLayer(nFlags, point);
+	}*/
 	Invalidate(true);
 }
 
@@ -71,17 +80,28 @@ void CMFC222View::SelectEnd(UINT nFlags, CPoint point)
 	CMFC222Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	CLayer* player = NULL;
+	CLayer* player2 = NULL;
 	int i = 0, nSize = m_ls.GetSize();
 	while (i < nSize) 
 	{
+		player2 = pDoc->shapes[i];
 		player = m_ls[i++];
 		if (player->m_type == CLayer::selecting) 
 		{
 			player->Offset(point - player->my_point_selected);
-
-			
+			player2->Offset(point - player->my_point_selected);
 		}
 	}
+
+	/*int k = 0, l = pDoc->shapes.size();
+	while (k < l)
+	{
+		player = pDoc->shapes[k++];
+		if (player->m_type == CLayer::selecting)
+		{
+			player->Offset(point - player->my_point_selected);
+		}
+	}*/
 
 	Invalidate(TRUE);
 }
@@ -180,6 +200,11 @@ void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 	if (ID_DRAW_ARROW == m_nIndex )
 	{
 		SelectLayer(nFlags, point);
+
+		/*CMFC222Doc* pDoc = GetDocument();
+		ASSERT_VALID(pDoc);
+		pDoc->SelectLayer(nFlags, point);*/
+
 		return;
 	}
 	CLayer* player = NULL;
@@ -224,6 +249,11 @@ void CMFC222View::OnLButtonUp(UINT nFlags, CPoint point)
 	if (ID_DRAW_ARROW == m_nIndex)
 	{
 		SelectEnd(nFlags, point);
+
+		/*CMFC222Doc* pDoc = GetDocument();
+		ASSERT_VALID(pDoc);
+		pDoc->SelectEnd(nFlags, point);*/
+
 		return;
 	}
 	int nSize = m_ls.GetSize();
@@ -314,26 +344,3 @@ void CMFC222View::OnUpdateDrawPencil(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(m_nIndex == ID_DRAW_PENCIL);
 }
 
-
-//void CMFC222View::OnFileSave()
-//{
-//	m_nIndex = ID_FILE_SAVE;
-//}
-
-
-//void CMFC222View::OnUpdateFileSave(CCmdUI* pCmdUI)
-//{
-//	//pCmdUI->SetCheck(m_nIndex == ID_FILE_SAVE);
-//}
-
-//void CMFC222View::If_save_file()
-//{
-//	int nSize = m_ls.GetSize();
-//	int i = 0;
-//	CMFC222Doc* pDoc = GetDocument();
-//	for (i = 0; i < nSize; i++) 
-//	{
-//		pDoc->shapes.push_back(m_ls[i]);
-//	}
-//	pDoc->numberdoc = pDoc->shapes.size();
-//}

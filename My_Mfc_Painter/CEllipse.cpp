@@ -62,6 +62,8 @@ void CEllipse::SelectLayer(UINT nFlags, CPoint point)
 void CEllipse::Offset(CPoint ptoffset)
 {
 	m_rect.OffsetRect(ptoffset);
+	from_layer_startpoint = m_rect.TopLeft();
+	from_layer_endpoint = m_rect.BottomRight();
 }
 
 CEllipse::CEllipse():m_rect(MAXLONG, MAXLONG, MAXLONG, MAXLONG)

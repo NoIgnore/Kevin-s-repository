@@ -35,15 +35,15 @@ BEGIN_MESSAGE_MAP(CMFC222Doc, CDocument)
 	ON_COMMAND(ID_FILE_SAVE, &CMFC222Doc::OnFileSave)
 	ON_COMMAND(ID_FILE_OPEN, &CMFC222Doc::OnFileOpen)
 	ON_COMMAND(ID_FILE_SAVE_AS, &CMFC222Doc::OnFileSaveAs)
+	ON_COMMAND(ID_DRAW_ARROW, &CMFC222Doc::OnDrawArrow)
 END_MESSAGE_MAP()
 
 
 // CMFC222Doc 构造/析构
 
-CMFC222Doc::CMFC222Doc() noexcept
+CMFC222Doc::CMFC222Doc()
 {
-	// TODO: 在此添加一次性构造代码
-
+	m_nindex2 = ID_DRAW_ARROW;
 }
 
 CMFC222Doc::~CMFC222Doc()
@@ -284,4 +284,34 @@ void CMFC222Doc::OnFileSaveAs()
 		fout.WriteString(buffer);
 	}
 	fout.Close();
+}
+
+
+void CMFC222Doc::OnDrawArrow()
+{
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CMFC222Doc::SelectLayer(UINT nFlags, CPoint point)
+{
+	int i = 0, nSize = shapes.size();
+	while (i < nSize) {
+		shapes[i++]->SelectLayer(nFlags, point);
+	}
+}
+
+
+void CMFC222Doc::SelectEnd(UINT nFlags, CPoint point)
+{
+	CLayer* player = NULL;
+	int i = 0, nSize = shapes.size();
+	while (i < nSize)
+	{
+		player = shapes[i++];
+		if (player->m_type == CLayer::selecting)
+		{
+			player->Offset(point - player->my_point_selected);
+		}
+	}
 }

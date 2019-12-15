@@ -57,6 +57,8 @@ void Cline::Offset(CPoint ptoffset)
 {
 	m_start.Offset(ptoffset);
 	m_end.Offset(ptoffset);
+	from_layer_startpoint = m_start;
+	from_layer_endpoint = m_end;
 }
 //Cline::Cline(CPoint p_startPoint, CPoint p_endPoint):CLayer(p_startPoint, p_endPoint)
 //{

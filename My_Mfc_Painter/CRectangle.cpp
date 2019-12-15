@@ -43,6 +43,8 @@ void CRectangle::SelectLayer(UINT nFlags, CPoint point)
 void CRectangle::Offset(CPoint ptoffset)
 {
 	m_rect.OffsetRect(ptoffset);
+	from_layer_startpoint = m_rect.TopLeft();
+	from_layer_endpoint = m_rect.BottomRight();
 }
 
 void CRectangle::OnDraw(CDC* pDC)

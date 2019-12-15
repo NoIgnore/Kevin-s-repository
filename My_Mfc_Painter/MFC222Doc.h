@@ -11,7 +11,7 @@ using namespace std;
 class CMFC222Doc : public CDocument
 {
 protected: // 仅从序列化创建
-	CMFC222Doc() noexcept;
+	CMFC222Doc() ;
 	DECLARE_DYNCREATE(CMFC222Doc)
 
 // 特性
@@ -64,4 +64,8 @@ public:
 	afx_msg void OnFileSave();
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileSaveAs();
+	UINT m_nindex2;
+	afx_msg void OnDrawArrow();
+	void SelectLayer(UINT nFlags, CPoint point);
+	void SelectEnd(UINT nFlags, CPoint point);
 };
