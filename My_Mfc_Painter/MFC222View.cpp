@@ -45,6 +45,8 @@ BEGIN_MESSAGE_MAP(CMFC222View, CView)
 	ON_UPDATE_COMMAND_UI(ID_DRAW_RECT, &CMFC222View::OnUpdateDrawRect)
 	ON_COMMAND(ID_DRAW_PENCIL, &CMFC222View::OnDrawPencil)
 	ON_UPDATE_COMMAND_UI(ID_DRAW_PENCIL, &CMFC222View::OnUpdateDrawPencil)
+//	ON_COMMAND(ID_FILE_SAVE, &CMFC222View::OnFileSave)
+//	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE, &CMFC222View::OnUpdateFileSave)
 END_MESSAGE_MAP()
 
 // CMFC222View 构造/析构
@@ -66,6 +68,8 @@ void CMFC222View::SelectLayer(UINT nFlags, CPoint point)
 
 void CMFC222View::SelectEnd(UINT nFlags, CPoint point)
 {
+	CMFC222Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 	CLayer* player = NULL;
 	int i = 0, nSize = m_ls.GetSize();
 	while (i < nSize) 
@@ -74,8 +78,11 @@ void CMFC222View::SelectEnd(UINT nFlags, CPoint point)
 		if (player->m_type == CLayer::selecting) 
 		{
 			player->Offset(point - player->my_point_selected);
+
+			
 		}
 	}
+
 	Invalidate(TRUE);
 }
 
@@ -101,20 +108,26 @@ void CMFC222View::OnDraw(CDC* pDC)
 {
 	CMFC222Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-	//CPen a_pen(PS_SOLID, 2, RGB(255, 255, 255));//代表实线
-	//pDC->SelectObject(&a_pen);
-
-
-	if (!pDoc)
-		return;
+	if (!pDoc)return;
+	if (pDoc->numberdoc == 1)
+	{
+		pDoc->draw(pDC);
+		pDoc->numberdoc = 0;
+		//Invalidate();//???加不加?no!
+	
+		int n = pDoc->shapes.size();
+		for (int i = 0; i < n; i++)
+		{
+			pDoc->shapes[i]->read_file_o = 1;
+			m_ls.Add(pDoc->shapes[i]);
+		}
+	}
 	int i = 0, nSize = m_ls.GetSize();
 	while (i<nSize)
 	{
 		m_ls[i]->OnDraw(pDC);
 		++i;
 	}
-
-
 
 	// TODO: 在此处为本机数据添加绘制代码
 }
@@ -159,11 +172,11 @@ CMFC222Doc* CMFC222View::GetDocument() const // 非调试版本是内联的
 }
 #endif //_DEBUG
 
-
 // CMFC222View 消息处理程序
 
 void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	CView::OnLButtonDown(nFlags, point);
 	if (ID_DRAW_ARROW == m_nIndex )
 	{
 		SelectLayer(nFlags, point);
@@ -193,9 +206,11 @@ void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		player->OnLButtonDown(nFlags, point);
 		m_ls.Add(player);
+	
+		CMFC222Doc* pDoc = GetDocument();
+		ASSERT_VALID(pDoc);
+		pDoc->push_back(player);
 	}
-
-	CView::OnLButtonDown(nFlags, point);
 
 
 
@@ -214,6 +229,9 @@ void CMFC222View::OnLButtonUp(UINT nFlags, CPoint point)
 	int nSize = m_ls.GetSize();
 	if (!nSize)return;
 	m_ls[nSize-1]->OnLButtonUp(nFlags, point);
+	CMFC222Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->setEndPoint(point);
 	Invalidate(FALSE);
 
 }
@@ -222,7 +240,7 @@ void CMFC222View::OnLButtonUp(UINT nFlags, CPoint point)
 void CMFC222View::OnMouseMove(UINT nFlags, CPoint point)
 {
 	if (ID_DRAW_ARROW == m_nIndex) 
-	{	
+	{
 		return;
 	}
 	CView::OnMouseMove(nFlags, point);
@@ -295,3 +313,27 @@ void CMFC222View::OnUpdateDrawPencil(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_nIndex == ID_DRAW_PENCIL);
 }
+
+
+//void CMFC222View::OnFileSave()
+//{
+//	m_nIndex = ID_FILE_SAVE;
+//}
+
+
+//void CMFC222View::OnUpdateFileSave(CCmdUI* pCmdUI)
+//{
+//	//pCmdUI->SetCheck(m_nIndex == ID_FILE_SAVE);
+//}
+
+//void CMFC222View::If_save_file()
+//{
+//	int nSize = m_ls.GetSize();
+//	int i = 0;
+//	CMFC222Doc* pDoc = GetDocument();
+//	for (i = 0; i < nSize; i++) 
+//	{
+//		pDoc->shapes.push_back(m_ls[i]);
+//	}
+//	pDoc->numberdoc = pDoc->shapes.size();
+//}

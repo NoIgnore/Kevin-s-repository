@@ -12,6 +12,15 @@
 
 #include "MFC222Doc.h"
 
+
+
+#include "CLayer.h"//......................
+#include "Cline.h"
+#include <fstream>
+#include"CEllipse.h"
+#include"CRectangle.h"
+#include"CPencil.h"
+
 #include <propkey.h>
 
 #ifdef _DEBUG
@@ -23,6 +32,9 @@
 IMPLEMENT_DYNCREATE(CMFC222Doc, CDocument)
 
 BEGIN_MESSAGE_MAP(CMFC222Doc, CDocument)
+	ON_COMMAND(ID_FILE_SAVE, &CMFC222Doc::OnFileSave)
+	ON_COMMAND(ID_FILE_OPEN, &CMFC222Doc::OnFileOpen)
+	ON_COMMAND(ID_FILE_SAVE_AS, &CMFC222Doc::OnFileSaveAs)
 END_MESSAGE_MAP()
 
 
@@ -36,6 +48,18 @@ CMFC222Doc::CMFC222Doc() noexcept
 
 CMFC222Doc::~CMFC222Doc()
 {
+	for (size_t i = 0; i < shapes.size(); i++)
+	{
+		delete shapes[i];
+	}
+}
+
+void CMFC222Doc::draw(CDC* pDC)
+{
+	for (size_t i = 0; i < shapes.size(); i++)
+	{
+		shapes[i]->OnDraw(pDC);
+	}
 }
 
 BOOL CMFC222Doc::OnNewDocument()
@@ -56,13 +80,14 @@ BOOL CMFC222Doc::OnNewDocument()
 
 void CMFC222Doc::Serialize(CArchive& ar)
 {
+	/*numberdoc = m_docls.GetSize();*/
 	if (ar.IsStoring())
 	{
-		// TODO:  在此添加存储代码
+		
 	}
 	else
 	{
-		// TODO:  在此添加加载代码
+		
 	}
 }
 
@@ -136,3 +161,127 @@ void CMFC222Doc::Dump(CDumpContext& dc) const
 
 
 // CMFC222Doc 命令
+
+
+void CMFC222Doc::OnFileSave()
+{
+	CString HAHAHA;
+	HAHAHA = ".txt";
+	CFileDialog saveDlg(false, TEXT("painter"), TEXT("未命名"), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, HAHAHA);
+	saveDlg.DoModal();
+	CString pathName = saveDlg.GetPathName();
+
+	if (pathName == "") return;//如果直接关掉窗口
+	CStdioFile fout;
+	CString buffer;
+	if (!fout.Open(pathName, CFile::modeCreate | CFile::modeWrite))
+		return;//如果打开失败就返回
+	for (size_t i = 0; i < size(); i++)
+	{
+		buffer.Format(_T("%d %d %d %d %d"),
+			shapes[i]->m_shape,
+			shapes[i]->from_layer_startpoint.x,
+			shapes[i]->from_layer_startpoint.y,
+			shapes[i]->from_layer_endpoint.x,
+			shapes[i]->from_layer_endpoint.y
+		);
+		if (i != size() - 1)
+			buffer += "\n";//最后一行不加换行
+		fout.WriteString(buffer);
+	}
+	fout.Close();
+}
+
+
+void CMFC222Doc::OnFileOpen()
+{
+	// TODO: 在此添加命令处理程序代码
+	CFileDialog openDlg(true, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, NULL);
+	openDlg.DoModal();
+	CString pathName = openDlg.GetPathName();
+	if (pathName == "") return;//如果直接关掉窗口
+	//读取文件
+	using namespace std;
+	ifstream fin;
+
+	CPoint startPoint;//绘制起点
+	CPoint endPoint;//绘制终点
+	//enum shapeType { PENCIL, LINE, RECTANGLE, ELLIPSE };//形状类型
+	int type;//形状
+
+	CLayer* newShape = NULL;
+
+	//clear();//清空画板
+
+	fin.open(pathName);
+	while (!fin.eof())
+	{
+		fin >> type
+			>> startPoint.x
+			>> startPoint.y
+			>> endPoint.x
+			>> endPoint.y;
+		switch (type)
+		{
+		case 1://直线
+			newShape = new Cline;
+			newShape->m_shape = type;
+			newShape->read_file_o = 1;
+			newShape->from_layer_startpoint = startPoint;
+			newShape->from_layer_endpoint = endPoint;
+
+			break;
+		case 2://矩形
+			newShape = new CRectangle;
+			newShape->m_shape = type;
+			newShape->read_file_o = 1;
+			newShape->from_layer_startpoint = startPoint;
+			newShape->from_layer_endpoint = endPoint;
+
+			break;
+		case 3:
+			newShape = new CEllipse;
+			newShape->m_shape = type;
+			newShape->read_file_o = 1;
+			newShape->from_layer_startpoint = startPoint;
+			newShape->from_layer_endpoint = endPoint;
+
+			break;
+		}
+		push_back(newShape);//添加新形状
+
+
+	}
+	fin.close();
+	numberdoc = 1;
+}
+
+
+void CMFC222Doc::OnFileSaveAs()
+{
+	CString HAHAHA;
+	HAHAHA = ".paint";
+	CFileDialog saveDlg(false, TEXT("txt"), TEXT("未命名"), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, HAHAHA);
+	saveDlg.DoModal();
+	CString pathName = saveDlg.GetPathName();
+
+	if (pathName == "") return;//如果直接关掉窗口
+	CStdioFile fout;
+	CString buffer;
+	if (!fout.Open(pathName, CFile::modeCreate | CFile::modeWrite))
+		return;//如果打开失败就返回
+	for (size_t i = 0; i < size(); i++)
+	{
+		buffer.Format(_T("%d %d %d %d %d"),
+			shapes[i]->m_shape,
+			shapes[i]->from_layer_startpoint.x,
+			shapes[i]->from_layer_startpoint.y,
+			shapes[i]->from_layer_endpoint.x,
+			shapes[i]->from_layer_endpoint.y
+		);
+		if (i != size() - 1)
+			buffer += "\n";//最后一行不加换行
+		fout.WriteString(buffer);
+	}
+	fout.Close();
+}

@@ -27,6 +27,7 @@ void CPencil::OnLButtonUp(UINT nFlags, CPoint point)
 void CPencil::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	m_pencil.Add(point);
+	m_shape = 0;
 }
 
 void CPencil::OnMouseMove(UINT nFlags, CPoint point, CDC* pDC)

@@ -3,6 +3,13 @@
 
 void CEllipse::OnDraw(CDC* pDC)
 {
+	if (read_file_o == 1)
+	{
+		m_rect.TopLeft() = from_layer_startpoint;
+		m_rect.BottomRight() = from_layer_endpoint;
+		//m_rect.NormalizeRect();
+		read_file_o = 0;
+	}
 	pDC->Ellipse(m_rect);
 	if (m_type == selecting) {
 		CPoint& p1 = m_rect.TopLeft();
@@ -17,12 +24,15 @@ void CEllipse::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	m_rect.BottomRight() = point;
 	m_rect.NormalizeRect();
+	from_layer_endpoint = point;
 	m_type = normal;
 }
 
 void CEllipse::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	m_rect.TopLeft() = point;
+	from_layer_startpoint = point;
+	m_shape = 3;
 }
 
 void CEllipse::OnMouseMove(UINT nFlags, CPoint point, CDC* pDC)

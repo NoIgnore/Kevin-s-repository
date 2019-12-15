@@ -11,7 +11,7 @@ class Cline :
 	void SelectLayer(UINT nFlags, CPoint point);
 	void Offset(CPoint ptoffset);
 public:
-	
+	//Cline(CPoint p_startPoint, CPoint p_endPoint);
 	Cline();
 	~Cline();
 

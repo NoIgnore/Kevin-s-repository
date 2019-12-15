@@ -4,12 +4,15 @@
 void CRectangle::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	m_rect.TopLeft() = point;
+	m_shape = 2;
+	from_layer_startpoint = point;
 }
 
 void CRectangle::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	m_rect.BottomRight() = point;
 	m_rect.NormalizeRect();
+	from_layer_endpoint = point;
 	m_type = normal;
 }
 
@@ -44,6 +47,13 @@ void CRectangle::Offset(CPoint ptoffset)
 
 void CRectangle::OnDraw(CDC* pDC)
 {
+	if (read_file_o == 1)
+	{
+		m_rect.TopLeft() = from_layer_startpoint;
+		m_rect.BottomRight() = from_layer_endpoint;
+		//m_rect.NormalizeRect();
+		read_file_o = 0;
+	}
 	pDC->Rectangle(m_rect);
 	if (m_type == selecting) {
 		CPoint& p1 = m_rect.TopLeft();

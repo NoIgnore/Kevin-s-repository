@@ -59,6 +59,9 @@ public:
 	afx_msg void OnUpdateDrawRect(CCmdUI* pCmdUI);
 	afx_msg void OnDrawPencil();
 	afx_msg void OnUpdateDrawPencil(CCmdUI* pCmdUI);
+
+	int get_status_from_doc = 0;
+	int if_move_and_save = 0;
 };
 
 #ifndef _DEBUG  // MFC222View.cpp 中的调试版本
