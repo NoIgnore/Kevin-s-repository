@@ -16,7 +16,7 @@ void Cline::OnDraw(CDC* pDC)
 		pDC->FillSolidRect(m_start.x - 3, m_start.y - 3, 6, 6, GetSysColor(COLOR_HIGHLIGHT));
 		pDC->FillSolidRect(m_end.x - 3, m_end.y - 3, 6, 6, GetSysColor(COLOR_HIGHLIGHT));
 	}
-	read_file_o = 0;
+	read_file_o = 0;//view.cppµÄ142ÐÐÏêÇé
 }
 void Cline::OnLButtonUp(UINT nFlags, CPoint point)
 {
@@ -60,19 +60,9 @@ void Cline::Offset(CPoint ptoffset)
 	from_layer_startpoint = m_start;
 	from_layer_endpoint = m_end;
 }
-//Cline::Cline(CPoint p_startPoint, CPoint p_endPoint):CLayer(p_startPoint, p_endPoint)
-//{
-//	m_start = p_startPoint;
-//	m_end = p_endPoint;
-//}
+
 Cline::Cline():m_end(MAXLONG, MAXLONG),m_start(0,0)
 {
-	/*if (read_file_o == 1)
-	{
-		m_start = from_layer_startpoint;
-		m_end = from_layer_endpoint;
-		read_file_o = 0;
-	}*/
 }
 Cline::~Cline() {
 

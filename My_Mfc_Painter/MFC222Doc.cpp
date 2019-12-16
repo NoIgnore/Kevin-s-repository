@@ -20,6 +20,7 @@
 #include"CEllipse.h"
 #include"CRectangle.h"
 #include"CPencil.h"
+#include"Ctriangle.h"
 
 #include <propkey.h>
 
@@ -171,22 +172,24 @@ void CMFC222Doc::OnFileSave()
 	saveDlg.DoModal();
 	CString pathName = saveDlg.GetPathName();
 
-	if (pathName == "") return;//如果直接关掉窗口
+	if (pathName == "") return;
 	CStdioFile fout;
 	CString buffer;
 	if (!fout.Open(pathName, CFile::modeCreate | CFile::modeWrite))
-		return;//如果打开失败就返回
+		return;
 	for (size_t i = 0; i < size(); i++)
 	{
-		buffer.Format(_T("%d %d %d %d %d"),
+		buffer.Format(_T("%d %d %d %d %d %d %d"),
 			shapes[i]->m_shape,
 			shapes[i]->from_layer_startpoint.x,
 			shapes[i]->from_layer_startpoint.y,
+			shapes[i]->from_layer_middlepoint.x,
+			shapes[i]->from_layer_middlepoint.y,
 			shapes[i]->from_layer_endpoint.x,
 			shapes[i]->from_layer_endpoint.y
 		);
 		if (i != size() - 1)
-			buffer += "\n";//最后一行不加换行
+			buffer += "\n";
 		fout.WriteString(buffer);
 	}
 	fout.Close();
@@ -199,19 +202,18 @@ void CMFC222Doc::OnFileOpen()
 	CFileDialog openDlg(true, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, NULL);
 	openDlg.DoModal();
 	CString pathName = openDlg.GetPathName();
-	if (pathName == "") return;//如果直接关掉窗口
-	//读取文件
+	if (pathName == "") return;
+	
 	using namespace std;
 	ifstream fin;
 
-	CPoint startPoint;//绘制起点
-	CPoint endPoint;//绘制终点
-	//enum shapeType { PENCIL, LINE, RECTANGLE, ELLIPSE };//形状类型
+	CPoint startPoint;
+	CPoint middlePoint;
+	CPoint endPoint;
+	
 	int type;//形状
 
 	CLayer* newShape = NULL;
-
-	//clear();//清空画板
 
 	fin.open(pathName);
 	while (!fin.eof())
@@ -219,6 +221,8 @@ void CMFC222Doc::OnFileOpen()
 		fin >> type
 			>> startPoint.x
 			>> startPoint.y
+			>> middlePoint.x
+			>> middlePoint.y
 			>> endPoint.x
 			>> endPoint.y;
 		switch (type)
@@ -247,8 +251,18 @@ void CMFC222Doc::OnFileOpen()
 			newShape->from_layer_endpoint = endPoint;
 
 			break;
+		case 4://triangle
+			newShape = new Ctriangle;
+			newShape->m_shape = type;
+			newShape->read_file_o = 1;
+			newShape->layer_click = 1;
+			newShape->from_layer_startpoint = startPoint;
+			newShape->from_layer_middlepoint = middlePoint;
+			newShape->from_layer_endpoint = endPoint;
+
+			break;
 		}
-		push_back(newShape);//添加新形状
+		push_back(newShape);
 
 
 	}
@@ -260,16 +274,16 @@ void CMFC222Doc::OnFileOpen()
 void CMFC222Doc::OnFileSaveAs()
 {
 	CString HAHAHA;
-	HAHAHA = ".paint";
+	HAHAHA = ".txt";
 	CFileDialog saveDlg(false, TEXT("txt"), TEXT("未命名"), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, HAHAHA);
 	saveDlg.DoModal();
 	CString pathName = saveDlg.GetPathName();
 
-	if (pathName == "") return;//如果直接关掉窗口
+	if (pathName == "") return;
 	CStdioFile fout;
 	CString buffer;
 	if (!fout.Open(pathName, CFile::modeCreate | CFile::modeWrite))
-		return;//如果打开失败就返回
+		return;
 	for (size_t i = 0; i < size(); i++)
 	{
 		buffer.Format(_T("%d %d %d %d %d"),
@@ -280,7 +294,7 @@ void CMFC222Doc::OnFileSaveAs()
 			shapes[i]->from_layer_endpoint.y
 		);
 		if (i != size() - 1)
-			buffer += "\n";//最后一行不加换行
+			buffer += "\n";
 		fout.WriteString(buffer);
 	}
 	fout.Close();
@@ -293,25 +307,4 @@ void CMFC222Doc::OnDrawArrow()
 }
 
 
-void CMFC222Doc::SelectLayer(UINT nFlags, CPoint point)
-{
-	int i = 0, nSize = shapes.size();
-	while (i < nSize) {
-		shapes[i++]->SelectLayer(nFlags, point);
-	}
-}
 
-
-void CMFC222Doc::SelectEnd(UINT nFlags, CPoint point)
-{
-	CLayer* player = NULL;
-	int i = 0, nSize = shapes.size();
-	while (i < nSize)
-	{
-		player = shapes[i++];
-		if (player->m_type == CLayer::selecting)
-		{
-			player->Offset(point - player->my_point_selected);
-		}
-	}
-}

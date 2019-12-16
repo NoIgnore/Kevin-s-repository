@@ -23,12 +23,12 @@ public:
 	int numberdoc2 = 1;
 	vector<CLayer*> shapes;
 	void setEndPoint(CPoint point) { shapes.back()->setEndPoint(point); }
-	//新增指向形状的指针
+	void setMiddlepoint(CPoint point) { shapes.back()->setMiddlePoint(point); }
 	void push_back(CLayer* p_shape) { shapes.push_back(p_shape); }
 	bool empty() { return shapes.empty(); }
 	size_t size() { return shapes.size(); }
-	void pop_back() { shapes.pop_back(); }
-	//将存储的形状全画出来
+	
+	
 	void draw(CDC* pDC);
 
 
@@ -66,6 +66,6 @@ public:
 	afx_msg void OnFileSaveAs();
 	UINT m_nindex2;
 	afx_msg void OnDrawArrow();
-	void SelectLayer(UINT nFlags, CPoint point);
-	void SelectEnd(UINT nFlags, CPoint point);
+	//void SelectLayer(UINT nFlags, CPoint point);
+	//void SelectEnd(UINT nFlags, CPoint point);
 };

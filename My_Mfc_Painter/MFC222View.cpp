@@ -17,6 +17,7 @@
 #include"CEllipse.h"
 #include"CRectangle.h"
 #include "CPencil.h"
+#include"Ctriangle.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -45,8 +46,8 @@ BEGIN_MESSAGE_MAP(CMFC222View, CView)
 	ON_UPDATE_COMMAND_UI(ID_DRAW_RECT, &CMFC222View::OnUpdateDrawRect)
 	ON_COMMAND(ID_DRAW_PENCIL, &CMFC222View::OnDrawPencil)
 	ON_UPDATE_COMMAND_UI(ID_DRAW_PENCIL, &CMFC222View::OnUpdateDrawPencil)
-//	ON_COMMAND(ID_FILE_SAVE, &CMFC222View::OnFileSave)
-//	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE, &CMFC222View::OnUpdateFileSave)
+	ON_COMMAND(ID_DRAW_TRIANGLE, &CMFC222View::OnDrawTriangle)
+	ON_UPDATE_COMMAND_UI(ID_DRAW_TRIANGLE, &CMFC222View::OnUpdateDrawTriangle)
 END_MESSAGE_MAP()
 
 // CMFC222View 构造/析构
@@ -129,7 +130,7 @@ void CMFC222View::OnDraw(CDC* pDC)
 	CMFC222Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)return;
-	if (pDoc->numberdoc == 1)
+	if (pDoc->numberdoc == 1)//让它画出来后不仅仅是显示出来，还要能拖动
 	{
 		pDoc->draw(pDC);
 		pDoc->numberdoc = 0;
@@ -138,7 +139,7 @@ void CMFC222View::OnDraw(CDC* pDC)
 		int n = pDoc->shapes.size();
 		for (int i = 0; i < n; i++)
 		{
-			pDoc->shapes[i]->read_file_o = 1;
+			pDoc->shapes[i]->read_file_o = 1;//若不做等于一的操作，让它存进m_ls，再画出来，则怕是点一下就没了嗷
 			m_ls.Add(pDoc->shapes[i]);
 		}
 	}
@@ -152,8 +153,6 @@ void CMFC222View::OnDraw(CDC* pDC)
 	// TODO: 在此处为本机数据添加绘制代码
 }
 
-
-// CMFC222View 打印
 
 BOOL CMFC222View::OnPreparePrinting(CPrintInfo* pInfo)
 {
@@ -200,11 +199,10 @@ void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 	if (ID_DRAW_ARROW == m_nIndex )
 	{
 		SelectLayer(nFlags, point);
-
-		/*CMFC222Doc* pDoc = GetDocument();
-		ASSERT_VALID(pDoc);
-		pDoc->SelectLayer(nFlags, point);*/
-
+		return;
+	}
+	if (if_has_triangle != 0)
+	{
 		return;
 	}
 	CLayer* player = NULL;
@@ -226,12 +224,21 @@ void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 	case ID_DRAW_PENCIL:
 		player = new CPencil;
 		break;
+
+	case ID_DRAW_TRIANGLE:
+		if_has_triangle = 1;
+		player = new Ctriangle;
+		//player->layer_click = 1;
+		break;
 	}
 	if (player)
 	{
 		player->OnLButtonDown(nFlags, point);
 		m_ls.Add(player);
-	
+
+		/*CLayer* player2 = player;
+		player2->layer_click = 0;*/
+
 		CMFC222Doc* pDoc = GetDocument();
 		ASSERT_VALID(pDoc);
 		pDoc->push_back(player);
@@ -250,17 +257,37 @@ void CMFC222View::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 		SelectEnd(nFlags, point);
 
-		/*CMFC222Doc* pDoc = GetDocument();
-		ASSERT_VALID(pDoc);
-		pDoc->SelectEnd(nFlags, point);*/
-
 		return;
 	}
+
+	if (if_has_triangle == 1)
+	{
+		int nSize = m_ls.GetSize();
+		m_ls[nSize - 1]->from_layer_startpoint = point;
+		if_has_triangle = 2;
+		return;
+	}
+	if (if_has_triangle == 2)
+	{
+		int nSize = m_ls.GetSize();
+		m_ls[nSize - 1]->from_layer_middlepoint = point;
+		if_has_triangle = 3;
+		return;
+	}
+	if (if_has_triangle == 3)
+	{
+		int nSize = m_ls.GetSize();
+		m_ls[nSize - 1]->from_layer_endpoint = point;
+		m_ls[nSize - 1]->layer_click = 1;
+		if_has_triangle = 0;
+	}
+	
 	int nSize = m_ls.GetSize();
 	if (!nSize)return;
 	m_ls[nSize-1]->OnLButtonUp(nFlags, point);
 	CMFC222Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
+	pDoc->setMiddlepoint(m_ls[nSize - 1]->from_layer_middlepoint);
 	pDoc->setEndPoint(point);
 	Invalidate(FALSE);
 
@@ -285,7 +312,6 @@ void CMFC222View::OnMouseMove(UINT nFlags, CPoint point)
 
 void CMFC222View::OnDrawArrow()
 {
-	// TODO: 在此添加命令处理程序代码
 	m_nIndex = ID_DRAW_ARROW;
 }
 
@@ -298,7 +324,6 @@ void CMFC222View::OnUpdateDrawArrow(CCmdUI* pCmdUI)
 
 void CMFC222View::OnDrawEllipse()
 {
-	// TODO: 在此添加命令处理程序代码
 	m_nIndex = ID_DRAW_ELLIPSE;
 }
 
@@ -344,3 +369,13 @@ void CMFC222View::OnUpdateDrawPencil(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(m_nIndex == ID_DRAW_PENCIL);
 }
 
+void CMFC222View::OnDrawTriangle()
+{
+	m_nIndex = ID_DRAW_TRIANGLE;
+}
+
+
+void CMFC222View::OnUpdateDrawTriangle(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(m_nIndex == ID_DRAW_TRIANGLE);
+}

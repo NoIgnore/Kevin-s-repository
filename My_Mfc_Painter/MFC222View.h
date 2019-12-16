@@ -62,6 +62,10 @@ public:
 
 	int get_status_from_doc = 0;
 	int if_move_and_save = 0;
+
+	afx_msg void OnDrawTriangle();
+	afx_msg void OnUpdateDrawTriangle(CCmdUI* pCmdUI);
+	int if_has_triangle = 0;
 };
 
 #ifndef _DEBUG  // MFC222View.cpp 中的调试版本

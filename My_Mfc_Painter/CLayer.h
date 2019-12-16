@@ -11,14 +11,14 @@ public:
 
 	CPoint from_layer_startpoint;
 	CPoint from_layer_endpoint;
-	//enum shapeType { PENCIL, LINE, RECTANGLE, ELLIPSE };
+	CPoint from_layer_middlepoint = (0, 0);
+
 	int m_shape = 2;
 	int read_file_o = 0;
-	CPoint setStartPoint(CPoint point) { return from_layer_startpoint = point; }//设置起点
-	CPoint setEndPoint(CPoint point) { return from_layer_endpoint = point; }//设置终点
-	//shapeType setShapeType(shapeType p_type) { return type = p_type; }
-	CPoint getStartPoint() { return from_layer_startpoint; }
-	CPoint getEndPoint() { return from_layer_endpoint; }
+	int layer_click = 0;
+
+	CPoint setEndPoint(CPoint point) { return from_layer_endpoint = point; }
+	CPoint setMiddlePoint(CPoint point) { return from_layer_middlepoint = point; }
 
 	CLayer();
 	virtual ~CLayer();
