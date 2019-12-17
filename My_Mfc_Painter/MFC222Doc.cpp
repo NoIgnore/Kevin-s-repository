@@ -255,7 +255,6 @@ void CMFC222Doc::OnFileOpen()
 			newShape = new Ctriangle;
 			newShape->m_shape = type;
 			newShape->read_file_o = 1;
-			newShape->layer_click = 1;
 			newShape->from_layer_startpoint = startPoint;
 			newShape->from_layer_middlepoint = middlePoint;
 			newShape->from_layer_endpoint = endPoint;

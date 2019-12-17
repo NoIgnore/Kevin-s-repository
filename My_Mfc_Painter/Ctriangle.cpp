@@ -3,7 +3,7 @@
 
 void Ctriangle::OnDraw(CDC* pDC)
 {
-	if (layer_click == 1 || read_file_o)
+	if (layer_click == 0 || read_file_o)
 	{
 		pDC->MoveTo(from_layer_startpoint);
 		pDC->LineTo(from_layer_middlepoint);
@@ -28,7 +28,19 @@ void Ctriangle::OnLButtonUp(UINT nFlags, CPoint point)
 
 void Ctriangle::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	
+	if (layer_click == 1)
+	{
+		from_layer_startpoint = point;
+		layer_click = 2;
+	}
+	else if (layer_click == 2) {
+		from_layer_middlepoint = point;
+		layer_click = 3;
+	}
+	else if (layer_click == 3) {
+		from_layer_endpoint = point;
+		layer_click = 0;
+	}
 }
 
 void Ctriangle::OnMouseMove(UINT nFlags, CPoint point, CDC* pDC)

@@ -65,7 +65,6 @@ public:
 
 	afx_msg void OnDrawTriangle();
 	afx_msg void OnUpdateDrawTriangle(CCmdUI* pCmdUI);
-	int if_has_triangle = 0;
 };
 
 #ifndef _DEBUG  // MFC222View.cpp 中的调试版本

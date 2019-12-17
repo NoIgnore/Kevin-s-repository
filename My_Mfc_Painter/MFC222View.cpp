@@ -201,9 +201,14 @@ void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 		SelectLayer(nFlags, point);
 		return;
 	}
-	if (if_has_triangle != 0)
+	int nSize = m_ls.GetSize();
+	if (nSize!=0)
 	{
-		return;
+		if (m_ls[nSize - 1]->layer_click != 0)
+		{
+			m_ls[nSize - 1]->OnLButtonDown(nFlags, point);
+			return;
+		}
 	}
 	CLayer* player = NULL;
 	switch (m_nIndex)
@@ -226,9 +231,8 @@ void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 		break;
 
 	case ID_DRAW_TRIANGLE:
-		if_has_triangle = 1;
 		player = new Ctriangle;
-		//player->layer_click = 1;
+		player->layer_click = 1;
 		break;
 	}
 	if (player)
@@ -236,15 +240,10 @@ void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 		player->OnLButtonDown(nFlags, point);
 		m_ls.Add(player);
 
-		/*CLayer* player2 = player;
-		player2->layer_click = 0;*/
-
 		CMFC222Doc* pDoc = GetDocument();
 		ASSERT_VALID(pDoc);
 		pDoc->push_back(player);
 	}
-
-
 
 }
 
@@ -256,33 +255,18 @@ void CMFC222View::OnLButtonUp(UINT nFlags, CPoint point)
 	if (ID_DRAW_ARROW == m_nIndex)
 	{
 		SelectEnd(nFlags, point);
-
 		return;
 	}
-
-	if (if_has_triangle == 1)
-	{
-		int nSize = m_ls.GetSize();
-		m_ls[nSize - 1]->from_layer_startpoint = point;
-		if_has_triangle = 2;
-		return;
-	}
-	if (if_has_triangle == 2)
-	{
-		int nSize = m_ls.GetSize();
-		m_ls[nSize - 1]->from_layer_middlepoint = point;
-		if_has_triangle = 3;
-		return;
-	}
-	if (if_has_triangle == 3)
-	{
-		int nSize = m_ls.GetSize();
-		m_ls[nSize - 1]->from_layer_endpoint = point;
-		m_ls[nSize - 1]->layer_click = 1;
-		if_has_triangle = 0;
-	}
-	
 	int nSize = m_ls.GetSize();
+	if (nSize != 0)
+	{
+		if (m_ls[nSize - 1]->layer_click != 0)
+		{
+			m_ls[nSize - 1]->OnLButtonUp(nFlags, point);
+			return;
+		}
+	}
+	//int nSize = m_ls.GetSize();
 	if (!nSize)return;
 	m_ls[nSize-1]->OnLButtonUp(nFlags, point);
 	CMFC222Doc* pDoc = GetDocument();
