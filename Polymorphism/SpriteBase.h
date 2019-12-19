@@ -5,12 +5,6 @@
 
 class SpriteBase
 {
-// protected:
-// 	int x, y;
-// 	int width, height;
-// 	int dx, dy;
-// 	ACL_Image *img;
-// 	rect r;
 public:
 	int x, y;
 	int width, height;
