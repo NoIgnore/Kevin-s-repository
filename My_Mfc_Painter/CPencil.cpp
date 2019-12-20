@@ -75,6 +75,15 @@ void CPencil::Offset(CPoint ptoffset)
 	}
 }
 
+void CPencil::OnFileSave()
+{
+}
+
+void CPencil::OnFileOpen(CString pathName)
+{
+}
+
+
 CPencil::CPencil()
 {
 }

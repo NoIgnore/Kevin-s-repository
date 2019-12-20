@@ -10,6 +10,8 @@ class CRectangle :
 	void Offset(CPoint ptoffset);
 	CRect m_rect;
 	void OnDraw(CDC* pDC);
+	void OnFileSave();
+	void OnFileOpen(CString pathName);
 public:
 	CRectangle();
 	~CRectangle();

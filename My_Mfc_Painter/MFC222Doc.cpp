@@ -13,7 +13,8 @@
 #include "MFC222Doc.h"
 
 
-
+#include <iostream>
+#include <string> 
 #include "CLayer.h"//......................
 #include "Cline.h"
 #include <fstream>
@@ -36,7 +37,7 @@ BEGIN_MESSAGE_MAP(CMFC222Doc, CDocument)
 	ON_COMMAND(ID_FILE_SAVE, &CMFC222Doc::OnFileSave)
 	ON_COMMAND(ID_FILE_OPEN, &CMFC222Doc::OnFileOpen)
 	ON_COMMAND(ID_FILE_SAVE_AS, &CMFC222Doc::OnFileSaveAs)
-	ON_COMMAND(ID_DRAW_ARROW, &CMFC222Doc::OnDrawArrow)
+
 END_MESSAGE_MAP()
 
 
@@ -174,31 +175,18 @@ void CMFC222Doc::OnFileSave()
 
 	if (pathName == "") return;
 	CStdioFile fout;
-	CString buffer;
 	if (!fout.Open(pathName, CFile::modeCreate | CFile::modeWrite))
 		return;
 	for (size_t i = 0; i < size(); i++)
 	{
-		buffer.Format(_T("%d %d %d %d %d %d %d"),
-			shapes[i]->m_shape,
-			shapes[i]->from_layer_startpoint.x,
-			shapes[i]->from_layer_startpoint.y,
-			shapes[i]->from_layer_middlepoint.x,
-			shapes[i]->from_layer_middlepoint.y,
-			shapes[i]->from_layer_endpoint.x,
-			shapes[i]->from_layer_endpoint.y
-		);
-		if (i != size() - 1)
-			buffer += "\n";
-		fout.WriteString(buffer);
+		shapes[i]->OnFileSave();
+		fout.WriteString(shapes[i]->buffer);
 	}
 	fout.Close();
 }
 
-
 void CMFC222Doc::OnFileOpen()
 {
-	// TODO: 在此添加命令处理程序代码
 	CFileDialog openDlg(true, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, NULL);
 	openDlg.DoModal();
 	CString pathName = openDlg.GetPathName();
@@ -206,104 +194,45 @@ void CMFC222Doc::OnFileOpen()
 	
 	using namespace std;
 	ifstream fin;
-
-	CPoint startPoint;
-	CPoint middlePoint;
-	CPoint endPoint;
-	
+	int doc_n = 1;
 	int type;//形状
-
+	string str1;
 	CLayer* newShape = NULL;
 
 	fin.open(pathName);
 	while (!fin.eof())
 	{
-		fin >> type
-			>> startPoint.x
-			>> startPoint.y
-			>> middlePoint.x
-			>> middlePoint.y
-			>> endPoint.x
-			>> endPoint.y;
-		switch (type)
+		fin >> type;
+		switch (type) 
 		{
 		case 1://直线
 			newShape = new Cline;
-			newShape->m_shape = type;
-			newShape->read_file_o = 1;
-			newShape->from_layer_startpoint = startPoint;
-			newShape->from_layer_endpoint = endPoint;
-
 			break;
 		case 2://矩形
 			newShape = new CRectangle;
-			newShape->m_shape = type;
-			newShape->read_file_o = 1;
-			newShape->from_layer_startpoint = startPoint;
-			newShape->from_layer_endpoint = endPoint;
-
 			break;
-		case 3:
+		case 3://椭圆
 			newShape = new CEllipse;
-			newShape->m_shape = type;
-			newShape->read_file_o = 1;
-			newShape->from_layer_startpoint = startPoint;
-			newShape->from_layer_endpoint = endPoint;
-
 			break;
 		case 4://triangle
 			newShape = new Ctriangle;
-			newShape->m_shape = type;
-			newShape->read_file_o = 1;
-			newShape->from_layer_startpoint = startPoint;
-			newShape->from_layer_middlepoint = middlePoint;
-			newShape->from_layer_endpoint = endPoint;
-
 			break;
 		}
+		newShape->layer_n = doc_n;
 		push_back(newShape);
-
-
+		getline(fin, str1);
+		doc_n++;
 	}
 	fin.close();
+
+	for (size_t i = 0; i < shapes.size(); i++)
+	{
+		shapes[i]->OnFileOpen(pathName);
+	}
 	numberdoc = 1;
 }
 
 
-void CMFC222Doc::OnFileSaveAs()
-{
-	CString HAHAHA;
-	HAHAHA = ".txt";
-	CFileDialog saveDlg(false, TEXT("txt"), TEXT("未命名"), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, HAHAHA);
-	saveDlg.DoModal();
-	CString pathName = saveDlg.GetPathName();
-
-	if (pathName == "") return;
-	CStdioFile fout;
-	CString buffer;
-	if (!fout.Open(pathName, CFile::modeCreate | CFile::modeWrite))
-		return;
-	for (size_t i = 0; i < size(); i++)
-	{
-		buffer.Format(_T("%d %d %d %d %d"),
-			shapes[i]->m_shape,
-			shapes[i]->from_layer_startpoint.x,
-			shapes[i]->from_layer_startpoint.y,
-			shapes[i]->from_layer_endpoint.x,
-			shapes[i]->from_layer_endpoint.y
-		);
-		if (i != size() - 1)
-			buffer += "\n";
-		fout.WriteString(buffer);
-	}
-	fout.Close();
-}
-
-
-void CMFC222Doc::OnDrawArrow()
-{
-	// TODO: 在此添加命令处理程序代码
-}
 
 
 

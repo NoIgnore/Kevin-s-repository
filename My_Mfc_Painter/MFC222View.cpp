@@ -60,19 +60,10 @@ CMFC222View::CMFC222View()
 
 void CMFC222View::SelectLayer(UINT nFlags, CPoint point)
 {
-	/*CMFC222Doc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);*/
-
 	int i = 0, nSize = m_ls.GetSize();
 	while (i < nSize) {
 		m_ls[i++]->SelectLayer(nFlags, point);
 	}
-
-	/*int k = 0, l = pDoc->shapes.size();
-	while (k < l)
-	{
-		pDoc->shapes[k++]->SelectLayer(nFlags, point);
-	}*/
 	Invalidate(true);
 }
 
@@ -93,17 +84,6 @@ void CMFC222View::SelectEnd(UINT nFlags, CPoint point)
 			player2->Offset(point - player->my_point_selected);
 		}
 	}
-
-	/*int k = 0, l = pDoc->shapes.size();
-	while (k < l)
-	{
-		player = pDoc->shapes[k++];
-		if (player->m_type == CLayer::selecting)
-		{
-			player->Offset(point - player->my_point_selected);
-		}
-	}*/
-
 	Invalidate(TRUE);
 }
 
@@ -139,6 +119,7 @@ void CMFC222View::OnDraw(CDC* pDC)
 		int n = pDoc->shapes.size();
 		for (int i = 0; i < n; i++)
 		{
+		/*	pDoc->shapes[i]->test = 1;*/
 			pDoc->shapes[i]->read_file_o = 1;//若不做等于一的操作，让它存进m_ls，再画出来，则怕是点一下就没了嗷
 			m_ls.Add(pDoc->shapes[i]);
 		}
@@ -150,7 +131,7 @@ void CMFC222View::OnDraw(CDC* pDC)
 		++i;
 	}
 
-	// TODO: 在此处为本机数据添加绘制代码
+
 }
 
 
@@ -225,7 +206,6 @@ void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 		player = new CRectangle;
 		break;
 
-	
 	case ID_DRAW_PENCIL:
 		player = new CPencil;
 		break;

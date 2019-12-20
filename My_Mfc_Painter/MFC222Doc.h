@@ -63,9 +63,6 @@ protected:
 public:
 	afx_msg void OnFileSave();
 	afx_msg void OnFileOpen();
-	afx_msg void OnFileSaveAs();
 	UINT m_nindex2;
-	afx_msg void OnDrawArrow();
-	//void SelectLayer(UINT nFlags, CPoint point);
-	//void SelectEnd(UINT nFlags, CPoint point);
+	
 };

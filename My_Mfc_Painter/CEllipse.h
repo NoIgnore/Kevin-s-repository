@@ -10,6 +10,8 @@ class CEllipse :
 	void OnMouseMove(UINT nFlags, CPoint point, CDC* pDC);
 	void SelectLayer(UINT nFlags, CPoint point);
 	void Offset(CPoint ptoffset);
+	void OnFileSave();
+	void OnFileOpen(CString pathName);
 public:
 	CEllipse();
 	~CEllipse();

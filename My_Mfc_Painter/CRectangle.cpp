@@ -69,6 +69,55 @@ void CRectangle::OnDraw(CDC* pDC)
 	}
 }
 
+void CRectangle::OnFileSave()
+{
+	buffer.Format(_T("%d %d %d %d %d %d %d"),
+		m_shape,
+		from_layer_startpoint.x,
+		from_layer_startpoint.y,
+		from_layer_middlepoint.x,
+		from_layer_middlepoint.y,
+		from_layer_endpoint.x,
+		from_layer_endpoint.y
+	);
+	buffer += "\n";
+}
+
+void CRectangle::OnFileOpen(CString pathName)
+{
+	if (layer_n >= 2)
+	{
+		ifstream fin2;
+		fin2.open(pathName);
+		for (int i = 1; i < layer_n; i++)
+		{
+			getline(fin2, layer_string);
+		}
+		fin2 >> m_shape
+			>> from_layer_startpoint.x
+			>> from_layer_startpoint.y
+			>> from_layer_middlepoint.x
+			>> from_layer_middlepoint.y
+			>> from_layer_endpoint.x
+			>> from_layer_endpoint.y;
+		fin2.close();
+	}
+	else {
+		ifstream fin2;
+		fin2.open(pathName);
+		fin2 >> m_shape
+			>> from_layer_startpoint.x
+			>> from_layer_startpoint.y
+			>> from_layer_middlepoint.x
+			>> from_layer_middlepoint.y
+			>> from_layer_endpoint.x
+			>> from_layer_endpoint.y;
+		fin2.close();
+	}
+	read_file_o = 1;
+}
+
+
 CRectangle::CRectangle():m_rect(MAXLONG, MAXLONG, MAXLONG, MAXLONG)
 {
 }
