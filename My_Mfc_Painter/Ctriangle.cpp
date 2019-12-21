@@ -5,32 +5,19 @@ void Ctriangle::OnDraw(CDC* pDC)
 {
 	if (layer_click == 0 || read_file_o)
 	{
-		pDC->MoveTo(from_layer_startpoint);
-		pDC->LineTo(from_layer_middlepoint);
-		pDC->MoveTo(from_layer_middlepoint);
-		pDC->LineTo(from_layer_endpoint);
-		pDC->MoveTo(from_layer_endpoint);
-		pDC->LineTo(from_layer_startpoint);
+		pDC->MoveTo(m_start);
+		pDC->LineTo(m_middle);
+		pDC->MoveTo(m_middle);
+		pDC->LineTo(m_end);
+		pDC->MoveTo(m_end);
+		pDC->LineTo(m_start);
 	}
 	if (m_type == selecting)
 	{
-		pDC->FillSolidRect(from_layer_startpoint.x - 3, from_layer_startpoint.y - 3, 6, 6, GetSysColor(COLOR_HIGHLIGHT));
-		pDC->FillSolidRect(from_layer_middlepoint.x - 3, from_layer_middlepoint.y - 3, 6, 6, GetSysColor(COLOR_HIGHLIGHT));
-		pDC->FillSolidRect(from_layer_endpoint.x - 3, from_layer_endpoint.y - 3, 6, 6, GetSysColor(COLOR_HIGHLIGHT));
+		pDC->FillSolidRect(m_start.x - 3, m_start.y - 3, 6, 6, GetSysColor(COLOR_HIGHLIGHT));
+		pDC->FillSolidRect(m_middle.x - 3, m_middle.y - 3, 6, 6, GetSysColor(COLOR_HIGHLIGHT));
+		pDC->FillSolidRect(m_end.x - 3, m_end.y - 3, 6, 6, GetSysColor(COLOR_HIGHLIGHT));
 	}
-	//Mypointlist* test_point = from_layer_head_point->next;
-	/*if (test == 1)
-	{
-		Mypointlist* test_point = from_layer_head_point->next;
-		while (test_point->next != nullptr)
-		{
-			pDC->MoveTo(test_point->my__point);
-			pDC->LineTo(test_point->next->my__point);
-			test_point = test_point->next;
-		}
-		pDC->MoveTo(from_layer_tail_point->my__point);
-		pDC->LineTo(from_layer_head_point->my__point);
-	}*/
 	read_file_o = 0;
 }
 
@@ -43,15 +30,15 @@ void Ctriangle::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	if (layer_click == 1)
 	{
-		from_layer_startpoint = point;
+		m_start = point;
 		layer_click = 2;
 	}
 	else if (layer_click == 2) {
-		from_layer_middlepoint = point;
+		m_middle = point;
 		layer_click = 3;
 	}
 	else if (layer_click == 3) {
-		from_layer_endpoint = point;
+		m_end = point;
 		layer_click = 0;
 	}
 }
@@ -63,11 +50,11 @@ void Ctriangle::OnMouseMove(UINT nFlags, CPoint point, CDC* pDC)
 
 void Ctriangle::SelectLayer(UINT nFlags, CPoint point)
 {
-	CRect rect1(from_layer_startpoint, from_layer_middlepoint);
+	CRect rect1(m_start, m_middle);
 	rect1.NormalizeRect();
-	CRect rect2(from_layer_middlepoint, from_layer_endpoint);
+	CRect rect2(m_middle, m_end);
 	rect2.NormalizeRect();
-	CRect rect3(from_layer_endpoint, from_layer_startpoint);
+	CRect rect3(m_end, m_start);
 	rect3.NormalizeRect();
 	m_type = (rect1.PtInRect(point) || rect2.PtInRect(point) || rect3.PtInRect(point)) ? selecting : normal;//Ê¹m_type±ä³Éselecting
 	my_point_selected = point;
@@ -75,21 +62,21 @@ void Ctriangle::SelectLayer(UINT nFlags, CPoint point)
 
 void Ctriangle::Offset(CPoint ptoffset)
 {
-	from_layer_startpoint.Offset(ptoffset);
-	from_layer_middlepoint.Offset(ptoffset);
-	from_layer_endpoint.Offset(ptoffset);
+	m_start.Offset(ptoffset);
+	m_middle.Offset(ptoffset);
+	m_end.Offset(ptoffset);
 }
 
 void Ctriangle::OnFileSave()
 {
 	buffer.Format(_T("%d %d %d %d %d %d %d"),
 		m_shape,
-		from_layer_startpoint.x,
-		from_layer_startpoint.y,
-		from_layer_middlepoint.x,
-		from_layer_middlepoint.y,
-		from_layer_endpoint.x,
-		from_layer_endpoint.y
+		m_start.x,
+		m_start.y,
+		m_middle.x,
+		m_middle.y,
+		m_end.x,
+		m_end.y
 	);
 	buffer += "\n";
 }
@@ -105,43 +92,28 @@ void Ctriangle::OnFileOpen(CString pathName)
 			getline(fin2, layer_string);
 		}
 		fin2 >> m_shape
-			>> from_layer_startpoint.x
-			>> from_layer_startpoint.y
-			>> from_layer_middlepoint.x
-			>> from_layer_middlepoint.y
-			>> from_layer_endpoint.x
-			>> from_layer_endpoint.y;
+			>> m_start.x
+			>> m_start.y
+			>> m_middle.x
+			>> m_middle.y
+			>> m_end.x
+			>> m_end.y;
 		fin2.close();
 	}
 	else {
 		ifstream fin2;
 		fin2.open(pathName);
 		fin2 >> m_shape
-			>> from_layer_startpoint.x
-			>> from_layer_startpoint.y
-			>> from_layer_middlepoint.x
-			>> from_layer_middlepoint.y
-			>> from_layer_endpoint.x
-			>> from_layer_endpoint.y;
+			>> m_start.x
+			>> m_start.y
+			>> m_middle.x
+			>> m_middle.y
+			>> m_end.x
+			>> m_end.y;
 		fin2.close();
 	}
 	read_file_o = 1;
 }
-
-//void Ctriangle::OnFileOpen()
-//{
-//	ifstream hhj;
-//	while (!hhj.eof())
-//	{
-//		hhj >> from_layer_startpoint.x
-//			>> from_layer_startpoint.y
-//			>> from_layer_middlepoint.x
-//			>> from_layer_middlepoint.y
-//			>> from_layer_endpoint.x
-//			>> from_layer_endpoint.y;
-//	}
-//	read_file_o = 1;
-//}
 
 Ctriangle::Ctriangle()
 {

@@ -5,14 +5,14 @@ void CRectangle::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	m_rect.TopLeft() = point;
 	m_shape = 2;
-	from_layer_startpoint = point;
+	m_lefttop = point;
 }
 
 void CRectangle::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	m_rect.BottomRight() = point;
 	m_rect.NormalizeRect();
-	from_layer_endpoint = point;
+	m_rightbotton = point;
 	m_type = normal;
 }
 
@@ -20,8 +20,6 @@ void CRectangle::OnMouseMove(UINT nFlags, CPoint point, CDC* pDC)
 {
 	if (nFlags & MK_LBUTTON)
 	{
-		/*HBRUSH hbr = (HBRUSH)GetStockObject(NULL_BRUSH);
-		pDC->SelectObject(hbr);*/
 		pDC->SelectStockObject(NULL_BRUSH);
 		pDC->SetROP2(R2_NOT);
 
@@ -43,17 +41,16 @@ void CRectangle::SelectLayer(UINT nFlags, CPoint point)
 void CRectangle::Offset(CPoint ptoffset)
 {
 	m_rect.OffsetRect(ptoffset);
-	from_layer_startpoint = m_rect.TopLeft();
-	from_layer_endpoint = m_rect.BottomRight();
+	m_lefttop = m_rect.TopLeft();
+	m_rightbotton = m_rect.BottomRight();
 }
 
 void CRectangle::OnDraw(CDC* pDC)
 {
 	if (read_file_o == 1)
 	{
-		m_rect.TopLeft() = from_layer_startpoint;
-		m_rect.BottomRight() = from_layer_endpoint;
-		//m_rect.NormalizeRect();
+		m_rect.TopLeft() = m_lefttop;
+		m_rect.BottomRight() = m_rightbotton;
 		read_file_o = 0;
 	}
 	pDC->Rectangle(m_rect);
@@ -71,14 +68,12 @@ void CRectangle::OnDraw(CDC* pDC)
 
 void CRectangle::OnFileSave()
 {
-	buffer.Format(_T("%d %d %d %d %d %d %d"),
+	buffer.Format(_T("%d %d %d %d %d"),
 		m_shape,
-		from_layer_startpoint.x,
-		from_layer_startpoint.y,
-		from_layer_middlepoint.x,
-		from_layer_middlepoint.y,
-		from_layer_endpoint.x,
-		from_layer_endpoint.y
+		m_lefttop.x,
+		m_lefttop.y,
+		m_rightbotton.x,
+		m_rightbotton.y
 	);
 	buffer += "\n";
 }
@@ -94,24 +89,20 @@ void CRectangle::OnFileOpen(CString pathName)
 			getline(fin2, layer_string);
 		}
 		fin2 >> m_shape
-			>> from_layer_startpoint.x
-			>> from_layer_startpoint.y
-			>> from_layer_middlepoint.x
-			>> from_layer_middlepoint.y
-			>> from_layer_endpoint.x
-			>> from_layer_endpoint.y;
+			>> m_lefttop.x
+			>> m_lefttop.y
+			>> m_rightbotton.x
+			>> m_rightbotton.y;
 		fin2.close();
 	}
 	else {
 		ifstream fin2;
 		fin2.open(pathName);
 		fin2 >> m_shape
-			>> from_layer_startpoint.x
-			>> from_layer_startpoint.y
-			>> from_layer_middlepoint.x
-			>> from_layer_middlepoint.y
-			>> from_layer_endpoint.x
-			>> from_layer_endpoint.y;
+			>> m_lefttop.x
+			>> m_lefttop.y
+			>> m_rightbotton.x
+			>> m_rightbotton.y;
 		fin2.close();
 	}
 	read_file_o = 1;

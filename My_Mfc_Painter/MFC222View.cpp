@@ -114,12 +114,9 @@ void CMFC222View::OnDraw(CDC* pDC)
 	{
 		pDoc->draw(pDC);
 		pDoc->numberdoc = 0;
-		//Invalidate();//???加不加?no!
-	
 		int n = pDoc->shapes.size();
 		for (int i = 0; i < n; i++)
 		{
-		/*	pDoc->shapes[i]->test = 1;*/
 			pDoc->shapes[i]->read_file_o = 1;//若不做等于一的操作，让它存进m_ls，再画出来，则怕是点一下就没了嗷
 			m_ls.Add(pDoc->shapes[i]);
 		}

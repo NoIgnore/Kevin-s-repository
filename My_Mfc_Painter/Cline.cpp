@@ -3,12 +3,6 @@
 
 void Cline::OnDraw(CDC* pDC)
 {
-	if (read_file_o == 1) 
-	{
-		m_start = from_layer_startpoint;
-		m_end = from_layer_endpoint;
-		read_file_o = 0;
-	}
 	pDC->MoveTo(m_start);
 	pDC->LineTo(m_end);
 	if (m_type == selecting) 
@@ -16,18 +10,15 @@ void Cline::OnDraw(CDC* pDC)
 		pDC->FillSolidRect(m_start.x - 3, m_start.y - 3, 6, 6, GetSysColor(COLOR_HIGHLIGHT));
 		pDC->FillSolidRect(m_end.x - 3, m_end.y - 3, 6, 6, GetSysColor(COLOR_HIGHLIGHT));
 	}
-	read_file_o = 0;//view.cppµÄ142ÐÐÏêÇé
 }
 void Cline::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	m_end = point;
-	from_layer_endpoint = point;
 	m_type = normal;
 }
 void Cline::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	m_start = point;
-	from_layer_startpoint = point;
 	m_shape = 1;
 }
 void Cline::OnMouseMove(UINT nFlags, CPoint point, CDC* pDC)
@@ -57,20 +48,16 @@ void Cline::Offset(CPoint ptoffset)
 {
 	m_start.Offset(ptoffset);
 	m_end.Offset(ptoffset);
-	from_layer_startpoint = m_start;
-	from_layer_endpoint = m_end;
 }
 
 void Cline::OnFileSave()
 {
-	buffer.Format(_T("%d %d %d %d %d %d %d"),
+	buffer.Format(_T("%d %d %d %d %d"),
 			m_shape,
-			from_layer_startpoint.x,
-			from_layer_startpoint.y,
-			from_layer_middlepoint.x,
-			from_layer_middlepoint.y,
-			from_layer_endpoint.x,
-			from_layer_endpoint.y
+			m_start.x,
+			m_start.y,
+			m_end.x,
+			m_end.y
 	);
 	buffer += "\n";
 }
@@ -86,27 +73,22 @@ void Cline::OnFileOpen(CString pathName)
 			getline(fin2, layer_string);
 		}
 		fin2 >> m_shape
-			 >> from_layer_startpoint.x
-			 >> from_layer_startpoint.y
-			 >> from_layer_middlepoint.x
-			 >> from_layer_middlepoint.y
-			 >> from_layer_endpoint.x
-			 >> from_layer_endpoint.y;
+			 >> m_start.x
+			 >> m_start.y
+			 >> m_end.x
+			 >> m_end.y;
 		fin2.close();
 	}
 	else {
 		ifstream fin2;
 		fin2.open(pathName);
 		fin2 >> m_shape
-			>> from_layer_startpoint.x
-			>> from_layer_startpoint.y
-			>> from_layer_middlepoint.x
-			>> from_layer_middlepoint.y
-			>> from_layer_endpoint.x
-			>> from_layer_endpoint.y;
+			>> m_start.x
+			>> m_start.y
+			>> m_end.x
+			>> m_end.y;
 		fin2.close();
 	}
-	read_file_o = 1;
 }
 
 

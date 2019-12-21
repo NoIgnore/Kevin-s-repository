@@ -12,7 +12,6 @@ class Ctriangle :
 	void Offset(CPoint ptoffset);
 	void OnFileSave();
 	void OnFileOpen(CString pathName);
-	int click = 1;
 public:
 	Ctriangle();
 	~Ctriangle();

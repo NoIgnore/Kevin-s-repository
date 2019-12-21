@@ -45,7 +45,7 @@ END_MESSAGE_MAP()
 
 CMFC222Doc::CMFC222Doc()
 {
-	m_nindex2 = ID_DRAW_ARROW;
+
 }
 
 CMFC222Doc::~CMFC222Doc()

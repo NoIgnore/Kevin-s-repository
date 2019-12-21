@@ -4,6 +4,7 @@ class CEllipse :
 	public CLayer
 {
 	CRect m_rect;
+	CPoint m_lefttop, m_rightbotton;
 	void OnDraw(CDC* pDC);
 	void OnLButtonUp(UINT nFlags, CPoint point);
 	void OnLButtonDown(UINT nFlags, CPoint point);

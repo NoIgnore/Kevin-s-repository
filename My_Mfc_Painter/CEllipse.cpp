@@ -5,9 +5,8 @@ void CEllipse::OnDraw(CDC* pDC)
 {
 	if (read_file_o == 1)
 	{
-		m_rect.TopLeft() = from_layer_startpoint;
-		m_rect.BottomRight() = from_layer_endpoint;
-		//m_rect.NormalizeRect();
+		m_rect.TopLeft() = m_lefttop;
+		m_rect.BottomRight() = m_rightbotton;
 		read_file_o = 0;
 	}
 	pDC->Ellipse(m_rect);
@@ -24,14 +23,14 @@ void CEllipse::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	m_rect.BottomRight() = point;
 	m_rect.NormalizeRect();
-	from_layer_endpoint = point;
+	m_rightbotton = point;
 	m_type = normal;
 }
 
 void CEllipse::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	m_rect.TopLeft() = point;
-	from_layer_startpoint = point;
+	m_lefttop = point;
 	m_shape = 3;
 }
 
@@ -62,20 +61,18 @@ void CEllipse::SelectLayer(UINT nFlags, CPoint point)
 void CEllipse::Offset(CPoint ptoffset)
 {
 	m_rect.OffsetRect(ptoffset);
-	from_layer_startpoint = m_rect.TopLeft();
-	from_layer_endpoint = m_rect.BottomRight();
+	m_lefttop = m_rect.TopLeft();
+	m_rightbotton = m_rect.BottomRight();
 }
 
 void CEllipse::OnFileSave()
 {
-	buffer.Format(_T("%d %d %d %d %d %d %d"),
+	buffer.Format(_T("%d %d %d %d %d"),
 		m_shape,
-		from_layer_startpoint.x,
-		from_layer_startpoint.y,
-		from_layer_middlepoint.x,
-		from_layer_middlepoint.y,
-		from_layer_endpoint.x,
-		from_layer_endpoint.y
+		m_lefttop.x,
+		m_lefttop.y,
+		m_rightbotton.x,
+		m_rightbotton.y
 	);
 	buffer += "\n";
 }
@@ -91,24 +88,20 @@ void CEllipse::OnFileOpen(CString pathName)
 			getline(fin2, layer_string);
 		}
 		fin2 >> m_shape
-			>> from_layer_startpoint.x
-			>> from_layer_startpoint.y
-			>> from_layer_middlepoint.x
-			>> from_layer_middlepoint.y
-			>> from_layer_endpoint.x
-			>> from_layer_endpoint.y;
+			>> m_lefttop.x
+			>> m_lefttop.y
+			>> m_rightbotton.x
+			>> m_rightbotton.y;
 		fin2.close();
 	}
 	else {
 		ifstream fin2;
 		fin2.open(pathName);
 		fin2 >> m_shape
-			>> from_layer_startpoint.x
-			>> from_layer_startpoint.y
-			>> from_layer_middlepoint.x
-			>> from_layer_middlepoint.y
-			>> from_layer_endpoint.x
-			>> from_layer_endpoint.y;
+			>> m_lefttop.x
+			>> m_lefttop.y
+			>> m_rightbotton.x
+			>> m_rightbotton.y;
 		fin2.close();
 	}
 	read_file_o = 1;
