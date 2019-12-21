@@ -79,31 +79,21 @@ void CEllipse::OnFileSave()
 
 void CEllipse::OnFileOpen(CString pathName)
 {
+	ifstream fin2;
+	fin2.open(pathName);
 	if (layer_n >= 2)
 	{
-		ifstream fin2;
-		fin2.open(pathName);
 		for (int i = 1; i < layer_n; i++)
 		{
 			getline(fin2, layer_string);
 		}
-		fin2 >> m_shape
-			>> m_lefttop.x
-			>> m_lefttop.y
-			>> m_rightbotton.x
-			>> m_rightbotton.y;
-		fin2.close();
 	}
-	else {
-		ifstream fin2;
-		fin2.open(pathName);
-		fin2 >> m_shape
-			>> m_lefttop.x
-			>> m_lefttop.y
-			>> m_rightbotton.x
-			>> m_rightbotton.y;
-		fin2.close();
-	}
+	fin2 >> m_shape
+		 >> m_lefttop.x
+		 >> m_lefttop.y
+		 >> m_rightbotton.x
+		 >> m_rightbotton.y;
+	fin2.close();
 	read_file_o = 1;
 }
 

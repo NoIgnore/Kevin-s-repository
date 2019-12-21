@@ -64,31 +64,21 @@ void Cline::OnFileSave()
 
 void Cline::OnFileOpen(CString pathName)
 {
-	if (layer_n >= 2)
+	ifstream fin2;
+	fin2.open(pathName);
+	if (layer_n >= 2) 
 	{
-		ifstream fin2;
-		fin2.open(pathName);
 		for (int i = 1; i < layer_n; i++)
 		{
 			getline(fin2, layer_string);
 		}
-		fin2 >> m_shape
-			 >> m_start.x
-			 >> m_start.y
-			 >> m_end.x
-			 >> m_end.y;
-		fin2.close();
 	}
-	else {
-		ifstream fin2;
-		fin2.open(pathName);
-		fin2 >> m_shape
-			>> m_start.x
-			>> m_start.y
-			>> m_end.x
-			>> m_end.y;
-		fin2.close();
-	}
+	fin2 >> m_shape
+		 >> m_start.x
+		 >> m_start.y
+		 >> m_end.x
+		 >> m_end.y;
+	fin2.close();
 }
 
 
