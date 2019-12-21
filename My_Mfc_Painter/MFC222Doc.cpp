@@ -179,8 +179,10 @@ void CMFC222Doc::OnFileSave()
 		return;
 	for (size_t i = 0; i < size(); i++)
 	{
-		shapes[i]->OnFileSave();
-		fout.WriteString(shapes[i]->buffer);
+		if (shapes[i]->m_shape != 0) {
+			shapes[i]->OnFileSave();
+			fout.WriteString(shapes[i]->buffer);
+		}
 	}
 	fout.Close();
 }
@@ -203,6 +205,7 @@ void CMFC222Doc::OnFileOpen()
 	while (!fin.eof())
 	{
 		fin >> type;
+		/*newShape->m_shape = type;*/
 		switch (type) 
 		{
 		case 1://直线
@@ -218,8 +221,10 @@ void CMFC222Doc::OnFileOpen()
 			newShape = new Ctriangle;
 			break;
 		}
-		newShape->layer_n = doc_n;
-		push_back(newShape);
+		if (newShape) {
+			newShape->layer_n = doc_n;
+			push_back(newShape);
+		}
 		getline(fin, str1);
 		doc_n++;
 	}

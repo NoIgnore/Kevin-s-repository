@@ -3,11 +3,11 @@ using namespace std;
 #include <fstream>
 #include <iostream>
 #include <string> 
-struct Mypointlist
-{
-	CPoint my__point = (0, 0);
-	Mypointlist* next = nullptr;
-};
+//struct Mypointlist
+//{
+//	CPoint my__point = (0, 0);
+//	Mypointlist* next = nullptr;
+//};
 class CLayer
 {
 public:
@@ -18,14 +18,14 @@ public:
 	};
 	EType m_type = normal;
 	CPoint my_point_selected;
-	Mypointlist* from_layer_head_point;
-	Mypointlist* from_layer_tail_point;
+	//Mypointlist* from_layer_head_point;
+	//Mypointlist* from_layer_tail_point;
 	CPoint from_layer_startpoint;
 	CPoint from_layer_endpoint;
 	CPoint from_layer_middlepoint = (0, 0);
 	CString buffer;
 
-	int m_shape = 2;
+	int m_shape = 0;
 	int read_file_o = 0;
 	int layer_click = 0;
 	int layer_n = 0;

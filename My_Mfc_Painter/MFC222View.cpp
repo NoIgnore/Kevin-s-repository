@@ -219,10 +219,6 @@ void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		player->OnLButtonDown(nFlags, point);
 		m_ls.Add(player);
-
-		CMFC222Doc* pDoc = GetDocument();
-		ASSERT_VALID(pDoc);
-		pDoc->push_back(player);
 	}
 
 }
@@ -246,13 +242,11 @@ void CMFC222View::OnLButtonUp(UINT nFlags, CPoint point)
 			return;
 		}
 	}
-	//int nSize = m_ls.GetSize();
 	if (!nSize)return;
 	m_ls[nSize-1]->OnLButtonUp(nFlags, point);
 	CMFC222Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-	pDoc->setMiddlepoint(m_ls[nSize - 1]->from_layer_middlepoint);
-	pDoc->setEndPoint(point);
+	pDoc->push_back(m_ls[nSize - 1]);
 	Invalidate(FALSE);
 
 }
