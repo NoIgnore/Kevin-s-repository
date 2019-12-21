@@ -82,7 +82,6 @@ BOOL CMFC222Doc::OnNewDocument()
 
 void CMFC222Doc::Serialize(CArchive& ar)
 {
-	/*numberdoc = m_docls.GetSize();*/
 	if (ar.IsStoring())
 	{
 		
@@ -205,7 +204,6 @@ void CMFC222Doc::OnFileOpen()
 	while (!fin.eof())
 	{
 		fin >> type;
-		/*newShape->m_shape = type;*/
 		switch (type) 
 		{
 		case 1://直线
