@@ -105,6 +105,7 @@ void Ctriangle::OnFileOpen(CString pathName)
 
 Ctriangle::Ctriangle()
 {
+	layer_click = 1;
 }
 
 Ctriangle::~Ctriangle()

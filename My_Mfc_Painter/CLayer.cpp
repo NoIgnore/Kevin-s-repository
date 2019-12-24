@@ -9,7 +9,4 @@ CLayer::~CLayer()
 {
 }
 
-CLayer::CLayer(CPoint p_startPoint, CPoint p_endPoint)
-{
-}
 

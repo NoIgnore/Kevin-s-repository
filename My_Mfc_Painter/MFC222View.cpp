@@ -18,6 +18,7 @@
 #include"CRectangle.h"
 #include "CPencil.h"
 #include"Ctriangle.h"
+#include"CPolygon.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -48,6 +49,8 @@ BEGIN_MESSAGE_MAP(CMFC222View, CView)
 	ON_UPDATE_COMMAND_UI(ID_DRAW_PENCIL, &CMFC222View::OnUpdateDrawPencil)
 	ON_COMMAND(ID_DRAW_TRIANGLE, &CMFC222View::OnDrawTriangle)
 	ON_UPDATE_COMMAND_UI(ID_DRAW_TRIANGLE, &CMFC222View::OnUpdateDrawTriangle)
+	ON_COMMAND(ID_POLYGON, &CMFC222View::OnPolygon)
+	ON_UPDATE_COMMAND_UI(ID_POLYGON, &CMFC222View::OnUpdatePolygon)
 END_MESSAGE_MAP()
 
 // CMFC222View 构造/析构
@@ -117,6 +120,7 @@ void CMFC222View::OnDraw(CDC* pDC)
 		int n = pDoc->shapes.size();
 		for (int i = 0; i < n; i++)
 		{
+			pDoc->shapes[i]->layer_click = 0;
 			pDoc->shapes[i]->read_file_o = 1;//若不做等于一的操作，让它存进m_ls，再画出来，则怕是点一下就没了嗷
 			m_ls.Add(pDoc->shapes[i]);
 		}
@@ -209,7 +213,10 @@ void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 
 	case ID_DRAW_TRIANGLE:
 		player = new Ctriangle;
-		player->layer_click = 1;
+		break;
+
+	case ID_POLYGON:
+		player = new CPolygon;
 		break;
 	}
 	if (player)
@@ -333,4 +340,15 @@ void CMFC222View::OnDrawTriangle()
 void CMFC222View::OnUpdateDrawTriangle(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_nIndex == ID_DRAW_TRIANGLE);
+}
+
+void CMFC222View::OnPolygon()
+{
+	m_nIndex = ID_POLYGON;
+}
+
+
+void CMFC222View::OnUpdatePolygon(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(m_nIndex == ID_POLYGON);
 }

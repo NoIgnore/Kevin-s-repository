@@ -24,7 +24,6 @@ public:
 
 	CLayer();
 	virtual ~CLayer();
-	CLayer(CPoint p_startPoint, CPoint p_endPoint);
 	virtual void OnDraw(CDC* pDC) = 0;
 	virtual void OnLButtonDown(UINT nFlags, CPoint point) = 0;
 	virtual void OnLButtonUp(UINT nFlags, CPoint point) = 0;

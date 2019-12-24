@@ -22,6 +22,7 @@
 #include"CRectangle.h"
 #include"CPencil.h"
 #include"Ctriangle.h"
+#include"CPolygon.h"
 
 #include <propkey.h>
 
@@ -82,6 +83,7 @@ BOOL CMFC222Doc::OnNewDocument()
 
 void CMFC222Doc::Serialize(CArchive& ar)
 {
+	/*numberdoc = m_docls.GetSize();*/
 	if (ar.IsStoring())
 	{
 		
@@ -217,6 +219,9 @@ void CMFC222Doc::OnFileOpen()
 			break;
 		case 4://triangle
 			newShape = new Ctriangle;
+			break;
+		case 5:
+			newShape = new CPolygon;
 			break;
 		}
 		if (newShape) {
