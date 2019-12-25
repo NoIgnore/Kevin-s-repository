@@ -4,6 +4,7 @@
 
 #include "pch.h"
 #include "framework.h"
+#include <Windows.h>
 // SHARED_HANDLERS 可以在实现预览、缩略图和搜索筛选器句柄的
 // ATL 项目中进行定义，并允许与该项目共享文档代码。
 #ifndef SHARED_HANDLERS
@@ -13,12 +14,12 @@
 #include "MFC222Doc.h"
 #include "MFC222View.h"
 
-#include "Cline.h"
-#include"CEllipse.h"
-#include"CRectangle.h"
-#include "CPencil.h"
-#include"Ctriangle.h"
-#include"CPolygon.h"
+//#include "Cline.h"
+
+//#include"CRectangle.h"
+//
+//#include"Ctriangle.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -39,18 +40,12 @@ BEGIN_MESSAGE_MAP(CMFC222View, CView)
 	ON_WM_MOUSEMOVE()
 	ON_COMMAND(ID_DRAW_ARROW, &CMFC222View::OnDrawArrow)
 	ON_UPDATE_COMMAND_UI(ID_DRAW_ARROW, &CMFC222View::OnUpdateDrawArrow)
-	ON_COMMAND(ID_DRAW_ELLIPSE, &CMFC222View::OnDrawEllipse)
-	ON_UPDATE_COMMAND_UI(ID_DRAW_ELLIPSE, &CMFC222View::OnUpdateDrawEllipse)
-	ON_COMMAND(ID_DRAW_LINE, &CMFC222View::OnDrawLine)
-	ON_UPDATE_COMMAND_UI(ID_DRAW_LINE, &CMFC222View::OnUpdateDrawLine)
-	ON_COMMAND(ID_DRAW_RECT, &CMFC222View::OnDrawRect)
-	ON_UPDATE_COMMAND_UI(ID_DRAW_RECT, &CMFC222View::OnUpdateDrawRect)
-	ON_COMMAND(ID_DRAW_PENCIL, &CMFC222View::OnDrawPencil)
-	ON_UPDATE_COMMAND_UI(ID_DRAW_PENCIL, &CMFC222View::OnUpdateDrawPencil)
-	ON_COMMAND(ID_DRAW_TRIANGLE, &CMFC222View::OnDrawTriangle)
-	ON_UPDATE_COMMAND_UI(ID_DRAW_TRIANGLE, &CMFC222View::OnUpdateDrawTriangle)
-	ON_COMMAND(ID_POLYGON, &CMFC222View::OnPolygon)
-	ON_UPDATE_COMMAND_UI(ID_POLYGON, &CMFC222View::OnUpdatePolygon)
+	ON_COMMAND(ID_GET_PLUGINS, &CMFC222View::OnGetPlugins)
+	ON_UPDATE_COMMAND_UI(ID_GET_PLUGINS, &CMFC222View::OnUpdateGetPlugins)
+	ON_COMMAND(ID_NEXT, &CMFC222View::OnNext)
+	ON_UPDATE_COMMAND_UI(ID_NEXT, &CMFC222View::OnUpdateNext)
+	ON_COMMAND(ID_DRAWING_1, &CMFC222View::OnDrawing1)
+	ON_UPDATE_COMMAND_UI(ID_DRAWING_1, &CMFC222View::OnUpdateDrawing1)
 END_MESSAGE_MAP()
 
 // CMFC222View 构造/析构
@@ -183,6 +178,10 @@ void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 		SelectLayer(nFlags, point);
 		return;
 	}
+	if (ID_NEXT == m_nIndex)
+	{
+		return;
+	}
 	int nSize = m_ls.GetSize();
 	if (nSize!=0)
 	{
@@ -195,36 +194,20 @@ void CMFC222View::OnLButtonDown(UINT nFlags, CPoint point)
 	CLayer* player = NULL;
 	switch (m_nIndex)
 	{
-	case ID_DRAW_LINE:
-		player = new Cline;
-		break;
+		case ID_GET_PLUGINS:
+			getplugins();
+			break;
+	
+		case ID_DRAWING_1:
+			player = getobject(flowing_shapes);
+			break;
 
-	case ID_DRAW_ELLIPSE:
-		player = new CEllipse;
-		break;
-
-	case ID_DRAW_RECT:
-		player = new CRectangle;
-		break;
-
-	case ID_DRAW_PENCIL:
-		player = new CPencil;
-		break;
-
-	case ID_DRAW_TRIANGLE:
-		player = new Ctriangle;
-		break;
-
-	case ID_POLYGON:
-		player = new CPolygon;
-		break;
 	}
 	if (player)
 	{
 		player->OnLButtonDown(nFlags, point);
 		m_ls.Add(player);
 	}
-
 }
 
 
@@ -236,7 +219,17 @@ void CMFC222View::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 		SelectEnd(nFlags, point);
 		return;
+	}	
+	if (ID_NEXT == m_nIndex)
+	{
+		if (flowing_shapes >= total_shapes)
+		{
+			flowing_shapes = 1;
+		}
+		else { flowing_shapes++; }
+		return;
 	}
+	if (m_nIndex == ID_GET_PLUGINS)return;
 	int nSize = m_ls.GetSize();
 	if (nSize != 0)
 	{
@@ -262,6 +255,7 @@ void CMFC222View::OnMouseMove(UINT nFlags, CPoint point)
 	{
 		return;
 	}
+	if (m_nIndex == ID_NEXT || m_nIndex == ID_GET_PLUGINS)return;
 	CView::OnMouseMove(nFlags, point);
 	int nSize = m_ls.GetSize();
 	if (nSize<=0)return;
@@ -284,71 +278,61 @@ void CMFC222View::OnUpdateDrawArrow(CCmdUI* pCmdUI)
 }
 
 
-void CMFC222View::OnDrawEllipse()
+void CMFC222View::OnGetPlugins()
 {
-	m_nIndex = ID_DRAW_ELLIPSE;
+	m_nIndex = ID_GET_PLUGINS;
+}
+
+void CMFC222View::OnUpdateGetPlugins(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(m_nIndex == ID_GET_PLUGINS);
+}
+
+void CMFC222View::OnNext()
+{
+	m_nIndex = ID_NEXT;
 }
 
 
-void CMFC222View::OnUpdateDrawEllipse(CCmdUI* pCmdUI)
+void CMFC222View::OnUpdateNext(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetCheck(m_nIndex == ID_DRAW_ELLIPSE);
+	pCmdUI->SetCheck(m_nIndex == ID_NEXT);
 }
 
-
-void CMFC222View::OnDrawLine()
+void CMFC222View::getplugins()
 {
-	m_nIndex = ID_DRAW_LINE;
+	modules.clear();
+	WIN32_FIND_DATA fileData;
+	HANDLE fileHandle = FindFirstFile(L"plugins/*.dll", &fileData);
+	if (fileHandle == (void*)ERROR_INVALID_HANDLE ||
+		fileHandle == (void*)ERROR_FILE_NOT_FOUND) {
+		MessageBox(TEXT("NONE DLL"));//检测是否有dll读入
+		return;
+	}
+	do {
+		++total_shapes;
+		HINSTANCE mod = LoadLibrary((L"./plugins/" + wstring(fileData.cFileName)).c_str());
+		modules.push_back(mod);
+	} while (FindNextFile(fileHandle, &fileData));
+	FindClose(fileHandle);
+	return;
 }
 
-
-void CMFC222View::OnUpdateDrawLine(CCmdUI* pCmdUI)
+CLayer* CMFC222View::getobject(size_t n)
 {
-	pCmdUI->SetCheck(m_nIndex == ID_DRAW_LINE);
+	size_t i = n - 1;
+	HINSTANCE mod = modules[i];
+	typedef CLayer* (__cdecl* create_obj_point)(void);
+	create_obj_point objFunc = (create_obj_point)GetProcAddress(mod, "create");
+	return objFunc();
 }
 
-
-void CMFC222View::OnDrawRect()
+void CMFC222View::OnDrawing1()
 {
-	m_nIndex = ID_DRAW_RECT;
+	m_nIndex = ID_DRAWING_1;
 }
 
-
-void CMFC222View::OnUpdateDrawRect(CCmdUI* pCmdUI)
+void CMFC222View::OnUpdateDrawing1(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetCheck(m_nIndex == ID_DRAW_RECT);
-}
-
-
-void CMFC222View::OnDrawPencil()
-{
-	m_nIndex = ID_DRAW_PENCIL;
-}
-
-
-void CMFC222View::OnUpdateDrawPencil(CCmdUI* pCmdUI)
-{
-	pCmdUI->SetCheck(m_nIndex == ID_DRAW_PENCIL);
-}
-
-void CMFC222View::OnDrawTriangle()
-{
-	m_nIndex = ID_DRAW_TRIANGLE;
-}
-
-
-void CMFC222View::OnUpdateDrawTriangle(CCmdUI* pCmdUI)
-{
-	pCmdUI->SetCheck(m_nIndex == ID_DRAW_TRIANGLE);
-}
-
-void CMFC222View::OnPolygon()
-{
-	m_nIndex = ID_POLYGON;
-}
-
-
-void CMFC222View::OnUpdatePolygon(CCmdUI* pCmdUI)
-{
-	pCmdUI->SetCheck(m_nIndex == ID_POLYGON);
+	pCmdUI->SetCheck(m_nIndex == ID_DRAWING_1);
 }

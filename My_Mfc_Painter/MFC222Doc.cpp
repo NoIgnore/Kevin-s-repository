@@ -12,17 +12,17 @@
 
 #include "MFC222Doc.h"
 
-
+#include <Windows.h>
 #include <iostream>
 #include <string> 
 #include "CLayer.h"//......................
-#include "Cline.h"
+
 #include <fstream>
-#include"CEllipse.h"
-#include"CRectangle.h"
-#include"CPencil.h"
-#include"Ctriangle.h"
-#include"CPolygon.h"
+
+//#include"CRectangle.h"
+//#include "Cline.h"
+//#include"Ctriangle.h"
+
 
 #include <propkey.h>
 
@@ -190,6 +190,7 @@ void CMFC222Doc::OnFileSave()
 
 void CMFC222Doc::OnFileOpen()
 {
+	getplugins();
 	CFileDialog openDlg(true, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, NULL);
 	openDlg.DoModal();
 	CString pathName = openDlg.GetPathName();
@@ -206,24 +207,7 @@ void CMFC222Doc::OnFileOpen()
 	while (!fin.eof())
 	{
 		fin >> type;
-		switch (type) 
-		{
-		case 1://直线
-			newShape = new Cline;
-			break;
-		case 2://矩形
-			newShape = new CRectangle;
-			break;
-		case 3://椭圆
-			newShape = new CEllipse;
-			break;
-		case 4://triangle
-			newShape = new Ctriangle;
-			break;
-		case 5:
-			newShape = new CPolygon;
-			break;
-		}
+		newShape = getobject(type);
 		if (newShape) {
 			newShape->layer_n = doc_n;
 			push_back(newShape);
@@ -240,7 +224,29 @@ void CMFC222Doc::OnFileOpen()
 	numberdoc = 1;
 }
 
+CLayer* CMFC222Doc::getobject(size_t n)
+{
+	size_t i = n - 1;
+	HINSTANCE mod = modules[i];
+	typedef CLayer* (__cdecl* create_obj_point)(void);
+	create_obj_point objFunc = (create_obj_point)GetProcAddress(mod, "create");
+	return objFunc();
+}
 
-
-
+void CMFC222Doc::getplugins()
+{
+	modules.clear();
+	WIN32_FIND_DATA fileData;
+	HANDLE fileHandle = FindFirstFile(L"plugins/*.dll", &fileData);
+	if (fileHandle == (void*)ERROR_INVALID_HANDLE ||
+		fileHandle == (void*)ERROR_FILE_NOT_FOUND) {
+		return;
+	}
+	do {
+		HINSTANCE mod = LoadLibrary((L"./plugins/" + wstring(fileData.cFileName)).c_str());
+		modules.push_back(mod);
+	} while (FindNextFile(fileHandle, &fileData));
+	FindClose(fileHandle);
+	return;
+}
 

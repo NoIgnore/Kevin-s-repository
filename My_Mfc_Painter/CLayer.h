@@ -1,8 +1,9 @@
 #pragma once
+#include "pch.h"
 using namespace std;
 #include <fstream>
 #include <iostream>
-#include <string> 
+#include <string>
 
 class CLayer
 {
@@ -32,5 +33,5 @@ public:
 	virtual void Offset(CPoint ptoffset) = 0;
 	virtual void OnFileSave() = 0;
 	virtual void OnFileOpen(CString pathName) = 0;
+	virtual const char* getName() = 0;
 };
-

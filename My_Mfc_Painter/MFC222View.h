@@ -10,11 +10,16 @@ class CMFC222View : public CView
 
 protected: // 仅从序列化创建
 	CArray<CLayer*> m_ls;
+	vector<HINSTANCE> modules;
+	vector<string> name_list;
+	size_t total_shapes = 0;
+	size_t flowing_shapes = 1;
 	CMFC222View();// noexcept;
 	DECLARE_DYNCREATE(CMFC222View)
 	UINT m_nIndex;
 	void SelectLayer(UINT nFlags, CPoint point);
 	void SelectEnd(UINT nFlags, CPoint point);
+
 // 特性
 public:
 	CMFC222Doc* GetDocument() const;
@@ -51,22 +56,14 @@ public:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnDrawArrow();
 	afx_msg void OnUpdateDrawArrow(CCmdUI* pCmdUI);
-	afx_msg void OnDrawEllipse();
-	afx_msg void OnUpdateDrawEllipse(CCmdUI* pCmdUI);
-	afx_msg void OnDrawLine();
-	afx_msg void OnUpdateDrawLine(CCmdUI* pCmdUI);
-	afx_msg void OnDrawRect();
-	afx_msg void OnUpdateDrawRect(CCmdUI* pCmdUI);
-	afx_msg void OnDrawPencil();
-	afx_msg void OnUpdateDrawPencil(CCmdUI* pCmdUI);
-
-	int get_status_from_doc = 0;
-	int if_move_and_save = 0;
-
-	afx_msg void OnDrawTriangle();
-	afx_msg void OnUpdateDrawTriangle(CCmdUI* pCmdUI);
-	afx_msg void OnPolygon();
-	afx_msg void OnUpdatePolygon(CCmdUI* pCmdUI);
+	afx_msg void OnGetPlugins();
+	afx_msg void OnUpdateGetPlugins(CCmdUI* pCmdUI);
+	void getplugins();
+	CLayer* getobject(size_t n);
+	afx_msg void OnNext();
+	afx_msg void OnUpdateNext(CCmdUI* pCmdUI);
+	afx_msg void OnDrawing1();
+	afx_msg void OnUpdateDrawing1(CCmdUI* pCmdUI);
 };
 
 #ifndef _DEBUG  // MFC222View.cpp 中的调试版本

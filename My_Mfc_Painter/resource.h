@@ -12,15 +12,17 @@
 #define ID_DRAW_ARROW                   32782
 #define ID_DRAW_PENCIL                  32783
 #define ID_DRAW_TRIANGLE                32785
-#define ID_BUTTON32786                  32786
 #define ID_POLYGON                      32787
+#define ID_GET_PLUGINS                  32788
+#define ID_NEXT                         32789
+#define ID_DRAWING_1                    32790
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        320
-#define _APS_NEXT_COMMAND_VALUE         32788
+#define _APS_NEXT_COMMAND_VALUE         32792
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

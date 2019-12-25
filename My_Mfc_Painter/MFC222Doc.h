@@ -21,6 +21,7 @@ public:
 public:
 	int numberdoc = 0;
 	vector<CLayer*> shapes;
+	vector<HINSTANCE> modules;
 	void push_back(CLayer* p_shape) { shapes.push_back(p_shape); }
 	size_t size() { return shapes.size(); }
 	void draw(CDC* pDC);
@@ -55,4 +56,6 @@ protected:
 public:
 	afx_msg void OnFileSave();
 	afx_msg void OnFileOpen();
+	CLayer* getobject(size_t n);
+	void getplugins();
 };
