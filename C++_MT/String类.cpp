@@ -84,7 +84,7 @@ public:
 	int str2num();
 	void toUppercase();
 };
-//.....
+//.....strstr返回一个指针，指向string2在string1中首次出现的位置
 
 bool String::IsSubstring(const char* str)
 {
