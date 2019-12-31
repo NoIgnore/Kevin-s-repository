@@ -30,7 +30,8 @@ bool Set::operator ==(const Set &s) const
 }
 Set & Set::operator +=(int e)
 {
-	if (!IsElement(e)){
+	if (!IsElement(e))
+	{
 		++n;
 		int *store= new int [n+1];
 		for (int i= 1; i< n; ++i){
