@@ -59,15 +59,16 @@ sub sp, 2
 push bx
 mov byte [bp - 2], cl
 mov bl, 18
-div bl
-inc ah; sectorno
+div bl;ax是绝对扇区号，除以18，余数在ah中商在al中
+inc ah;; 余数加1为扇区号
 mov cl, ah; set sectorno
-mov dh, al
-and dh, 1; hdr
-shr al, 1; trackno track在磁盘文件上是按同trackno的所有磁头的连续存放，
+mov dh, al;al中为商N
+and dh, 1;N and 1为磁头
+shr al, 1; N 除以2为道，右移就是除以2
+;track在磁盘文件上是按同trackno的所有磁头的连续存放，
 ;因为软盘2磁头，所以除以2
 mov ch, al;set track no 
-mov dl, 0; drive 0
+mov dl, 0; drive 0;设定为读软盘
 pop bx
 mov ah, 02h; read
 mov al, [bp - 2]; read [bp-2] sectors
