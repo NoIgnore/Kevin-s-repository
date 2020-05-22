@@ -98,7 +98,7 @@ unsigned int bbs_rand(int flag) {
 			head = head->next;
 		}
 	}
-	else if(flag == 1)
+	else
 	{
 		while (head)
 		{
@@ -108,21 +108,7 @@ unsigned int bbs_rand(int flag) {
 			{
 				count_h += (s2[i] == '1' ? 1 : 0);
 			}
-			s1 += (count_h % 2 == 1 ? '0' : '1');
-			head = head->next;
-		}
-	}
-	else if(flag == 2)
-	{
-		while (head)
-		{
-			int count_h = 0;
-			s2 = dec_bin(head->a);
-			for (int i = 0; i < s2.length(); i++)
-			{
-				count_h += (s2[i] == '1' ? 1 : 0);
-			}
-			s1 += (count_h % 2 == 0 ? '0' : '1');
+			s1 += (flag == 1 ? (count_h % 2 == 1 ? '0' : '1') : (count_h % 2 == 0 ? '0' : '1'));
 			head = head->next;
 		}
 	}
@@ -169,3 +155,9 @@ int main()
 	cout << s1;*/
 	return 0;
 }
+/*3245086401
+11000001011011000001011011000001
+2487829652
+10010100010010010100010010010100
+1807137643
+1101011101101101011101101101011*/
