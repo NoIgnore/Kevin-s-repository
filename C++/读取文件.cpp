@@ -56,16 +56,16 @@ int main()
 	{
 		cout << "2" << endl;
 	}*/
-	//ip_subnet* second = new ip_subnet;
-	//readTxt("11.txt", second);//11.txt在当前目录下
-	//ip_list* second_headlist = new ip_list;
-	//second_headlist = second->A;
-	//while (second_headlist->address != "0")
-	//{
-	//	cout << second_headlist->address << endl;
-	//	cout << second_headlist->address[0] << endl;
-	//	second_headlist = second_headlist->next;
-	//}
+	ip_subnet* second = new ip_subnet;
+	readTxt("11.txt", second);//11.txt在当前目录下
+	ip_list* second_headlist = new ip_list;
+	second_headlist = second->A;
+	while (second_headlist->address != "0")
+	{
+		cout << second_headlist->address << endl;
+		cout << second_headlist->address[0] << endl;
+		second_headlist = second_headlist->next;
+	}
 	string s1 = "123";
 	int a[3] = { 4,5,6 };
 	int b = atoi(s1.c_str());//string转换成int
