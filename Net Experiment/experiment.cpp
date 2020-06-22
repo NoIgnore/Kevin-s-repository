@@ -193,12 +193,14 @@ int main()
 		ip_list* outputip = new ip_list;
 		outputip = fourth_headlist->A->next;
 		fout << fourth_headlist->subnetname << " " << ":" << " " << endl;
+		int count = 0;
 		while (outputip)
 		{
+			count++;
 			fout << outputip->address << " ";
 			outputip = outputip->next;
 		}
-		fout << endl << endl;
+		fout << endl << "共" << count << "个" << endl << endl;
 		fourth_headlist = fourth_headlist->next;
 	}
 	fout << flush;
