@@ -70,22 +70,13 @@ void readTxt(string file, T * B)
 	}
 	infile.close();//关闭文件输入流
 }
-
-int main()
+void ipsubnet_link_iplist(ip_subnet* second_headlist, ip_list* head_of_ipaddress_list)
 {
-	ip_subnet* Head_of_subnet_list = new ip_subnet;
-	readTxt("ip子网清单.txt", Head_of_subnet_list);
-	ip_subnet* second_headlist = new ip_subnet;
-	second_headlist = Head_of_subnet_list;
-
-	ip_list* head_of_ipaddress_list = new ip_list;
-	readTxt("ip地址清单.txt", head_of_ipaddress_list);
-
 	while (true)
 	{
-		int block = 2;
-		int low_limit = second_headlist->number - block - 1;
-		int high = second_headlist->number - 2;
+		int block = 4;
+		int low_limit = second_headlist->number + 1;
+		int high = second_headlist->number + block - 2;
 		ip_list* third_headlist = new ip_list;
 		third_headlist = head_of_ipaddress_list;
 		ip_list* fifth_headlist = new ip_list;
@@ -111,6 +102,18 @@ int main()
 		second_headlist = second_headlist->next;
 		if (!second_headlist)break;
 	}
+}
+int main()
+{
+	ip_subnet* Head_of_subnet_list = new ip_subnet;
+	readTxt("ip子网清单.txt", Head_of_subnet_list);
+	ip_subnet* second_headlist = new ip_subnet;
+	second_headlist = Head_of_subnet_list;
+
+	ip_list* head_of_ipaddress_list = new ip_list;
+	readTxt("ip地址清单.txt", head_of_ipaddress_list);
+	//---------------------------------------------------------------------
+	ipsubnet_link_iplist(second_headlist, head_of_ipaddress_list);
 	//---------------------------------------------------------------------
 	ip_subnet* fourth_headlist = new ip_subnet;
 	fourth_headlist = Head_of_subnet_list;
