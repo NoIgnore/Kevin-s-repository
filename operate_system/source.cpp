@@ -25,15 +25,7 @@ vector<pcb> all_process_list;//记录所有的进程信息
 vector<vector<pcb>> ready_array(3, vector<pcb>(20));//0-init,1-user,2-system
 vector<vector<pcb>> blocked_array(3, vector<pcb>(20));//0-init,1-user,2-system
 vector<rcb> resource_list;
-string running_pid = "hhj2";
-void rcb_list_append(rcb* a, rcb b)
-{
-	a->next = &b;
-}
-void pcb_list_append(pcb* a, pcb b)
-{
-	a->next = &b;
-}
+string running_pid = "hhj";
 void init_resource_list()
 {
 	for (int i = 0; i < 4; i++)
@@ -44,6 +36,7 @@ void init_resource_list()
 		a.availa_num = a.init_num;
 		resource_list.push_back(a);
 	}
+	cout << "init" << endl;
 }
 void create(string pid, pcb parent, pcb child, int priority)
 {
@@ -67,26 +60,81 @@ void create(string pid, pcb parent, pcb child, int priority)
 			return;
 		}
 	}
-	if (ready_array[0][0].pid!= "hhj")
+	int num[3] = { 0 };
+	for (int i = 2; i >= 0; i--)
 	{
-		if (running_pid == "hhj2")
+		for (vector<pcb>::iterator it = ready_array[i].begin(); it != ready_array[i].end(); it++)
 		{
-			running_pid = a.pid;
-			a.status = 3;
+			if (it->pid != "hhj")
+			{
+				num[i]++;
+			}
+		}
+	}
+	switch (a.priority)
+	{
+	case 2:
+		if (num[2] == 0)//如果最高优先级没有ready进程
+		{
+			if (running_pid == "hhj")//如果running为空
+			{
+				running_pid = a.pid;
+				a.status = 3;
+			}
+			else
+			{
+				a.status = 2;
+				ready_array[a.priority].push_back(a);
+			}
 		}
 		else
 		{
 			a.status = 2;
-			ready_array[1].push_back(a);
+			ready_array[a.priority].push_back(a);
 		}
-	}
-	else
-	{
-		a.status = 2;
-		ready_array[1].push_back(a);
+		break;
+	case 1:
+		if (num[2] == 0 && num[1] == 0)//如果最高优先级有ready进程
+		{
+			if (running_pid == "hhj")//如果running为空
+			{
+				running_pid = a.pid;
+				a.status = 3;
+			}
+			else
+			{
+				a.status = 2;
+				ready_array[a.priority].push_back(a);
+			}
+		}
+		else
+		{
+			a.status = 2;
+			ready_array[a.priority].push_back(a);
+		}
+		break;
+	case 0:
+		if (num[2] == 0 && num[1] == 0 && num[0] == 0)//如果最高优先级有ready进程
+		{
+			if (running_pid == "hhj")//如果running为空
+			{
+				running_pid = a.pid;
+				a.status = 3;
+			}
+			else
+			{
+				a.status = 2;
+				ready_array[a.priority].push_back(a);
+			}
+		}
+		else
+		{
+			a.status = 2;
+			ready_array[a.priority].push_back(a);
+		}
+		break;
 	}
 	all_process_list.push_back(a);
-	//省略sort ready步骤
 }
 pcb release1(string pid)
 {
@@ -96,7 +144,7 @@ pcb release1(string pid)
 		if (it->pid == pid)
 		{
 			a = *it;
-			for (int i = 0; i < 4; i++) 
+			for (int i = 0; i < 4; i++)
 			{
 				resource_list[i].availa_num += it->resource_occupied[i];
 				it->resource_occupied[i] = 0;
@@ -104,8 +152,8 @@ pcb release1(string pid)
 			break;
 		}
 	}
-	for (int i = 0; i < 3; i++)
-	{ 
+	for (int i = 2; i >=0 ; i--)
+	{
 		for (vector<pcb>::iterator it2 = blocked_array[i].begin(); it2 != blocked_array[i].end(); it2++)
 		{
 			if (it2->blocked_resc_type == 0)continue;
@@ -128,40 +176,74 @@ pcb release1(string pid)
 	}
 	return a;
 }
+pcb search_process_information(string pid)
+{
+	for (vector<pcb>::iterator it = all_process_list.begin(); it != all_process_list.end(); it++)
+	{
+		if (it->pid == pid) {
+			return *it;
+		}
+	}
+	pcb new3;
+	return new3;
+}
 void destory(string pid)
 {
 	pcb a = release1(pid);
 	for (int i = 0; i < 3; i++)
 	{
+		int uu = 0;
 		for (vector<pcb>::iterator it = ready_array[i].begin(); it != ready_array[i].end(); it++)
 		{
 			if (it->pid == pid)
 			{
 				ready_array[i].erase(it);
+				uu = 1;
+				break;
 			}
+			if (uu = 1)break;
 		}
 	}
-	if (running_pid == pid)running_pid = "hhj2";//如果正在运行的模块的PID值等于要删除的模块的PID值，则运行状态为空
+	for (int i = 0; i < 3; i++)
+	{
+		int uu = 0;
+		for (vector<pcb>::iterator it = blocked_array[i].begin(); it != blocked_array[i].end(); it++)
+		{
+			if (it->pid == pid)
+			{
+				blocked_array[i].erase(it);
+				uu = 1;
+				break;
+			}
+			if (uu = 1)break;
+		}
+	}
+	if (running_pid == pid)running_pid = "hhj";//如果正在运行的模块的PID值等于要删除的模块的PID值，则运行状态为空
 	for (vector<pcb>::iterator it = all_process_list.begin(); it != all_process_list.end(); it++)
 	{
-		if (it->pid == pid)all_process_list.erase(it);
+		if (it->pid == pid)
+		{
+			all_process_list.erase(it);
+			break;
+		}
 	}
-	if (a.child)
+	if (a.parent && a.parent->pid != "hhj")a.parent->child = nullptr;
+	if (a.child && a.child->pid!="hhj")
 	{
 		destory(a.child->pid);//递归调用删除该PCB的子进程PCB
 	}
 }
-void request(int rid, int num) 
+void request(int rid, int num)
 {
 	pcb runningman;
-	if (running_pid == "hhj2")
+	if (running_pid == "hhj")
 	{
-		cout << "No process is running! Can't request!" << endl;
+		cout << "No process is running! Can't request! Please at least create a process firstly!" << endl;
 		return;
 	}
 	if (resource_list[rid - 1].availa_num < num)
 	{
-		cout << "Not enough resource" << endl;
+		//cout << "Not enough resource" << endl;
 		for (vector<pcb>::iterator it = all_process_list.begin(); it != all_process_list.end(); it++)
 		{
 			if (it->pid == running_pid)
@@ -174,19 +256,35 @@ void request(int rid, int num)
 		runningman.resource_occupied[rid - 1] += num;
 		runningman.status = 1;//blocked=1
 		blocked_array[runningman.priority].push_back(runningman);
-		if (ready_array[0][0].pid == "hhj" && ready_array[1][0].pid == "hhj" && ready_array[2][0].pid == "hhj")running_pid = "hhj2";
+		int num[3] = { 0 };
+		for (int i = 2; i >= 0; i--)
+		{
+			for (vector<pcb>::iterator it = ready_array[i].begin(); it != ready_array[i].end(); it++)
+			{
+				if (it->pid != "hhj")
+				{
+					num[i]++;
+				}
+			}
+		}
+		if (num[0] == 0 && num[1] == 0 && num[2] == 0)running_pid = "hhj";
 		else
 		{
-			for (int i = 2; i >=0 ; i--)
+			for (int i = 2; i >= 0; i--)
 			{
-				if (ready_array[i][0].pid != "hhj")
+				int uu = 0;
+				for (vector<pcb>::iterator it = ready_array[i].begin(); it != ready_array[i].end(); it++)
 				{
-					running_pid = ready_array[i][0].pid;
-					ready_array[i][0].status = 3;
-					vector<pcb>::iterator it = ready_array[i].begin();
-					ready_array[i].erase(it);
-					break;
+					if (it->pid != "hhj")
+					{
+						it->status = 3;
+						running_pid = it->pid;
+						ready_array[i].erase(it);
+						uu = 1;
+						break;
+					}
 				}
+				if (uu == 1)break;
 			}
 		}
 	}
@@ -213,17 +311,19 @@ void timeout()
 			break;
 		}
 	}
-	ready_array[runningman.priority].push_back(runningman);
 	runningman.status = 2;
+	ready_array[runningman.priority].push_back(runningman);
 	for (int i = 2; i >= 0; i--)
 	{
-		if (ready_array[i][0].pid != "hhj")
+		for (vector<pcb>::iterator it = ready_array[i].begin(); it != ready_array[i].end(); it++)
 		{
-			running_pid = ready_array[i][0].pid;
-			ready_array[i][0].status = 3;
-			vector<pcb>::iterator it = ready_array[i].begin();
-			ready_array[i].erase(it);
-			break;
+			if (it->pid != "hhj")
+			{
+				it->status = 3;
+				running_pid = it->pid;
+				ready_array[i].erase(it);
+				return;
+			}
 		}
 	}
 }
@@ -243,7 +343,7 @@ void list_all_resources()
 }
 void list_all_blocked()
 {
-	for (int i = 3; i > 0; i--)
+	for (int i = 2; i >= 0; i--)
 	{
 		for (int j = 0; j < 20; j++)
 		{
@@ -260,32 +360,18 @@ void list_all_blocked()
 }
 void list_all_ready()
 {
-	for (int i = 3; i > 0; i--)
+	for (int i = 2; i >= 0; i--)
 	{
-		for (int j = 0; j < 20; j++)
+		for (vector<pcb>::iterator it = ready_array[i].begin(); it != ready_array[i].end(); it++)
 		{
-			if (ready_array[i][j].pid != "hhj")
+			if (it->pid != "hhj")
 			{
-				cout << ready_array[i][j].pid << " " << ready_array[i][j].priority << " " << ready_array[i][j].status << endl;
-			}
-			else
-			{
-				break;
+				cout << it->pid << " " << it->priority << " " << it->status << endl;
 			}
 		}
 	}
 }
-pcb search_process_information(string pid)
-{
-	for (vector<pcb>::iterator it = all_process_list.begin(); it != all_process_list.end(); it++)
-	{
-		if (it->pid == pid) {
-			return *it;
-		}
-	}
-	pcb new3;
-	return new3;
-}
+
 int main()
 {
 	init_resource_list();
@@ -293,8 +379,8 @@ int main()
 	string pathname = "C:/Users/12091/Desktop/11.txt";
 	fin2.open(pathname);
 	string command = "be";
-	string pid_name;
-	int pid_priority;
+	string pid_name, re_name;
+	int pid_priority, need_r_num;
 	pcb running_process, new_pcb, register_pcb;
 	while (command != "exit")
 	{
@@ -313,56 +399,66 @@ int main()
 		else if (command == "de")
 		{
 			fin2 >> pid_name;
+			getline(fin2, rubbish);
 			destory(pid_name);
 		}
 		else if (command == "to")
 		{
+			getline(fin2, rubbish);
 			timeout();
 		}
 		else if (command == "req")
 		{
-			fin2 >> pid_name >> pid_priority;
-			if (pid_name == "R1")
+			fin2 >> re_name >> need_r_num;
+			getline(fin2, rubbish);
+			if (re_name == "R1")
 			{
-				request(1, pid_priority);
+				request(1, need_r_num);
 			}
-			else if (pid_name == "R2")
+			else if (re_name == "R2")
 			{
-				request(2, pid_priority);
+				request(2, need_r_num);
 			}
-			else if (pid_name == "R3")
+			else if (re_name == "R3")
 			{
-				request(3, pid_priority);
+				request(3, need_r_num);
 			}
-			else if (pid_name == "R4")
+			else if (re_name == "R4")
 			{
-				request(4, pid_priority);
+				request(4, need_r_num);
 			}
 		}
 		else if (command == "rel")
 		{
+			getline(fin2, rubbish);
 			release1(running_pid);
 		}
 		else if (command == "lap")
 		{
+			getline(fin2, rubbish);
 			list_all_process();
 		}
 		else if (command == "lar")
 		{
+			getline(fin2, rubbish);
 			list_all_resources();
 		}
 		else if (command == "lrdy")
 		{
+			getline(fin2, rubbish);
 			list_all_ready();
 		}
 		else if (command == "lab")
 		{
+			getline(fin2, rubbish);
 			list_all_blocked();
 		}
-		else if(command=="exit")
+		else if (command == "exit")
 		{
+			cout << "exit!!!" << endl;
 			return 0;
 		}
+		//cout << running_pid << " is running..." << endl;
 		cout << running_pid << endl;
 	}
 }
