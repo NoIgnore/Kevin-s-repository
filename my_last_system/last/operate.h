@@ -27,7 +27,7 @@ vector<rcb> resource_list;
 string running_pid = "hhj";
 void information_ouccupy(pcb a)
 {
-	cout << a.resource_occupied[0] << " " << a.resource_occupied[1] << " " << a.resource_occupied[2] << " " << a.resource_occupied[2] << endl;
+	cout << a.resource_occupied[0] << " " << a.resource_occupied[1] << " " << a.resource_occupied[2] << " " << a.resource_occupied[3] << endl;
 }
 void init_resource_list()
 {
@@ -139,14 +139,12 @@ void create(string pid, string parent, string child, int priority)
 	}
 	all_process_list.push_back(a);
 }
-pcb release(string pid)
+void release(string pid)
 {
-	pcb a;
 	for (vector<pcb>::iterator it = all_process_list.begin(); it != all_process_list.end(); it++)
 	{
 		if (it->pid == pid)
 		{
-			a = *it;
 			for (int i = 0; i < 4; i++)
 			{
 				resource_list[i].availa_num += it->resource_occupied[i];
@@ -167,7 +165,16 @@ pcb release(string pid)
 				{
 					it2->status = 2;
 					resource_list[num1 - 1].availa_num -= it2->resource_occupied[num1 - 1];
+					it2->blocked_resc_type = 0;
 					pcb hhh = *it2;
+					for (vector<pcb>::iterator it3 = all_process_list.begin(); it3 != all_process_list.end(); it3++)
+					{
+						if (it3->pid == it2->pid)
+						{
+							*it3 = hhh;
+							break;
+						}
+					}
 					ready_array[hhh.priority].push_back(hhh);
 					blocked_array[i].erase(it2);
 					it2 = blocked_array[i].begin();
@@ -183,7 +190,6 @@ pcb release(string pid)
 			}
 		}
 	}
-	return a;
 }
 pcb search_process_information(string pid)
 {
@@ -198,10 +204,10 @@ pcb search_process_information(string pid)
 }
 void destory(string pid)
 {
-	pcb a = release(pid);
+	release(pid);
 	for (int i = 0; i < 3; i++)
 	{
-		int uu = 0;
+		int uu = 0;  
 		for (vector<pcb>::iterator it = ready_array[i].begin(); it != ready_array[i].end(); it++)
 		{
 			if (it->pid == pid)
@@ -228,7 +234,7 @@ void destory(string pid)
 		if (uu == 1)break;
 	}
 	if (running_pid == pid)running_pid = "hhj";//如果正在运行的模块的PID值等于要删除的模块的PID值，则运行状态为空
-	vector<pcb>::iterator it3 = all_process_list.begin();
+	vector<pcb>::iterator it3 = all_process_list.begin();   
 	while (all_process_list.size() != 0 && it3 != all_process_list.end())
 	{
 		int uu = 0;
@@ -404,8 +410,6 @@ void list_all_ready()
 			if (it->pid != "hhj")
 			{
 				cout << it->pid << " priority: " << it->priority << " status: " << it->status << "----";
-				pcb hhj2 = *it;
-				cout << endl << "hhj2_pid: " << hhj2.pid;
 				information_ouccupy(*it);
 			}
 		}

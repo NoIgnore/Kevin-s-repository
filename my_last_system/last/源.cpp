@@ -61,7 +61,7 @@ int main()
 		{
 			fin2 >> pid_name;
 			getline(fin2, rubbish);
-			release(pid_name);
+ 			release(pid_name);
 		}
 		else if (command == "lap")
 		{
@@ -88,7 +88,6 @@ int main()
 			cout << "exit!!!" << endl;
 			return 0;
 		}
-		//cout << running_pid << " is running..." << endl;
-		cout << running_pid << endl;
+		running_pid == "hhj" ? cout << "No process is running" << endl : cout << running_pid << endl;
 	}
 }
