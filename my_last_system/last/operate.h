@@ -5,10 +5,10 @@
 using namespace std;
 struct pcb//进程结构体
 {
-	string pid = "hhj";
+	string pid = "NoProcess";
 	int status = 0;//blocked 1, ready 2, running 3
 	vector<string> child;
-	string parent = "hhj";
+	string parent = "NoProcess";
 	int priority = 0;//0-init,1-user,2-system
 	int resource_occupied[4] = { 0 }; //当前占有四类资源数
 	int blocked_resc_type = 0;//引起阻塞资源的种类的类型：1，2，3，4
@@ -24,7 +24,7 @@ vector<pcb> all_process_list;//记录所有的进程信息
 vector<vector<pcb>> ready_array(3, vector<pcb>(20));//0-init,1-user,2-system
 vector<vector<pcb>> blocked_array(3, vector<pcb>(20));//0-init,1-user,2-system
 vector<rcb> resource_list;
-string running_pid = "hhj";
+string running_pid = "NoProcess";
 void information_ouccupy(pcb a)
 {
 	cout << a.resource_occupied[0] << " " << a.resource_occupied[1] << " " << a.resource_occupied[2] << " " << a.resource_occupied[3] << endl;
@@ -47,7 +47,7 @@ void create(string pid, string parent, string child, int priority)
 	a.pid = pid;
 	a.priority = priority;
 	a.parent = parent;
-	if (child != "hhj")a.child.push_back(child);
+	if (child != "NoProcess")a.child.push_back(child);
 	for (vector<pcb>::iterator it7 = all_process_list.begin(); it7 != all_process_list.end(); it7++)
 	{
 		if (it7->pid == parent)
@@ -68,7 +68,7 @@ void create(string pid, string parent, string child, int priority)
 	{
 		for (vector<pcb>::iterator it = ready_array[i].begin(); it != ready_array[i].end(); it++)
 		{
-			if (it->pid != "hhj")
+			if (it->pid != "NoProcess")
 			{
 				num[i]++;
 			}
@@ -79,7 +79,7 @@ void create(string pid, string parent, string child, int priority)
 	case 2:
 		if (num[2] == 0)//如果最高优先级没有ready进程
 		{
-			if (running_pid == "hhj")//如果running为空
+			if (running_pid == "NoProcess")//如果running为空
 			{
 				running_pid = a.pid;
 				a.status = 3;
@@ -99,7 +99,7 @@ void create(string pid, string parent, string child, int priority)
 	case 1:
 		if (num[2] == 0 && num[1] == 0)//如果最高优先级有ready进程
 		{
-			if (running_pid == "hhj")//如果running为空
+			if (running_pid == "NoProcess")//如果running为空
 			{
 				running_pid = a.pid;
 				a.status = 3;
@@ -119,7 +119,7 @@ void create(string pid, string parent, string child, int priority)
 	case 0:
 		if (num[2] == 0 && num[1] == 0 && num[0] == 0)//如果最高优先级有ready进程
 		{
-			if (running_pid == "hhj")//如果running为空
+			if (running_pid == "NoProcess")//如果running为空
 			{
 				running_pid = a.pid;
 				a.status = 3;
@@ -207,7 +207,7 @@ void destory(string pid)
 	release(pid);
 	for (int i = 0; i < 3; i++)
 	{
-		int uu = 0;  
+		int uu = 0;
 		for (vector<pcb>::iterator it = ready_array[i].begin(); it != ready_array[i].end(); it++)
 		{
 			if (it->pid == pid)
@@ -233,8 +233,8 @@ void destory(string pid)
 		}
 		if (uu == 1)break;
 	}
-	if (running_pid == pid)running_pid = "hhj";//如果正在运行的模块的PID值等于要删除的模块的PID值，则运行状态为空
-	vector<pcb>::iterator it3 = all_process_list.begin();   
+	if (running_pid == pid)running_pid = "NoProcess";//如果正在运行的模块的PID值等于要删除的模块的PID值，则运行状态为空
+	vector<pcb>::iterator it3 = all_process_list.begin();
 	while (all_process_list.size() != 0 && it3 != all_process_list.end())
 	{
 		int uu = 0;
@@ -246,7 +246,7 @@ void destory(string pid)
 			{
 				for (int i = 0; i < a.child.size(); i++)
 				{
-					if (a.child[i] != "hhj")destory(a.child[i]);
+					if (a.child[i] != "NoProcess")destory(a.child[i]);
 				}
 			}
 			uu = 1;
@@ -276,7 +276,7 @@ void destory(string pid)
 void request(int rid, int num)
 {
 	pcb runningman;
-	if (running_pid == "hhj")
+	if (running_pid == "NoProcess")
 	{
 		cout << "No process is running! Can't request! Please at least create a process firstly!" << endl;
 		return;
@@ -301,13 +301,13 @@ void request(int rid, int num)
 		{
 			for (vector<pcb>::iterator it = ready_array[i].begin(); it != ready_array[i].end(); it++)
 			{
-				if (it->pid != "hhj")
+				if (it->pid != "NoProcess")
 				{
 					num[i]++;
 				}
 			}
 		}
-		if (num[0] == 0 && num[1] == 0 && num[2] == 0)running_pid = "hhj";
+		if (num[0] == 0 && num[1] == 0 && num[2] == 0)running_pid = "NoProcess";
 		else
 		{
 			for (int i = 2; i >= 0; i--)
@@ -315,7 +315,7 @@ void request(int rid, int num)
 				int uu = 0;
 				for (vector<pcb>::iterator it = ready_array[i].begin(); it != ready_array[i].end(); it++)
 				{
-					if (it->pid != "hhj")
+					if (it->pid != "NoProcess")
 					{
 						it->status = 3;
 						running_pid = it->pid;
@@ -357,7 +357,7 @@ void timeout()
 	{
 		for (vector<pcb>::iterator it = ready_array[i].begin(); it != ready_array[i].end(); it++)
 		{
-			if (it->pid != "hhj")
+			if (it->pid != "NoProcess")
 			{
 				it->status = 3;
 				running_pid = it->pid;
@@ -391,7 +391,7 @@ void list_all_blocked()
 	{
 		for (vector<pcb>::iterator it = blocked_array[i].begin(); it != blocked_array[i].end(); it++)
 		{
-			if (it->pid != "hhj")
+			if (it->pid != "NoProcess")
 			{
 				cout << it->pid << " priority: " << it->priority << " status: " << it->status << "----";
 				information_ouccupy(*it);
@@ -407,7 +407,7 @@ void list_all_ready()
 	{
 		for (vector<pcb>::iterator it = ready_array[i].begin(); it != ready_array[i].end(); it++)
 		{
-			if (it->pid != "hhj")
+			if (it->pid != "NoProcess")
 			{
 				cout << it->pid << " priority: " << it->priority << " status: " << it->status << "----";
 				information_ouccupy(*it);

@@ -23,7 +23,7 @@ int main()
 			getline(fin2, rubbish);
 			create(pid_name, running_process.pid, _null.pid, pid_priority);
 			new_pcb = search_process_information(pid_name);
-			if (running_process.pid != "hhj")running_process.child.push_back(new_pcb.pid);
+			if (running_process.pid != "NoProcess")running_process.child.push_back(new_pcb.pid);
 		}
 		else if (command == "de")
 		{
@@ -61,7 +61,7 @@ int main()
 		{
 			fin2 >> pid_name;
 			getline(fin2, rubbish);
- 			release(pid_name);
+			release(pid_name);
 		}
 		else if (command == "lap")
 		{
@@ -88,6 +88,6 @@ int main()
 			cout << "exit!!!" << endl;
 			return 0;
 		}
-		running_pid == "hhj" ? cout << "No process is running" << endl : cout << running_pid << endl;
+		running_pid == "NoProcess" ? cout << "No process is running" << endl : cout << running_pid << endl;
 	}
 }
