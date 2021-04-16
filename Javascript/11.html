@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv='Content-Type' content='textml;charset=UTF-8' />
+<title>测试</title>
+<style>
+    *{
+  padding: 0;
+  margin: 0;
+}
+#slideshow{
+  width: 1000px;  
+  height: 700px;
+  /* 
+  margin:  0 auto;
+  overflow: hidden;
+  position: relative;   
+  */
+  display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+  border:1px solid #000;
+}
+#slideshow img{
+  width: 300px;
+  height: 170px;
+  position: absolute; /*图片采取绝对定位，均位于左上角，重叠在一起*/
+  top: 400px;
+  left: 420px;
+  opacity: 0; /*初始不透明度为0，图片都看不见*/
+  transition: opacity 1s linear; /*--重点--定义一个关于透明度的transition*/
+}
+#slideshow img.active{
+  opacity: 1; /*有active类的图片不透明度为1，即显示图片*/
+}
+
+</style>
+</head>
+<body>    
+<div id="slideshow">
+  <!-- 插入轮播的图片们 -->
+   <!-- <img class="active" src="bg.jpg" />-->
+    <img class="" src="bg.jpg" />
+    <img src="gg.jpg" />
+
+</div>
+<script>
+    //---------主角：轮播图函数-------------
+function slideshow() {
+  var slideshow=document.getElementById("slideshow"),
+  imgs=slideshow.getElementsByTagName("img"), //得到图片们
+
+  current=0; //current为当前活跃的图片编号
+
+  function slideOff() {
+    imgs[current].className=""; //图片淡出
+
+  }
+  function slideOn() {
+    imgs[current].className="active"; //图片淡入
+
+  }
+
+  function changeSlide() { //切换图片的函数
+    slideOn();
+    current++; //自增1
+    if(current>=imgs.length) current=0;
+    slideOff();
+  }
+
+  //每2s调用changeSlide函数进行图片轮播
+  var slideon=setInterval(changeSlide,2000);
+
+//  slideshow.onmouseover=function () {
+//    clearInterval(slideon); //当鼠标移入时清除轮播事件
+//  }
+//  slideshow.onmouseout=function () {
+//    slideon=setInterval(changeSlide,1500); //当鼠标移出时重新开始轮播事件
+//  }
+
+
+}
+
+slideshow();
+</script>
+</body>
+</html>
