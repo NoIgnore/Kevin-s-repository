@@ -13,7 +13,6 @@
 (function() {
     'use strict';
     var now;
-    var hhj=0;
     function doCompareTime()
     {
         var b = new Date();
@@ -21,21 +20,29 @@
         var tMinute=b.getMinutes();
         var tSecond=b.getSeconds();
         now = (tHour<10?"0"+tHour:tHour)+":"+(tMinute<10?"0"+tMinute:tMinute)+":"+(tSecond<10?"0"+tSecond:tSecond);
+        var myname='xxx';
+        var mynumber='xxxxxxxx';
         if(now>="12:00:00")
         {
             try
             {
-                var module1 = document.getElementsByClassName("form-control");
-                module1[1].value='xxx';//number
-                module1[0].value='xxx';//name
-
+                document.getElementById("new_item_1").value=mynumber;
+                document.getElementById("name").value=myname;
+                document.getElementById("button").click();
+                return;
             }
             catch(error)
             {
-                document.getElementById("name").value='xxx';//name
-                document.getElementById("new_item_1").value='xxx';//number
+                var module1 = document.getElementsByClassName("form-control");
+                module1[1].value=mynumber;
+                module1[0].value=myname;
+                document.getElementById("button").click();
+                return;
             }
-            document.getElementById("button").click();
+            finally
+            {
+                location.reload();
+            }
         }
         location.reload();
     }
