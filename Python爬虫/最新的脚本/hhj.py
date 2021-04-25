@@ -23,28 +23,27 @@ if(minus>=0):
     time.sleep(minus)
 #driver = webdriver.Edge(r'D:/Firefox/msedgedriver',{})
 driver = webdriver.Firefox()
-hhj2=0
-def hhj():
-    link="https://f.lingxi360.com/f?fid=n7=EbhLzHY9ua&utm_bccid=LXEOWiccxPKIskHf"
+name = ['xxx','asdf','dsaf']
+number = ['2343241','2132413243214','21324321432']
+i_i = 0
+def hhj(get_1):
+    link="https://jgfjhjhgfjfhgjhfgjhf"
     driver.get(link)
     hhj=r"form-control"
     Vmcode = driver.find_elements_by_class_name(hhj)
     if len(Vmcode)==0:
         driver.refresh()
         return
-    name = 'xxx'
-    number = 'xxxxxxxxx'
-    global hhj2
+    global i_i
     try:
-        driver.find_element_by_id("new_item_1").send_keys(number)
-        driver.find_element_by_id("name").send_keys(name)
+        driver.find_element_by_id("new_item_1").send_keys(number[get_1])
+        driver.find_element_by_id("name").send_keys(name[get_1])
         driver.find_element_by_id("button").click()
-        hhj2=1
     except:
-        driver.find_elements_by_class_name(hhj)[1].send_keys(number)
-        driver.find_elements_by_class_name(hhj)[0].send_keys(name)
+        driver.find_elements_by_class_name(hhj)[1].send_keys(number[get_1])
+        driver.find_elements_by_class_name(hhj)[0].send_keys(name[get_1])
         driver.find_element_by_id("button").click()
-        hhj2=1
+    i_i+=1
     driver.refresh()
-while(hhj2!=1):
-    hhj()
+while(i_i!=3):
+    hhj(i_i)
