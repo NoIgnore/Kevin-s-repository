@@ -83,8 +83,6 @@ $(document).ready(function(){
                     $("#app > div.render-result-container > div.select-result").bind("DOMNodeInserted", seat_click_buy_btn);
                 }
             }).observe(document, {childList: true, subtree: true});
-
-            // $("#app > div.render-result-container > div.select-result").bind("DOMNodeInserted", seat_click_buy_btn)
         } else {
             document.onkeydown = function() {
                 var oEvent = window.event;
@@ -104,9 +102,6 @@ function seat_click_buy_btn()
     console.log("click buy");
     $('#app > div.render-result-container > div.select-result > div.tip-order-button > button').click();
 }
-
-
-//https://stackoverflow.com/a/31112615
 Number.prototype.toHHMMSS = function() {
     var hours = Math.floor(this / 3600) < 10 ? ("00" + Math.floor(this / 3600)).slice(-2) : Math.floor(this / 3600);
     var minutes = ("00" + Math.floor((this % 3600) / 60)).slice(-2);
@@ -115,7 +110,6 @@ Number.prototype.toHHMMSS = function() {
 };
 
 function timedUpdate() {
-    // 提前2秒开始
     var current_time = Date.now();
     var time_difference = Math.ceil((window.sellStartTime_timestamp - current_time)/1000);
     if (time_difference < 2) {
@@ -131,31 +125,24 @@ function timedUpdate() {
 }
 
 function generate_confirm_url(event, price, people_num, data_json) {
-    // console.log("event", event);
     var performBases = data_json["performBases"];
     var itemId = "";
 
     for(var i=0; i<performBases.length; i++) {
-        // console.log("1");
         var performBase = performBases[i];
         var performs = performBase["performs"];
         for(var j=0; j<performs.length; j++) {
-            // console.log("2");
             var perform = performs[j];
             if(perform["performName"] === event) {
-                // console.log("3");
                 itemId = perform["itemId"];
                 window.itemId = itemId;
                 var skuList = perform["skuList"];
                 for(var k=0; k<skuList.length; k++) {
-                    // console.log("4");
                     var skuList_item = skuList[k];
                     if(skuList_item["skuName"] === price) {
                         // console.log("5");
                         var skuId = skuList_item["skuId"];
                         return `https://buy.damai.cn/orderConfirm?exParams=%7B%22damai%22%3A%221%22%2C%22channel%22%3A%22damai_app%22%2C%22umpChannel%22%3A%2210002%22%2C%22atomSplit%22%3A%221%22%2C%22serviceVersion%22%3A%221.8.5%22%7D&buyParam=${itemId}_${people_num}_${skuId}&buyNow=true&spm=a2oeg.project.projectinfo.dbuy`
-                        // https://buy.damai.cn/orderConfirm?exParams=%7B%22damai%22%3A%221%22%2C%22channel%22%3A%22damai_app%22%2C%22umpChannel%22%3A%2210002%22%2C%22atomSplit%22%3A%221%22%2C%22serviceVersion%22%3A%221.8.5%22%2C%22umidToken%22%3A%22T2gAPtWBhV9tC67Mptnj5AU_d_KX-57DqykfreYNo38zNk2TgBZssV-gxQlN7aEPYnPc6dXI1re5zNemlLZpfS71%22%2C%22ua%22%3A%22134%23pciI2XXwXGEkxcXNZXkwdJ0D3QROwKOlAOzBtZ26EXkEHKc8qKrQAAmvANaH6n1KGaF4vxWgMEiyvJ8h9bbkRf%2FYEV1hBueE%2BJdqKXL3ZtWwTq1qijRmNyd3OOH8qkuJ%2BJd8qcHAZXnw%2Bcy8qqK7GANE1XazXJmg%2FR%2F5Utf35L2Od6%2FG0dbS1b%2B9L5ktB6IWasdFdaIn%2BqpUTLB8ajSqUVD0dOgouDkm78TjZ0CoGokuqXVsf1xdZ9p%2Fut6sLnyD7zJR7vi3xgho3ZvGI37q7cXGmA1IjAYsrBXU2kdbCbTZygJjLhS6%2FKJ7jMrS32iAng488JzvSMYV4D5o9mt%2BYWWddusAWqInij0%2FLKPSEnpK8MgQLbC8xXqcqv9ojtBm2DseaKe6g0CAXgFjW0XXA1aAhvJVTXDVIjariuT47UsZ94G4Vve%2Byr6FmI1RmtHBHwiiTN4YufCiYcr7UMN40vCkITwrXibXJVe5IW%2BkcuFlRVaK5fToG%2BK%2FDDJNLfO7LA4OoXB5BemruIehBXZPAVBHW5VgnKKG6A7MKWG8VHBsknL77EDMTYo%2FVGR5E9KfJtMNhTuRyPEJUXqIyuBs%2BWMeerkEllrcI4tn6j%2FQvxFo%2BMmoAnu4Gz05k2yBrt45eVj3sndkBqzjSOdocl5f%2BtA18aToWalQuZqLb0x31S4Ac6ZTPkhnqSnt%2BGGodrhKgkR1IyvyfYR85d2Yxnht1kSmE7O4YIEt6srmH2We9UqUdhkkeKByPHsj4MvAe2yejlSN1HcH0Mm0K4JjF59IvjH4Aw3UKv7GGnY1EtOcPvgZ8uNf7HfoWX%3D%3D%22%7D&buyParam=624490600818_1_4598946947036&buyNow=true&spm=a2oeg.project.projectinfo.dbuy
-                        // https://buy.damai.cn/orderConfirm?exParams=%7B%22damai%22%3A%221%22%2C%22channel%22%3A%22damai_app%22%2C%22umpChannel%22%3A%2210002%22%2C%22atomSplit%22%3A%221%22%2C%22serviceVersion%22%3A%221.8.5%22%2C%22umidToken%22%3A%22T2gAPtWBhV9tC67Mptnj5AU_d_KX-57DqykfreYNo38zNk2TgBZssV-gxQlN7aEPYnPc6dXI1re5zNemlLZpfS71%22%2C%22ua%22%3A%22134%23pciI2XXwXGEkxcXNZXkwdJ0D3QROwKOlAOzBtZ26EXkEHKc8qKrQAAmvANaH6n1KGaF4vxWgMEiyvJ8h9bbkRf%2FYEV1hBueE%2BJdqKXL3ZtWwTq1qijRmNyd3OOH8qkuJ%2BJd8qcHAZXnw%2Bcy8qqK7GANE1XazXJmg%2FR%2F5Utf35L2Od6%2FG0dbS1b%2B9L5ktB6IWasdFdaIn%2BqpUTLB8ajSqUVD0dOgouDkm78TjZ0CoGokuqXVsf1xdZ9p%2Fut6sLnyD7zJR7vi3xgho3ZvGI37q7cXGmA1IjAYsrBXU2kdbCbTZygJjLhS6%2FKJ7jMrS32iAng488JzvSMYV4D5o9mt%2BYWWddusAWqInij0%2FLKPSEnpK8MgQLbC8xXqcqv9ojtBm2DseaKe6g0CAXgFjW0XXA1aAhvJVTXDVIjariuT47UsZ94G4Vve%2Byr6FmI1RmtHBHwiiTN4YufCiYcr7UMN40vCkITwrXibXJVe5IW%2BkcuFlRVaK5fToG%2BK%2FDDJNLfO7LA4OoXB5BemruIehBXZPAVBHW5VgnKKG6A7MKWG8VHBsknL77EDMTYo%2FVGR5E9KfJtMNhTuRyPEJUXqIyuBs%2BWMeerkEllrcI4tn6j%2FQvxFo%2BMmoAnu4Gz05k2yBrt45eVj3sndkBqzjSOdocl5f%2BtA18aToWalQuZqLb0x31S4Ac6ZTPkhnqSnt%2BGGodrhKgkR1IyvyfYR85d2Yxnht1kSmE7O4YIEt6srmH2We9UqUdhkkeKByPHsj4MvAe2yejlSN1HcH0Mm0K4JjF59IvjH4Aw3UKv7GGnY1EtOcPvgZ8uNf7HfoWX%3D%3D%22%7D&buyParam=624490600818_1_4598946947036&buyNow=true&spm=a2oeg.project.projectinfo.dbuy
 
                     }
                 }
@@ -226,9 +213,6 @@ function detail_ui() {
     var $wx = $(`<div id="wx" class="notice"><p>闲鱼VIP - 明非明巧专用版</p><p>完整版 ${version}</p></div>`);
 
     var $number_input = $('<div class="input_wrapper" id="number_input_wrapper">请输入人数：<input id="number_input" type="number" value="1" min="1" max="6"></div>');
-    // var $email_input = $('<div class="input_wrapper" id="email_input_wrapper">email：<input id="email_input" type="email" value="example@hotmail.com"></div>');
-    // var $name_input = $('<div class="input_wrapper" id="name_input_wrapper">联系人姓名：<input id="name_input" type="text" value="小明"></div>');
-    // var $duration_input = $('<div class="input_wrapper" id="duration_input_wrapper">刷新间隔(ms)：<input id="duration_input" type="text" value="5000"></div>');
 
     var $start_btn = $('<button id="start_btn">开始抢票</button>');
     var $end_btn = $('<button id="end_btn">停止抢票</button>');
@@ -241,14 +225,11 @@ function detail_ui() {
     $control_container.append($style);
     $control_container.append($wx);
     $control_container.append($number_input);
-    // $control_container.append($email_input);
-    // $control_container.append($name_input);
-    // $control_container.append($duration_input);
+
     $control_container.append($start_btn);
     $control_container.append($end_btn);
     $control_container.append($notice);
     $control_container.append($notice2);
-    // $control_container.append($countdown);
 
     $control_container.insertBefore($service);
     $countdown.insertBefore($control_container);
@@ -295,7 +276,6 @@ function detail_ui() {
     });
 
 }
-// http://cncc.bingj.com/cache.aspx?q=jquery+ignore+inner+most&d=4555311081654245&mkt=en-US&setlang=en-US&w=FZ-aM6oeDz4XhBZleDN79HoRb7ybox0E
 function get_text_exclude_children(css_selector_str) {
     return $(css_selector_str).contents().not($(css_selector_str).children()).text().trim();
 }
